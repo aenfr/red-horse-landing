@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Red Horse Colectivo</title>
+  <meta name="description" content="Mientras otros hacen fiestas, nosotros creamos universos. Red Horse Colectivo — Valencia.">
+  <meta name="theme-color" content="#0A0A0A">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --vino: #8B1A1A;
+      --carmesi: #5C0000;
+      --negro: #0A0A0A;
+      --grafito: #1A1A1A;
+      --dorado: #9A8060;
+      --silver: #C0C0C0;
+      --blanco: #F5F0E8;
+      --blanco-dim: rgba(245, 240, 232, 0.5);
+      --blanco-ghost: rgba(245, 240, 232, 0.12);
+      --rojo-neon: #FF2D2D;
+      --rojo-glow: rgba(255, 45, 45, 0.4);
+
+      --serif: 'Cormorant Garamond', 'Georgia', serif;
+      --sans: 'DM Sans', 'Helvetica Neue', sans-serif;
+
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; background: var(--negro); overflow-x: hidden; }
+
+    body {
+      font-family: var(--sans);
+      font-weight: 300;
+      color: var(--blanco);
+      background: var(--negro);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--vino); color: var(--blanco); }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; color: inherit; }
+    img { max-width: 100%; display: block; }
+    input { font-family: inherit; }
+
+    /* ── Typography ── */
+    .t-display {
+      font-family: var(--serif);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .t-display-lg { font-size: clamp(3rem, 8vw, 8rem); }
+    .t-display-md { font-size: clamp(2rem, 5vw, 4.5rem); }
+    .t-display-sm { font-size: clamp(1.5rem, 3vw, 2.5rem); }
+
+    .t-body {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+      line-height: 1.7;
+      color: var(--blanco-dim);
+    }
+
+    .t-label {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dorado);
+    }
+
+    .section { position: relative; width: 100%; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); }
+    .container--wide { max-width: 1400px; }
+
+    /* ── Reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s var(--ease-out-expo), transform 1s var(--ease-out-expo);
+    }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
+    .reveal-delay-4 { transition-delay: 0.6s; }
+    .reveal-delay-5 { transition-delay: 0.75s; }
+
+    /* ── Grain ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       SPARKLE SYSTEM — disco ball light fragments
+    ═══════════════════════════════════════════════════════ */
+    .sparkle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkleAnim 4s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes sparkleAnim {
+      0%, 100% { opacity: 0; transform: scale(0); }
+      50% { opacity: 0.8; transform: scale(1); }
+    }
+
+    .sparkle--red { background: var(--rojo-neon); box-shadow: 0 0 6px var(--rojo-glow); }
+    .sparkle--silver { background: var(--silver); box-shadow: 0 0 4px rgba(192,192,192,0.5); }
+    .sparkle--gold { background: var(--dorado); box-shadow: 0 0 4px rgba(154,128,96,0.5); }
+
+    /* ═══════════════════════════════════════════════════════
+       DISCO HORSE SVG DEFINITIONS
+    ═══════════════════════════════════════════════════════ */
+    .svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+    /* ═══════════════════════════════════════════════════════
+       S-01 · HERO
+    ═══════════════════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .hero__bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at 50% 40%,
+        rgba(139, 26, 26, 0.25) 0%,
+        rgba(10,10,10,0.9) 60%,
+        rgba(10,10,10,1) 100%
+      );
+      z-index: 1;
+    }
+
+    .hero__visual {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--carmesi) 0%, var(--negro) 50%, var(--grafito) 100%);
+      background-size: 200% 200%;
+      animation: heroShift 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes heroShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    /* Disco ball reflections on hero */
+    .hero__reflections {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .reflection {
+      position: absolute;
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transform: rotate(var(--angle));
+      animation: reflectionMove var(--dur) ease-in-out infinite alternate;
+      opacity: 0.4;
+    }
+
+    @keyframes reflectionMove {
+      0% { transform: rotate(var(--angle)) translateX(-50px); }
+      100% { transform: rotate(var(--angle)) translateX(50px); }
+    }
+
+    /* The Disco Horse — centerpiece */
+    .hero__horse {
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      width: clamp(280px, 40vw, 500px);
+      height: auto;
+      opacity: 0.12;
+      filter: blur(0.5px);
+      will-change: transform;
+    }
+
+    .hero__horse svg {
+      width: 100%;
+      height: auto;
+    }
+
+    /* Red neon glow behind horse */
+    .hero__horse::after {
+      content: '';
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(ellipse, var(--rojo-glow) 0%, transparent 70%);
+      z-index: -1;
+      filter: blur(40px);
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 3;
+      max-width: 800px;
+      padding: 0 2rem;
+    }
+
+    .hero__brand {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(0.8rem, 1.2vw, 1rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--blanco);
+      opacity: 0.6;
+      margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+    }
+
+    .hero__title {
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 80px rgba(139,26,26,0.3);
+    }
+
+    .hero__tagline {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      color: var(--rojo-neon);
+      text-shadow: 0 0 20px var(--rojo-glow);
+      margin-bottom: clamp(2.5rem, 5vh, 4rem);
+      opacity: 0.9;
+    }
+
+    .hero__capture {
+      display: flex;
+      gap: 0;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .hero__input {
+      flex: 1;
+      padding: 1rem 1.25rem;
+      background: rgba(245, 240, 232, 0.06);
+      border: 1px solid rgba(245, 240, 232, 0.15);
+      border-right: none;
+      color: var(--blanco);
+      font-size: 0.9rem;
+      font-weight: 300;
+      outline: none;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero__input::placeholder { color: rgba(245, 240, 232, 0.3); }
+
+    .hero__input:focus {
+      background: rgba(245, 240, 232, 0.09);
+      border-color: var(--rojo-neon);
+      box-shadow: 0 0 15px rgba(255,45,45,0.15);
+    }
+
+    .hero__btn {
+      padding: 1rem 2rem;
+      background: var(--vino);
+      color: var(--blanco);
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid var(--vino);
+      transition: all 0.4s var(--ease-out-expo);
+      white-space: nowrap;
+    }
+
+    .hero__btn:hover {
+      background: var(--rojo-neon);
+      border-color: var(--rojo-neon);
+      box-shadow: 0 0 25px var(--rojo-glow);
+    }
+
+    .hero__scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      right: clamp(1.5rem, 5vw, 4rem);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero__scroll-hint span {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--blanco-dim);
+      writing-mode: vertical-rl;
+    }
+
+    .hero__scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(180deg, var(--rojo-neon), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.5); transform-origin: top; }
+      50% { opacity: 1; transform: scaleY(1); }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CRYSTAL DIVIDERS
+    ═══════════════════════════════════════════════════════ */
+    .crystal-divider {
+      width: 100%;
+      height: 40px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .crystal-divider__line {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(192,192,192,0.1) 20%,
+        rgba(255,45,45,0.3) 40%,
+        var(--silver) 50%,
+        rgba(255,45,45,0.3) 60%,
+        rgba(192,192,192,0.1) 80%,
+        transparent 100%
+      );
+    }
+
+    .crystal-divider__gem {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--silver);
+      transform: rotate(45deg);
+      box-shadow: 0 0 10px rgba(192,192,192,0.4), 0 0 20px rgba(255,45,45,0.2);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       S-02 · EL PROBLEMA
+    ═══════════════════════════════════════════════════════ */
+    .problema {
+      padding: clamp(6rem, 15vh, 12rem) 0;
+      background: var(--negro);
+    }
+
+    .problema__pain { max-width: 700px; }
+
+    .problema__pain-item {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+      line-height: 1.2;
+      color: var(--blanco-dim);
+      margin-bottom: clamp(1.5rem, 3vh, 2.5rem);
+      padding-left: 2rem;
+      border-left: 2px solid var(--carmesi);
+      transition: color 0.6s ease, border-color 0.6s ease, text-shadow 0.6s ease;
+    }
+
+    .problema__pain-item:hover {
+      color: var(--blanco);
+      border-color: var(--rojo-neon);
+      text-shadow: 0 0 30px var(--rojo-glow);
+    }
+
+    .problema__transition { margin-top: clamp(3rem, 6vh, 5rem); }
+    .problema__transition-label { margin-bottom: 1.5rem; }
+
+    .problema__transition-text {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(2.5rem, 6vw, 5.5rem);
+      line-height: 1.05;
+      color: var(--blanco);
+    }
+
+    .problema__transition-text em {
+      font-style: italic;
+      color: var(--rojo-neon);
+      text-shadow: 0 0 40px var(--rojo-glow);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       S-03 · LA EXPERIENCIA
+    ═══════════════════════════════════════════════════════ */
+    .experiencia {
+      padding: clamp(6rem, 15vh, 12rem) 0;
+      background: var(--grafito);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .experiencia__header {
+      margin-bottom: clamp(4rem, 8vh, 7rem);
+      max-width: 600px;
+    }
+
+    .experiencia__pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--blanco-ghost);
+    }
+
+    .pillar {
+      background: var(--grafito);
+      padding: clamp(2rem, 4vw, 3.5rem);
+      position: relative;
+      transition: background 0.6s ease, box-shadow 0.6s ease;
+    }
+
+    .pillar:hover {
+      background: rgba(92, 0, 0, 0.15);
+      box-shadow: inset 0 0 30px rgba(255,45,45,0.05);
+    }
+
+    .pillar__icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 1.5rem;
+    }
+
+    .pillar__icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: var(--silver);
+      stroke-width: 1.2;
+      fill: none;
+      filter: drop-shadow(0 0 4px rgba(192,192,192,0.3));
+    }
+
+    .pillar__name {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(1.4rem, 2vw, 1.8rem);
+      margin-bottom: 0.75rem;
+      color: var(--blanco);
+    }
+
+    .pillar__desc {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--blanco-dim);
+      max-width: 30ch;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       QUOTE BANNERS — Moodboard attitude
+    ═══════════════════════════════════════════════════════ */
+    .quote-banner {
+      padding: clamp(3rem, 6vh, 5rem) 0;
+      background: var(--negro);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote-banner__text {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--rojo-neon);
+      text-shadow: 0 0 40px var(--rojo-glow), 0 0 80px rgba(255,45,45,0.2);
+      line-height: 1.1;
+    }
+
+    .quote-banner--subtle .quote-banner__text {
+      font-weight: 300;
+      font-size: clamp(1.2rem, 2.5vw, 2rem);
+      text-transform: none;
+      font-style: italic;
+      color: var(--silver);
+      text-shadow: 0 0 20px rgba(192,192,192,0.2);
+      letter-spacing: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       S-04 · LA MUSICA
+    ═══════════════════════════════════════════════════════ */
+    .musica {
+      padding: clamp(6rem, 15vh, 12rem) 0;
+      background: var(--negro);
+    }
+
+    .musica__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 6vw, 6rem);
+      align-items: center;
+    }
+
+    .musica__visual {
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, var(--carmesi), var(--grafito));
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Mirror ball facet effect on visual */
+    .musica__visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-conic-gradient(
+          rgba(255,255,255,0.03) 0deg 10deg,
+          transparent 10deg 20deg
+        );
+      mix-blend-mode: overlay;
+    }
+
+    .musica__visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--blanco-ghost);
+    }
+
+    .musica__visual-label {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      z-index: 1;
+    }
+
+    .musica__text { max-width: 500px; }
+
+    .musica__manifesto {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+      line-height: 1.5;
+      color: var(--blanco);
+      margin: clamp(1.5rem, 3vh, 2.5rem) 0;
+    }
+
+    .musica__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--silver);
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--silver);
+      transition: all 0.4s ease;
+    }
+
+    .musica__link:hover {
+      color: var(--rojo-neon);
+      border-color: var(--rojo-neon);
+      text-shadow: 0 0 10px var(--rojo-glow);
+      gap: 1.25rem;
+    }
+
+    .musica__link svg {
+      width: 16px; height: 16px;
+      stroke: currentColor; fill: none; stroke-width: 2;
+      transition: transform 0.4s var(--ease-out-expo);
+    }
+
+    .musica__link:hover svg { transform: translateX(4px); }
+
+    /* ═══════════════════════════════════════════════════════
+       S-05 · FUNDADORES
+    ═══════════════════════════════════════════════════════ */
+    .fundadores {
+      padding: clamp(6rem, 15vh, 12rem) 0;
+      background: var(--grafito);
+    }
+
+    .fundadores__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      margin-top: clamp(4rem, 8vh, 7rem);
+    }
+
+    .founder__img {
+      aspect-ratio: 3/4;
+      background: linear-gradient(180deg, var(--carmesi), var(--negro));
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .founder__img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--blanco-ghost);
+    }
+
+    .founder__name {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      margin-bottom: 0.25rem;
+    }
+
+    .founder__role {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--silver);
+      margin-bottom: 1.25rem;
+    }
+
+    .founder__bio {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--blanco-dim);
+      max-width: 35ch;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       S-06 · VALORES
+    ═══════════════════════════════════════════════════════ */
+    .valores {
+      padding: clamp(6rem, 15vh, 12rem) 0;
+      background: var(--negro);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Horse watermark */
+    .valores__horse-bg {
+      position: absolute;
+      right: -5%;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 110%;
+      width: auto;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    .valores__horse-bg svg {
+      height: 100%;
+      width: auto;
+      fill: var(--rojo-neon);
+      filter: blur(2px);
+    }
+
+    .valores__list {
+      margin-top: clamp(4rem, 8vh, 7rem);
+      list-style: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .valor {
+      padding: clamp(2rem, 4vh, 3.5rem) 0;
+      border-bottom: 1px solid var(--blanco-ghost);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(2rem, 5vw, 5rem);
+      align-items: baseline;
+      transition: all 0.5s ease;
+    }
+
+    .valor:first-child { border-top: 1px solid var(--blanco-ghost); }
+
+    .valor:hover {
+      padding-left: 1rem;
+      border-color: var(--rojo-neon);
+    }
+
+    .valor__number {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 5vw, 5rem);
+      font-weight: 300;
+      color: var(--carmesi);
+      line-height: 1;
+      min-width: 80px;
+      transition: color 0.5s ease, text-shadow 0.5s ease;
+    }
+
+    .valor:hover .valor__number {
+      color: var(--rojo-neon);
+      text-shadow: 0 0 30px var(--rojo-glow);
+    }
+
+    .valor__name {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+      color: var(--blanco);
+    }
+
+    .valor__desc {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--blanco-dim);
+      max-width: 50ch;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       S-07 · PROXIMO EVENTO
+    ═══════════════════════════════════════════════════════ */
+    .evento {
+      padding: clamp(8rem, 18vh, 14rem) 0;
+      background: var(--carmesi);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .evento::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(255,45,45,0.15) 0%, transparent 70%);
+    }
+
+    /* Horse silhouette in evento */
+    .evento__horse {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      height: 80%;
+      width: auto;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .evento__horse svg {
+      height: 100%;
+      width: auto;
+      fill: rgba(245, 240, 232, 0.15);
+    }
+
+    .evento__content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .evento__date {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(4rem, 10vw, 10rem);
+      line-height: 1;
+      color: var(--blanco);
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.03em;
+      text-shadow: 0 0 60px rgba(255,255,255,0.1);
+    }
+
+    .evento__sub {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.2rem, 2vw, 1.6rem);
+      color: rgba(245, 240, 232, 0.7);
+      margin-bottom: clamp(2rem, 5vh, 4rem);
+    }
+
+    .evento__capture {
+      display: flex;
+      gap: 0;
+      max-width: 480px;
+      width: 100%;
+    }
+
+    .evento__input {
+      flex: 1;
+      padding: 1rem 1.25rem;
+      background: rgba(245, 240, 232, 0.08);
+      border: 1px solid rgba(245, 240, 232, 0.2);
+      border-right: none;
+      color: var(--blanco);
+      font-size: 0.9rem;
+      font-weight: 300;
+      outline: none;
+      transition: all 0.4s ease;
+    }
+
+    .evento__input::placeholder { color: rgba(245, 240, 232, 0.4); }
+    .evento__input:focus { background: rgba(245, 240, 232, 0.12); border-color: var(--blanco); }
+
+    .evento__btn {
+      padding: 1rem 2rem;
+      background: var(--blanco);
+      color: var(--carmesi);
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid var(--blanco);
+      transition: all 0.4s var(--ease-out-expo);
+      white-space: nowrap;
+    }
+
+    .evento__btn:hover {
+      background: var(--silver);
+      border-color: var(--silver);
+      color: var(--negro);
+      box-shadow: 0 0 20px rgba(192,192,192,0.3);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       S-08 · GALERIA
+    ═══════════════════════════════════════════════════════ */
+    .galeria {
+      padding: clamp(6rem, 15vh, 12rem) 0;
+      background: var(--negro);
+    }
+
+    .galeria__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: minmax(200px, 300px);
+      gap: 3px;
+      margin-top: clamp(4rem, 8vh, 7rem);
+    }
+
+    .galeria__item {
+      background: var(--grafito);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .galeria__item--tall { grid-row: span 2; }
+    .galeria__item--wide { grid-column: span 2; }
+
+    .galeria__item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(10,10,10,0.6) 100%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .galeria__item:hover::after { opacity: 1; }
+
+    .galeria__placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--grafito), var(--carmesi));
+      opacity: 0.5;
+      transition: opacity 0.5s ease, transform 1s var(--ease-out-expo);
+    }
+
+    .galeria__item:hover .galeria__placeholder {
+      opacity: 0.7;
+      transform: scale(1.05);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       S-09 · COLABORA
+    ═══════════════════════════════════════════════════════ */
+    .colabora {
+      padding: clamp(4rem, 10vh, 8rem) 0;
+      background: var(--grafito);
+    }
+
+    .colabora__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: center;
+    }
+
+    .colabora__text { max-width: 45ch; }
+
+    .colabora__email {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 2vw, 1.8rem);
+      color: var(--silver);
+      transition: all 0.3s ease;
+    }
+
+    .colabora__email:hover {
+      color: var(--rojo-neon);
+      text-shadow: 0 0 20px var(--rojo-glow);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       S-10 · FOOTER
+    ═══════════════════════════════════════════════════════ */
+    .footer {
+      padding: clamp(4rem, 10vh, 8rem) 0 clamp(2rem, 4vh, 3rem);
+      background: var(--negro);
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--silver), var(--rojo-neon), var(--silver), transparent);
+      opacity: 0.3;
+    }
+
+    .footer__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 3rem;
+      margin-bottom: clamp(4rem, 8vh, 6rem);
+      flex-wrap: wrap;
+    }
+
+    .footer__brand-wrap { display: flex; align-items: center; gap: 0.75rem; }
+
+    .footer__horse-icon {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+
+    .footer__horse-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--silver);
+      filter: drop-shadow(0 0 6px rgba(192,192,192,0.3));
+    }
+
+    .footer__brand {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+    }
+
+    .footer__tagline {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1rem, 1.5vw, 1.3rem);
+      color: var(--blanco-dim);
+      margin-top: 0.5rem;
+      max-width: 28ch;
+    }
+
+    .footer__capture {
+      display: flex;
+      gap: 0;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .footer__input {
+      flex: 1;
+      padding: 0.85rem 1.1rem;
+      background: rgba(245, 240, 232, 0.06);
+      border: 1px solid var(--blanco-ghost);
+      border-right: none;
+      color: var(--blanco);
+      font-size: 0.85rem;
+      font-weight: 300;
+      outline: none;
+      transition: all 0.4s ease;
+    }
+
+    .footer__input::placeholder { color: rgba(245, 240, 232, 0.3); }
+    .footer__input:focus { border-color: var(--rojo-neon); }
+
+    .footer__btn {
+      padding: 0.85rem 1.5rem;
+      background: var(--vino);
+      color: var(--blanco);
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid var(--vino);
+      transition: all 0.4s ease;
+      white-space: nowrap;
+    }
+
+    .footer__btn:hover {
+      background: var(--rojo-neon);
+      border-color: var(--rojo-neon);
+      box-shadow: 0 0 15px var(--rojo-glow);
+    }
+
+    .footer__social { display: flex; gap: 1.5rem; }
+
+    .footer__social a {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--blanco-ghost);
+      transition: all 0.4s ease;
+    }
+
+    .footer__social a:hover {
+      border-color: var(--rojo-neon);
+      background: rgba(255,45,45,0.08);
+      box-shadow: 0 0 15px rgba(255,45,45,0.15);
+    }
+
+    .footer__social svg {
+      width: 18px; height: 18px;
+      fill: var(--blanco-dim);
+      transition: fill 0.3s ease;
+    }
+
+    .footer__social a:hover svg { fill: var(--rojo-neon); }
+
+    .footer__bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--blanco-ghost);
+    }
+
+    .footer__copy { font-size: 0.7rem; color: var(--blanco-dim); letter-spacing: 0.1em; }
+    .footer__credits { font-size: 0.65rem; color: rgba(245, 240, 232, 0.25); letter-spacing: 0.1em; }
+
+    /* ═══════════════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .musica__grid { grid-template-columns: 1fr; gap: 3rem; }
+      .musica__visual { aspect-ratio: 16/9; }
+      .fundadores__grid { grid-template-columns: 1fr; gap: 4rem; }
+      .founder__img { aspect-ratio: 4/3; }
+      .galeria__grid { grid-template-columns: 1fr 1fr; }
+      .galeria__item--wide { grid-column: span 1; }
+      .galeria__item--tall { grid-row: span 1; }
+      .colabora__inner { grid-template-columns: 1fr; gap: 2rem; }
+      .footer__top { flex-direction: column; gap: 2rem; }
+      .footer__capture { max-width: 100%; }
+      .footer__bottom { flex-direction: column; gap: 1rem; text-align: center; }
+      .hero__capture, .evento__capture {
+        flex-direction: column;
+      }
+      .hero__input, .evento__input {
+        border-right: 1px solid rgba(245, 240, 232, 0.12);
+        border-bottom: none;
+      }
+      .hero__scroll-hint { display: none; }
+      .hero__horse { width: 70vw; opacity: 0.08; }
+      .valor { grid-template-columns: 1fr; gap: 0.5rem; }
+      .valor__number { font-size: 2rem; }
+      .experiencia__pillars { grid-template-columns: 1fr; }
+      .valores__horse-bg { right: -20%; opacity: 0.03; }
+      .quote-banner__text { font-size: clamp(1.5rem, 6vw, 2.5rem) !important; }
+    }
+
+    @media (max-width: 480px) {
+      .galeria__grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .sparkle { animation: none; }
+      .hero__visual { animation: none; }
+      .hero__scroll-line { animation: none; opacity: 0.5; }
+      .reflection { animation: none; }
+    }
+
+    /* ── Loader ── */
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: var(--negro);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      transition: opacity 0.8s var(--ease-out-expo), visibility 0.8s;
+    }
+
+    .page-loader.is-loaded {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .page-loader__horse {
+      width: 60px;
+      height: 60px;
+      animation: loaderPulse 1.5s ease-in-out infinite;
+    }
+
+    .page-loader__horse svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--vino);
+      filter: drop-shadow(0 0 20px var(--rojo-glow));
+    }
+
+    .page-loader__text {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 0.8rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--blanco-dim);
+    }
+
+    @keyframes loaderPulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG Defs — Horse silhouette reused everywhere -->
+  <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <symbol id="horse-rearing" viewBox="0 0 200 260">
+        <path d="M120 8c-6 0-12 3-16 8l-4 8-6-2c-5-1-10 2-12 7l-4 10-8 4c-5 3-7 9-5 14l4 10-6 12c-3 6-2 13 2 18l6 8-2 14c-1 7 2 14 8 18l8 6v12c0 8 4 15 10 19l2 2-4 14c-2 7 0 14 6 19l8 6 2 8c2 8 8 14 16 16l10 2 4 6c4 6 12 10 20 8l10-2 6 4c6 4 14 2 19-3l6-8 4 2c8 0 15-4 18-12l2-8 4-2c6-4 9-10 8-18l-2-10 4-6c4-6 4-14 0-20l-6-8 2-10c2-8-2-15-8-20l-6-4 2-10c1-8-4-15-10-18l-8-4v-8c0-8-6-14-12-16l-6-2-2-6c-2-6-8-12-14-14l-8-2c-4-6-10-10-18-10z"/>
+      </symbol>
+      <symbol id="horse-head" viewBox="0 0 100 120">
+        <path d="M60 5c-8-2-16 2-22 8l-6 10-8 2c-6 2-10 8-10 14v12l-4 8c-2 6 0 12 4 16l8 8v10c0 6 4 12 10 14l10 4 2 6c2 4 6 6 10 6h8l4-2c4-2 8 0 10 2l4 4h6c6 0 10-4 12-10l2-8c4-4 6-10 4-16l-4-12 2-8c2-6 0-12-4-16l-6-6v-10c0-6-4-12-10-14l-4-2c-2-6-8-10-14-10zM40 40c3 0 5 2 5 5s-2 5-5 5-5-2-5-5 2-5 5-5z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- Loader -->
+  <div class="page-loader" id="loader">
+    <div class="page-loader__horse">
+      <svg><use href="#horse-rearing"/></svg>
+    </div>
+    <span class="page-loader__text">Red Horse</span>
+  </div>
+
+  <!-- ▓▓ S-01 · HERO ▓▓ -->
+  <section class="hero section">
+    <div class="hero__bg">
+      <div class="hero__visual"></div>
+      <div class="hero__reflections" id="reflections"></div>
+    </div>
+
+    <!-- The Disco Horse -->
+    <div class="hero__horse" id="heroHorse">
+      <svg><use href="#horse-rearing"/></svg>
+    </div>
+
+    <div class="hero__content">
+      <div class="hero__brand reveal">Red Horse Colectivo</div>
+
+      <h1 class="t-display t-display-lg hero__title reveal reveal-delay-1">
+        No es una fiesta.
+      </h1>
+
+      <p class="hero__tagline reveal reveal-delay-2">
+        Mientras otros hacen fiestas, nosotros creamos universos.
+      </p>
+
+      <form class="hero__capture reveal reveal-delay-3" onsubmit="handleEmail(event, this)">
+        <input type="email" class="hero__input" placeholder="Tu email para acceso anticipado" required aria-label="Email para acceso anticipado">
+        <button type="submit" class="hero__btn">Entrar</button>
+      </form>
+    </div>
+
+    <div class="hero__scroll-hint">
+      <span>Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ▓▓ S-02 · EL PROBLEMA ▓▓ -->
+  <section class="problema section">
+    <div class="container">
+      <div class="problema__pain">
+        <p class="t-label reveal">Lo que ya conoces</p>
+        <div style="margin-top: 2rem;">
+          <p class="problema__pain-item reveal reveal-delay-1">Pagas 25 euros y te reciben con indiferencia.</p>
+          <p class="problema__pain-item reveal reveal-delay-2">El sonido compite con las conversaciones. Y pierde.</p>
+          <p class="problema__pain-item reveal reveal-delay-3">Zona VIP sin nada que justifique su nombre.</p>
+          <p class="problema__pain-item reveal reveal-delay-4">Sales pensando que podrías haber hecho algo mejor con tu noche.</p>
+        </div>
+      </div>
+
+      <div class="problema__transition" style="margin-top: clamp(3rem, 6vh, 5rem);">
+        <p class="t-label reveal" style="margin-bottom: 1.5rem;">Nosotros elegimos diferente</p>
+        <p class="problema__transition-text reveal reveal-delay-1">
+          Tú mereces<br><em>algo real.</em>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ▓▓ QUOTE BANNER ▓▓ -->
+  <div class="quote-banner">
+    <div class="crystal-divider" style="margin-bottom: 2rem;"><div class="crystal-divider__line"></div><div class="crystal-divider__gem"></div></div>
+    <p class="quote-banner__text reveal">Dance in your<br>darkest moments.</p>
+    <div class="crystal-divider" style="margin-top: 2rem;"><div class="crystal-divider__line"></div><div class="crystal-divider__gem"></div></div>
+  </div>
+
+  <!-- ▓▓ S-03 · LA EXPERIENCIA ▓▓ -->
+  <section class="experiencia section">
+    <div class="container container--wide">
+      <div class="experiencia__header">
+        <p class="t-label reveal">La experiencia</p>
+        <h2 class="t-display t-display-md reveal reveal-delay-1" style="margin-top: 1rem;">
+          Cada sentido tiene su momento.
+        </h2>
+      </div>
+
+      <div class="experiencia__pillars">
+        <div class="pillar reveal">
+          <div class="pillar__icon"><svg viewBox="0 0 40 40"><path d="M8 16v8M14 12v16M20 8v24M26 12v16M32 16v8"/></svg></div>
+          <h3 class="pillar__name">Sonido</h3>
+          <p class="pillar__desc">Sistemas calibrados para que cada frecuencia ocupe su lugar. Aquí la pista de baile se siente.</p>
+        </div>
+        <div class="pillar reveal reveal-delay-1">
+          <div class="pillar__icon"><svg viewBox="0 0 40 40"><path d="M20 32V18M14 14c0 -4 12 -4 12 0M10 10c0 -6 20 -6 20 0M16 32h8"/></svg></div>
+          <h3 class="pillar__name">Aromas</h3>
+          <p class="pillar__desc">La memoria empieza por el olfato. Cada evento tiene su propia firma invisible.</p>
+        </div>
+        <div class="pillar reveal reveal-delay-2">
+          <div class="pillar__icon"><svg viewBox="0 0 40 40"><circle cx="20" cy="14" r="6"/><path d="M12 32c0 -4 4 -8 8 -8s8 4 8 8M8 20l4 4M32 20l-4 4"/></svg></div>
+          <h3 class="pillar__name">Performance</h3>
+          <p class="pillar__desc">Bailarines, visuales, intervenciones que rompen la cuarta pared entre artista y asistente.</p>
+        </div>
+        <div class="pillar reveal reveal-delay-3">
+          <div class="pillar__icon"><svg viewBox="0 0 40 40"><path d="M8 28h24M12 28v-8h16v8M16 20v-4h8v4"/></svg></div>
+          <h3 class="pillar__name">Descanso</h3>
+          <p class="pillar__desc">Espacios diseñados para respirar sin salir de la experiencia. La noche también necesita pausas.</p>
+        </div>
+        <div class="pillar reveal reveal-delay-4">
+          <div class="pillar__icon"><svg viewBox="0 0 40 40"><path d="M20 34s-12 -10 -12 -18c0 -4 3 -8 6 -8 2 0 4 1 6 4 2 -3 4 -4 6 -4 3 0 6 4 6 8 0 8 -12 18 -12 18z"/></svg></div>
+          <h3 class="pillar__name">Cuidado</h3>
+          <p class="pillar__desc">Desde el agua hasta la despedida. Cada detalle dice que estás en buenas manos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ▓▓ QUOTE BANNER 2 ▓▓ -->
+  <div class="quote-banner quote-banner--subtle">
+    <p class="quote-banner__text reveal">Trust the vibe you get. Energy doesn't lie.</p>
+  </div>
+
+  <!-- ▓▓ S-04 · LA MUSICA ▓▓ -->
+  <section class="musica section">
+    <div class="container">
+      <div class="musica__grid">
+        <div class="musica__visual reveal">
+          <span class="t-label musica__visual-label">En cabina</span>
+        </div>
+        <div class="musica__text">
+          <p class="t-label reveal">El alma del colectivo</p>
+          <h2 class="t-display t-display-md reveal reveal-delay-1" style="margin-top: 1rem;">La&nbsp;curaduría lo cambia todo.</h2>
+          <p class="musica__manifesto reveal reveal-delay-2">
+            No ponemos artistas porque llenen. Los elegimos porque construyen un viaje.
+            Cada set es una pieza de algo más grande: una narrativa sonora que empieza cuando
+            llegas y termina cuando no quieres irte.
+          </p>
+          <a href="#" class="musica__link reveal reveal-delay-3">
+            Escucha nuestra selección
+            <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ▓▓ S-05 · FUNDADORES ▓▓ -->
+  <section class="fundadores section">
+    <div class="crystal-divider"><div class="crystal-divider__line"></div><div class="crystal-divider__gem"></div></div>
+    <div class="container">
+      <p class="t-label reveal" style="margin-top: 2rem;">Quiénes somos</p>
+      <h2 class="t-display t-display-md reveal reveal-delay-1" style="margin-top: 1rem; max-width: 12ch;">Detrás del caballo rojo.</h2>
+
+      <div class="fundadores__grid">
+        <div class="founder reveal">
+          <div class="founder__img"></div>
+          <h3 class="founder__name">Steff</h3>
+          <p class="founder__role">Co-fundadora & Direction</p>
+          <p class="founder__bio">Dos décadas moviéndose entre cabinas y backstages. No colecciona fechas en el currículum: construye espacios donde la gente vuelve.</p>
+        </div>
+        <div class="founder reveal reveal-delay-2">
+          <div class="founder__img"></div>
+          <h3 class="founder__name">Pablo</h3>
+          <p class="founder__role">Co-fundador & Curaduría</p>
+          <p class="founder__bio">La obsesión por el detalle sonoro hecha persona. Cada lineup que firma es una declaración de intenciones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ▓▓ QUOTE BANNER 3 ▓▓ -->
+  <div class="quote-banner">
+    <p class="quote-banner__text reveal">In house music<br>we trust.</p>
+  </div>
+
+  <!-- ▓▓ S-06 · VALORES ▓▓ -->
+  <section class="valores section">
+    <div class="valores__horse-bg">
+      <svg><use href="#horse-rearing"/></svg>
+    </div>
+    <div class="container">
+      <p class="t-label reveal">En qué creemos</p>
+      <h2 class="t-display t-display-md reveal reveal-delay-1" style="margin-top: 1rem; max-width: 16ch;">Cinco convicciones. Sin negociación.</h2>
+
+      <ul class="valores__list">
+        <li class="valor reveal">
+          <span class="valor__number">01</span>
+          <div class="valor__content">
+            <h3 class="valor__name">Cuidado real</h3>
+            <p class="valor__desc">No es un claim de marketing. Es agua gratis, es un equipo atento, es que la puerta no sea una trinchera.</p>
+          </div>
+        </li>
+        <li class="valor reveal reveal-delay-1">
+          <span class="valor__number">02</span>
+          <div><h3 class="valor__name">Criterio musical</h3><p class="valor__desc">La programación no sigue tendencias. Sigue convicción. Cada artista está ahí por una razón que escucharás.</p></div>
+        </li>
+        <li class="valor reveal reveal-delay-2">
+          <span class="valor__number">03</span>
+          <div><h3 class="valor__name">Inclusión sin discurso</h3><p class="valor__desc">No lo decimos, lo practicamos. La puerta es para quien viene a sumar, punto.</p></div>
+        </li>
+        <li class="valor reveal reveal-delay-3">
+          <span class="valor__number">04</span>
+          <div><h3 class="valor__name">Experiencia sensorial</h3><p class="valor__desc">Más allá de la música. Luz, aroma, textura, temperatura. Todo está pensado.</p></div>
+        </li>
+        <li class="valor reveal reveal-delay-4">
+          <span class="valor__number">05</span>
+          <div><h3 class="valor__name">Comunidad sobre consumo</h3><p class="valor__desc">No vendemos botellas. Construimos un espacio donde las personas importan más que las barras.</p></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ▓▓ S-07 · PROXIMO EVENTO ▓▓ -->
+  <section class="evento section">
+    <div class="evento__horse">
+      <svg><use href="#horse-rearing"/></svg>
+    </div>
+    <div class="container">
+      <div class="evento__content">
+        <p class="t-label reveal" style="color: rgba(245,240,232,0.5);">Próximo evento</p>
+        <h2 class="evento__date reveal reveal-delay-1">Pronto.</h2>
+        <p class="evento__sub reveal reveal-delay-2">Algo se está preparando en Valencia.</p>
+        <form class="evento__capture reveal reveal-delay-3" onsubmit="handleEmail(event, this)">
+          <input type="email" class="evento__input" placeholder="Sé el primero en saberlo" required aria-label="Email para acceso anticipado">
+          <button type="submit" class="evento__btn">Lista de espera</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ▓▓ S-08 · GALERIA ▓▓ -->
+  <section class="galeria section">
+    <div class="container container--wide">
+      <p class="t-label reveal">Momentos</p>
+      <h2 class="t-display t-display-md reveal reveal-delay-1" style="margin-top: 1rem;">Lo que se siente, se ve.</h2>
+      <div class="galeria__grid">
+        <div class="galeria__item galeria__item--tall reveal"><div class="galeria__placeholder"></div></div>
+        <div class="galeria__item reveal reveal-delay-1"><div class="galeria__placeholder"></div></div>
+        <div class="galeria__item reveal reveal-delay-2"><div class="galeria__placeholder"></div></div>
+        <div class="galeria__item galeria__item--wide reveal reveal-delay-1"><div class="galeria__placeholder"></div></div>
+        <div class="galeria__item reveal reveal-delay-2"><div class="galeria__placeholder"></div></div>
+        <div class="galeria__item reveal reveal-delay-3"><div class="galeria__placeholder"></div></div>
+        <div class="galeria__item reveal reveal-delay-1"><div class="galeria__placeholder"></div></div>
+        <div class="galeria__item galeria__item--tall reveal reveal-delay-2"><div class="galeria__placeholder"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ▓▓ S-09 · COLABORA ▓▓ -->
+  <section class="colabora section">
+    <div class="container">
+      <div class="colabora__inner">
+        <div class="colabora__text">
+          <p class="t-label reveal">Colaboraciones</p>
+          <h3 class="t-display t-display-sm reveal reveal-delay-1" style="margin-top: 1rem;">Si tu marca piensa como nosotros, hablemos.</h3>
+          <p class="t-body reveal reveal-delay-2" style="margin-top: 1rem;">No buscamos logos en un cartel. Buscamos aliados que entiendan que crear algo memorable requiere intención.</p>
+        </div>
+        <div class="reveal reveal-delay-2" style="text-align: right;">
+          <a href="mailto:hola@redhorse.es" class="colabora__email">hola@redhorse.es</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ▓▓ QUOTE BANNER FINAL ▓▓ -->
+  <div class="quote-banner quote-banner--subtle">
+    <p class="quote-banner__text reveal">If not now, then when?</p>
+  </div>
+
+  <!-- ▓▓ S-10 · FOOTER ▓▓ -->
+  <footer class="footer section">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand-wrap">
+            <div class="footer__horse-icon">
+              <svg><use href="#horse-head"/></svg>
+            </div>
+            <p class="footer__brand">Red Horse Colectivo</p>
+          </div>
+          <p class="footer__tagline">Mientras otros hacen fiestas, nosotros creamos universos.</p>
+        </div>
+
+        <form class="footer__capture" onsubmit="handleEmail(event, this)">
+          <input type="email" class="footer__input" placeholder="Tu email" required aria-label="Email para lista de acceso">
+          <button type="submit" class="footer__btn">Unirte</button>
+        </form>
+
+        <nav class="footer__social" aria-label="Redes sociales">
+          <a href="#" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.25"/></svg>
+          </a>
+          <a href="#" aria-label="SoundCloud" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M2 16v-3M5 16v-5M8 16V8M11 16V6M14 16V7c2 -1 5 0 6 2h1c1.5 0 3 1.5 3 3s-1.5 3-3 3H14z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </a>
+        </nav>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">&copy; 2025 Red Horse Colectivo. Valencia, Spain.</p>
+        <p class="footer__credits">Designed with conviction.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ── Loader ── */
+    window.addEventListener('load', () => {
+      setTimeout(() => document.getElementById('loader').classList.add('is-loaded'), 800);
+    });
+
+    /* ── Scroll Reveal ── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -60px 0px', threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ── Disco Ball Reflections (Hero) ── */
+    (function() {
+      const container = document.getElementById('reflections');
+      if (!container || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      for (let i = 0; i < 12; i++) {
+        const r = document.createElement('div');
+        r.className = 'reflection';
+        r.style.setProperty('--angle', (Math.random() * 360) + 'deg');
+        r.style.setProperty('--dur', (3 + Math.random() * 4) + 's');
+        r.style.left = Math.random() * 100 + '%';
+        r.style.top = Math.random() * 100 + '%';
+        r.style.animationDelay = Math.random() * 4 + 's';
+        r.style.width = (60 + Math.random() * 100) + 'px';
+        container.appendChild(r);
+      }
+    })();
+
+    /* ── Sparkles ── */
+    (function() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const sections = [
+        document.querySelector('.hero'),
+        document.querySelector('.evento'),
+        document.querySelector('.valores')
+      ];
+
+      const types = ['sparkle--red', 'sparkle--silver', 'sparkle--gold'];
+
+      sections.forEach(section => {
+        if (!section) return;
+        for (let i = 0; i < 8; i++) {
+          const s = document.createElement('div');
+          s.className = 'sparkle ' + types[Math.floor(Math.random() * types.length)];
+          s.style.left = Math.random() * 100 + '%';
+          s.style.top = Math.random() * 100 + '%';
+          s.style.animationDelay = Math.random() * 4 + 's';
+          s.style.animationDuration = (3 + Math.random() * 3) + 's';
+          section.appendChild(s);
+        }
+      });
+    })();
+
+    /* ── Email handler ── */
+    function handleEmail(e, form) {
+      e.preventDefault();
+      const input = form.querySelector('input[type="email"]');
+      const btn = form.querySelector('button');
+      const orig = btn.textContent;
+      btn.textContent = 'Hecho';
+      btn.style.background = 'var(--rojo-neon)';
+      btn.style.borderColor = 'var(--rojo-neon)';
+      btn.style.color = '#fff';
+      btn.style.boxShadow = '0 0 25px var(--rojo-glow)';
+      input.value = '';
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+        btn.style.boxShadow = '';
+      }, 3000);
+    }
+
+    /* ── Hero parallax ── */
+    (function() {
+      const hero = document.querySelector('.hero');
+      const horse = document.getElementById('heroHorse');
+      if (!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const scrolled = window.pageYOffset;
+            if (scrolled < hero.offsetHeight) {
+              const visual = hero.querySelector('.hero__visual');
+              if (visual) visual.style.transform = `translateY(${scrolled * 0.3}px)`;
+              if (horse) horse.style.transform = `translate(-50%, calc(-55% + ${scrolled * 0.12}px))`;
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
