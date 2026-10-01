@@ -68,6 +68,9 @@ Story chapters: **mobile** = full-bleed sticky media + text panels scrolling ove
 **≥900px** = 2-column grid with the sticky 9:16 media panel left (86svh tall) and text right.
 Spacing scale: 8 · 16 · 24 · 40 · 64 · 104 · 168 px. Sticky scrub sections use `n × 100svh` heights.
 
+
+**Centering rule (learned 2026-10-02):** on absolutely positioned statement layers, never put `max-width` on the layer itself, because it shrinks to the left. Keep the layer full width with `text-align: center` and put the measure limit on the inner `.fill`. Verify by measuring each phrase's center offset (it must be 0 px) at 390 and 360 px.
+
 ## 6 · Depth & Elevation
 Flat by default. Depth comes from light, not shadows: (0) WebGL heat field, (1) media panels, (2) scrim
 `linear-gradient(transparent, rgba(ink,.85))`, (3) text, (4) nav. Shadows only on the flyer card

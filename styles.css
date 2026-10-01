@@ -350,6 +350,10 @@ main, .footer { position: relative; z-index: 1; }
 .motion .podemos__label { position: absolute; top: 30svh; left: 0; right: 0; }
 .motion .podemos__words { position: absolute; inset: 0; display: block; }
 .motion .podemos__words li { position: absolute; inset: 0; display: grid; place-items: center; padding: 0 var(--gutter); opacity: 0; will-change: transform, opacity; }
+.motion .podemos__words li, .motion .sequence__words li { max-width: none; width: 100%; text-align: center; justify-items: center; }
+.motion .podemos__words .fill, .motion .sequence__words .fill { max-width: min(100%, 9ch); text-align: center; text-wrap: balance; }
+.motion .podemos .statement { font-size: clamp(3rem, 15vw, 11rem); }
+.motion .sequence .statement { font-size: clamp(3.4rem, 18vw, 13rem); }
 
 /* gallery: vertical scroll drives horizontal track */
 .motion .gallery { height: 420svh; }
