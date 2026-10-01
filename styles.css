@@ -177,11 +177,11 @@ main, .footer { position: relative; z-index: 1; }
 }
 .phone__glow, .phone__heat { position: absolute; inset: 0; }
 .phone__heat { background: url("assets/img/thermal-core.webp") center / cover; opacity: 0; }
-.phone__ui { position: absolute; top: 18px; left: 16px; right: 16px; display: grid; gap: 8px; justify-items: stretch; }
-.phone__notch { justify-self: center; width: 34%; height: 22px; border-radius: 99px; background: var(--ink); margin-bottom: 10px; }
+.phone__ui { position: absolute; top: 18px; left: 16px; right: 16px; display: grid; gap: 6px; justify-items: stretch; }
+.phone__notch { justify-self: center; width: 34%; height: 18px; border-radius: 99px; background: var(--ink); margin-bottom: 6px; }
 .pill {
   font-family: var(--f-ui); font-weight: 700; font-size: .7rem; letter-spacing: .02em; text-align: left;
-  padding: 10px 12px; border-radius: 14px; background: rgba(var(--bone-rgb), .12); color: rgba(var(--bone-rgb), .85);
+  padding: 7px 10px; border-radius: 12px; background: rgba(var(--bone-rgb), .12); font-size: .62rem; line-height: 1.3; color: rgba(var(--bone-rgb), .85);
 }
 .phone__text { position: relative; font-size: clamp(1.35rem, 5.6vw, 1.9rem); color: var(--bone); margin-top: 40%; }
 .phone__ignite { position: relative; display: none; color: var(--ink); font-size: clamp(3.4rem, 17vw, 9rem); }
@@ -322,15 +322,15 @@ main, .footer { position: relative; z-index: 1; }
 .motion .screens__stage { padding: 0; display: block; }
 .motion .screens__intro, .motion .screens__outro { position: absolute; left: var(--gutter); right: var(--gutter); z-index: 3; }
 .motion .screens__intro { top: 12svh; opacity: var(--intro, 1); }
-.motion .screens__outro { bottom: 9svh; opacity: var(--outro, 0); }
+.motion .screens__outro { top: calc(100svh - var(--ib0, 30svh) + 22px); bottom: auto; opacity: var(--outro, 0); }
 .motion .phone {
   position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; padding: 0;
-  clip-path: inset(var(--iy, 20svh) var(--ix, 20vw) round var(--r, 42px)); box-shadow: none; will-change: clip-path;
+  clip-path: inset(var(--it, 15svh) var(--ix, 20vw) var(--ib, 35svh) var(--ix, 20vw) round var(--r, 40px)); box-shadow: none; will-change: clip-path;
   opacity: var(--phone, 0);
 }
-.motion .phone__ui { top: calc(var(--iy, 20svh) + 16px); left: calc(var(--ix, 20vw) + 14px); right: calc(var(--ix, 20vw) + 14px); opacity: calc(1 - var(--ignite, 0) * 3); }
+.motion .phone__ui { top: calc(var(--it, 15svh) + 14px); left: calc(var(--ix, 20vw) + 14px); right: calc(var(--ix, 20vw) + 14px); opacity: calc(1 - var(--ignite, 0) * 3); }
 .motion .phone__heat { opacity: var(--ignite, 0); }
-.motion .phone__text { position: absolute; left: calc(var(--ix, 20vw) + 22px); right: calc(var(--ix, 20vw) + 22px); top: 56%; margin: 0; opacity: calc(1 - var(--ignite, 0) * 4); max-width: none; }
+.motion .phone__text { position: absolute; left: calc(var(--ix, 20vw) + 20px); right: calc(var(--ix, 20vw) + 20px); top: calc(var(--it, 15svh) + (100svh - var(--it, 15svh) - var(--ib, 35svh)) * .56); font-size: clamp(1.15rem, 4.9vw, 1.6rem); line-height: 1.2; margin: 0; opacity: calc(1 - var(--ignite, 0) * 4); max-width: none; }
 .motion .phone__ignite { display: block; position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 0 var(--gutter); opacity: var(--title, 0); transform: scale(calc(1.1 - var(--title, 0) * .1)); }
 
 /* around: scatter → converge → collapse */

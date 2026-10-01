@@ -118,16 +118,18 @@
       el.style.setProperty('--hint', (1 - smooth(p, 0, .05)).toFixed(3));
     },
     screens(p, el) {
-      const h0 = Math.min(vh * .56, (Math.min(vw * .74, 330)) * 19 / 9);
-      const w0 = h0 * 9 / 19;
-      const k = smooth(p, .32, .64);
-      const ix = lerp((vw - w0) / 2, 0, k), iy = lerp((vh - h0) / 2, 0, k);
-      el.style.setProperty('--ix', `${ix.toFixed(1)}px`);
-      el.style.setProperty('--iy', `${iy.toFixed(1)}px`);
+      // Phone sits high (28 % of free space above, 72 % below) so the outro line has room underneath.
+      const h0 = Math.min(vh * .5, Math.min(vw * .66, 300) * 19 / 9);
+      const w0 = h0 * 9 / 19, free = vh - h0;
+      const k = smooth(p, .34, .64);
+      el.style.setProperty('--ix', `${lerp((vw - w0) / 2, 0, k).toFixed(1)}px`);
+      el.style.setProperty('--it', `${lerp(free * .28, 0, k).toFixed(1)}px`);
+      el.style.setProperty('--ib', `${lerp(free * .72, 0, k).toFixed(1)}px`);
+      el.style.setProperty('--ib0', `${(free * .72).toFixed(1)}px`);
       el.style.setProperty('--r', `${lerp(40, 0, k).toFixed(1)}px`);
-      el.style.setProperty('--intro', (1 - smooth(p, .07, .15)).toFixed(3));
-      el.style.setProperty('--phone', smooth(p, .02, .12).toFixed(3));
-      el.style.setProperty('--outro', (smooth(p, .14, .22) * (1 - smooth(p, .32, .4))).toFixed(3));
+      el.style.setProperty('--intro', (1 - smooth(p, .05, .12)).toFixed(3));
+      el.style.setProperty('--phone', smooth(p, .12, .2).toFixed(3));
+      el.style.setProperty('--outro', (smooth(p, .2, .27) * (1 - smooth(p, .33, .4))).toFixed(3));
       el.style.setProperty('--ignite', smooth(p, .5, .72).toFixed(3));
       el.style.setProperty('--title', smooth(p, .66, .84).toFixed(3));
       el._temp = smooth(p, .45, .75);
