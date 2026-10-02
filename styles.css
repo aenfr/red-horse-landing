@@ -409,3 +409,7 @@ main, .footer { position: relative; z-index: 1; }
 }
 /* venue scene */
 .venue__title { margin-bottom: .2em; }
+
+/* genre tag: plain bone text (thermal fill is unreadable over the red chapter video); one genre per line on phones */
+.tag .fill { background: none; color: var(--bone); -webkit-text-fill-color: var(--bone); }
+.tag .fill { display: block; } .tag i { display: none; }
