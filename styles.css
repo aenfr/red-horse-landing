@@ -146,9 +146,27 @@ main, .footer { position: relative; z-index: 1; }
 .hero__presents, .hero__info { margin: 0 0 .8rem; color: var(--bone); }
 .hero__info { margin: 1rem 0 0; }
 .hero__tease { position: absolute; top: 40svh; left: 0; right: 0; text-align: center; display: none; }
-.hero__hint { position: absolute; bottom: max(28px, env(safe-area-inset-bottom)); left: 0; right: 0; text-align: center; margin: 0; display: grid; justify-items: center; gap: 10px; }
-.hero__hint-line { width: 1px; height: 38px; background: linear-gradient(var(--bone), transparent); animation: hint 1.8s var(--ease) infinite; transform-origin: top; }
-@keyframes hint { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+.hero__hint {
+  position: absolute; bottom: calc(max(22px, env(safe-area-inset-bottom)) + 8px); left: 50%; transform: translateX(-50%);
+  display: grid; justify-items: center; gap: 10px; padding: 0; border: 0; background: none; color: var(--bone); cursor: pointer;
+  font-family: var(--f-ui); -webkit-tap-highlight-color: transparent;
+}
+.hint__pill {
+  min-height: 44px; display: inline-flex; align-items: center; padding: 0 22px; border-radius: 999px;
+  border: 1px solid rgba(var(--bone-rgb), .55); background: rgba(var(--ink-rgb), .38);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  font-weight: 800; font-size: .78rem; letter-spacing: .24em; text-transform: uppercase;
+  animation: hintPulse 2.2s var(--ease) infinite;
+  transition: background-color .25s var(--ease), border-color .25s var(--ease);
+}
+.hero__hint:hover .hint__pill, .hero__hint:focus-visible .hint__pill { background: rgba(var(--horse-red-rgb), .85); border-color: var(--horse-red); }
+.hero__hint:focus-visible { outline: 3px solid var(--horizon-gold); outline-offset: 6px; border-radius: 999px; }
+.hint__chev { display: grid; justify-items: center; gap: 0; height: 34px; }
+.hint__chev i { width: 14px; height: 14px; margin-top: -4px; border-right: 2px solid var(--bone); border-bottom: 2px solid var(--bone); transform: rotate(45deg); opacity: 0; animation: chev 1.6s var(--ease) infinite; }
+.hint__chev i:nth-child(2) { animation-delay: .2s; }
+.hint__chev i:nth-child(3) { animation-delay: .4s; }
+@keyframes chev { 0% { opacity: 0; translate: 0 -6px; } 40% { opacity: 1; } 100% { opacity: 0; translate: 0 8px; } }
+@keyframes hintPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(var(--bone-rgb), .35); } 60% { box-shadow: 0 0 0 12px rgba(var(--bone-rgb), 0); } }
 
 /* ───────── ACT 1 · COLD ───────── */
 .cold { padding: 22svh 0 18svh; }
@@ -315,7 +333,7 @@ main, .footer { position: relative; z-index: 1; }
 .motion .hero__presents { opacity: var(--presents, 0); }
 .motion .hero__wordmark { clip-path: inset(calc((1 - var(--wm, 0)) * 100%) 0 0 0); transform: translateY(calc((1 - var(--wm, 0)) * 18px)); }
 .motion .hero__info { opacity: var(--info, 0); transform: translateY(calc((1 - var(--info, 0)) * 12px)); }
-.motion .hero__hint { opacity: var(--hint, 1); }
+.motion .hero__hint { opacity: var(--hint, 1); pointer-events: auto; }
 
 /* screens: phone expands to full screen and ignites */
 .motion .screens { height: 340svh; }
@@ -384,7 +402,7 @@ main, .footer { position: relative; z-index: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hero__hint-line { animation: none; }
+  .hint__chev i, .hint__pill { animation: none; } .hint__chev i { opacity: .8; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
 

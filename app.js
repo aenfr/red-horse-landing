@@ -116,6 +116,7 @@
       el.style.setProperty('--wm', smooth(p, .46, .7).toFixed(3));
       el.style.setProperty('--info', smooth(p, .66, .84).toFixed(3));
       el.style.setProperty('--hint', (1 - smooth(p, 0, .05)).toFixed(3));
+      (el._hint ||= el.querySelector('.hero__hint')).style.pointerEvents = p > .05 ? 'none' : 'auto';
     },
     screens(p, el) {
       // Mobile: phone high, outro below. Wide screens: bigger phone on the left, outro on the right.
@@ -236,6 +237,33 @@
   addEventListener('scroll', request, { passive: true });
   addEventListener('resize', () => { vw = innerWidth; vh = innerHeight; request(); });
   frame();
+
+  // ── Scroll invitation: tap the hint, or the page nudges itself if nobody scrolls ──
+  (function invite() {
+    const hint = $('.hero__hint');
+    if (!hint || !hero) return;
+    let cancelled = false, running = false;
+    const stop = () => { cancelled = true; };
+    ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((ev) => addEventListener(ev, stop, { passive: true }));
+    const ease = (k) => (k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+    const glide = (to, ms) => {
+      if (running) return;
+      running = true; cancelled = false;
+      const from = scrollY, t0 = performance.now();
+      const step = (now) => {
+        if (cancelled) { running = false; return; }
+        const k = Math.min(1, (now - t0) / ms);
+        window.scrollTo({ top: from + (to - from) * ease(k), behavior: 'instant' });
+        if (k < 1) requestAnimationFrame(step); else running = false;
+      };
+      requestAnimationFrame(step);
+    };
+    const heroRange = () => Math.max(0, hero.offsetHeight - innerHeight);
+    // tap / click: glide to the wordmark reveal (pointerdown sets cancelled first, so reset happens inside glide)
+    hint.addEventListener('click', () => glide(hero.offsetTop + heroRange() * .72, 2000));
+    // idle nudge: once, only at the very top, only with motion allowed
+    if (MOTION) setTimeout(() => { if (!cancelled && scrollY < 8) glide(heroRange() * .3, 1800); }, 2200);
+  })();
 
   // ── Heat field: one fragment shader, temperature-driven ───────────────────
   (function heat() {

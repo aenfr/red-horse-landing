@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/img/sea-empty.webp" media="not all and (min-aspect-ratio: 1/1) and (min-width: 900px)">
   <link rel="preload" as="image" href="assets/img/sea-empty-wide.webp" media="(min-aspect-ratio: 1/1) and (min-width: 900px)">
-  <link rel="stylesheet" href="styles.css?v=20261002032019">
+  <link rel="stylesheet" href="styles.css?v=20261002032440">
   <script>
     // Gate the animated layout: without JS or with reduced motion the page is a plain, fully visible story.
     (function (d) {
@@ -99,7 +99,10 @@
           </h1>
           <p class="hero__info label">Tardeo <i>✦</i> 24 de octubre <i>✦</i> 15H – 01H<br>Spook Valencia · Sala Sunbox</p>
         </div>
-        <p class="hero__hint label" aria-hidden="true">Desliza <span class="hero__hint-line"></span></p>
+        <button class="hero__hint" type="button" aria-label="Desliza para descubrir Red Horse">
+          <span class="hint__pill">Desliza</span>
+          <span class="hint__chev" aria-hidden="true"><i></i><i></i><i></i></span>
+        </button>
       </div>
     </section>
 
@@ -414,6 +417,6 @@
     </div>
   </footer>
 
-  <script src="app.js?v=20261002032019" defer></script>
+  <script src="app.js?v=20261002032440" defer></script>
 </body>
 </html>
