@@ -96,6 +96,14 @@ Flat by default. Depth comes from light, not shadows: (0) WebGL heat field, (1) 
 - **Reduced motion / no JS:** every sticky sequence becomes a normal stacked layout, all text is visible,
   videos show their poster frame, and WebGL is off.
 
+
+**Mobile memory rules (learned 2026-10-02: iOS / Instagram in-app browser tab crashes):**
+- No WebGL on phones (≤640 px): use the CSS gradient driven by `--temp` on the canvas element.
+- Animate the **word**, never a full-screen layer. Faded items get `visibility: hidden` and no transform.
+- `will-change` only on single, unique layers (hero media, gallery track).
+- Videos unload (`src` removed) when more than ~1 screen away.
+- Never write per-frame CSS variables on `:root`; set them on the element that uses them.
+
 ## 8 · Do's and Don'ts
 Do: cold → hot temperature arc · real brand assets only · exact facts from the brief · Spanish (Spain) copy ·
 one hero object per screen · black space · thermal fill only on statements · keep the founder's voice.

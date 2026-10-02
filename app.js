@@ -101,7 +101,7 @@
   }
 
   // A word that holds the center while its segment is active, entering from below and leaving above.
-  function stepWords(items, p, { start = .06, end = .94, hold = 'last', travel = .16, fade = [.2, .48] } = {}) {
+  function stepWords(items, p, { start = .06, end = .94, hold = 'last', travel = .16, fade = [.2, .48], inner = false } = {}) {
     const n = items.length;
     const seg = (end - start) / Math.max(1, n - 1);
     items.forEach((li, i) => {
@@ -110,9 +110,12 @@
       if (hold === 'last' && i === n - 1 && f > 0) f = 0;
       if (i === 0 && f < 0) f = 0;           // first one is already there
       const a = smooth(Math.abs(f), fade[0], fade[1]);   // out before the next one comes in: no overlapping text
-      li.style.opacity = (1 - a).toFixed(3);
-      li.style.visibility = a > .995 ? 'hidden' : 'visible';   // fully faded layers are skipped by the compositor
-      li.style.transform = `translate3d(0, ${(-Math.sign(f) * a * travel * vh).toFixed(1)}px, 0) scale(${(1 - a * .06).toFixed(3)})`;
+      // inner: move/fade the word itself, so the GPU layer is word-sized instead of full-screen (iOS memory)
+      const t = inner ? li.firstElementChild : li;
+      const hidden = a > .995;
+      li.style.visibility = hidden ? 'hidden' : 'visible';
+      t.style.opacity = (1 - a).toFixed(3);
+      t.style.transform = hidden ? '' : `translate3d(0, ${(-Math.sign(f) * a * travel * vh).toFixed(1)}px, 0) scale(${(1 - a * .06).toFixed(3)})`;
     });
   }
 
@@ -166,8 +169,8 @@
       });
       el.style.setProperty('--final', smooth(p, .64, .84).toFixed(3));
     },
-    podemos(p) { stepWords(podemos, p, { start: .08, end: .9 }); },
-    sequence(p) { stepWords(seqWords, p, { start: .1, end: .86 }); },
+    podemos(p) { stepWords(podemos, p, { start: .08, end: .9, inner: true }); },
+    sequence(p) { stepWords(seqWords, p, { start: .1, end: .86, inner: true }); },
     gallery(p, el) {
       if (!track) return;
       const max = Math.max(0, track.scrollWidth - vw);
@@ -208,7 +211,7 @@
   function frame() {
     ticking = false;
     const docH = document.documentElement.scrollHeight - vh;
-    root.style.setProperty('--scroll', clamp(scrollY / Math.max(1, docH)).toFixed(4));
+    (frame.bar ||= $('.progress span')).style.transform = `scaleX(${clamp(scrollY / Math.max(1, docH)).toFixed(4)})`;
     nav.classList.toggle('is-solid', scrollY > (hero ? hero.offsetHeight - vh * .9 : 40));
 
     if (MOTION) {
@@ -238,7 +241,7 @@
       $$('.media', ch).forEach((m) => m.classList.toggle('is-active', +m.dataset.scene === active));
     }
     computeTemp();
-    if (!MOTION) root.style.setProperty('--temp', targetTemp.toFixed(3));
+    if (!MOTION) $('.heat').style.setProperty('--temp', targetTemp.toFixed(3));
   }
   const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
   addEventListener('scroll', request, { passive: true });
@@ -275,10 +278,16 @@
   // ── Heat field: one fragment shader, temperature-driven ───────────────────
   (function heat() {
     const canvas = $('.heat');
-    const gl = canvas.getContext('webgl', { antialias: false, premultipliedAlpha: false, powerPreference: 'low-power' });
-    if (!gl || navigator.hardwareConcurrency < 4 && MOBILE) {
-      // CSS fallback keeps following the temperature
-      const tick = () => { root.style.setProperty('--temp', targetTemp.toFixed(3)); requestAnimationFrame(tick); };
+    // Phones (incl. Instagram / WhatsApp in-app browsers) get the CSS gradient: no GL context, far less memory.
+    const gl = MOBILE ? null : canvas.getContext('webgl', { antialias: false, premultipliedAlpha: false, powerPreference: 'low-power' });
+    if (!gl) {
+      let temp = targetTemp;
+      canvas.style.setProperty('--temp', temp.toFixed(3));
+      const tick = () => {
+        const d = targetTemp - temp;
+        if (Math.abs(d) > .002) { temp += d * .08; canvas.style.setProperty('--temp', temp.toFixed(3)); }
+        requestAnimationFrame(tick);
+      };
       if (MOTION) tick();
       return;
     }
@@ -329,7 +338,6 @@ void main(){
       if (document.hidden || now - last < 33) return;   // ~30 fps cap
       last = now;
       temp += (targetTemp - temp) * .06;
-      root.style.setProperty('--temp', temp.toFixed(3));
       gl.uniform1f(uTime, MOTION ? (now - t0) / 1000 : 0);
       gl.uniform1f(uTemp, temp);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
