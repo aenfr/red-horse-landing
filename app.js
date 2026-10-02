@@ -119,16 +119,21 @@
     },
     screens(p, el) {
       // Mobile: phone high, outro below. Wide screens: bigger phone on the left, outro on the right.
+      // The stage is 100lvh (can be taller than the visible area while the mobile toolbar shows),
+      // so the phone is placed inside the visible part (vh) and the bottom inset is measured on the real stage height.
       const wide = vw >= 900 && vw > vh;
+      const H = (el._stage ||= el.querySelector('.stage')).offsetHeight || vh;
       const h0 = wide ? Math.min(vh * .74, 520) : Math.min(vh * .5, Math.min(vw * .66, 300) * 19 / 9);
       const w0 = h0 * 9 / 19, cx = wide ? vw * .3 : vw / 2;
-      const free = vh - h0, topFrac = wide ? .5 : .28;
+      const it0 = (vh - h0) * (wide ? .5 : .28), ib0 = H - it0 - h0;
       const k = smooth(p, .34, .64);
+      const it = lerp(it0, 0, k), ib = lerp(ib0, 0, k);
       el.style.setProperty('--ixl', `${lerp(cx - w0 / 2, 0, k).toFixed(1)}px`);
       el.style.setProperty('--ixr', `${lerp(vw - cx - w0 / 2, 0, k).toFixed(1)}px`);
-      el.style.setProperty('--it', `${lerp(free * topFrac, 0, k).toFixed(1)}px`);
-      el.style.setProperty('--ib', `${lerp(free * (1 - topFrac), 0, k).toFixed(1)}px`);
-      el.style.setProperty('--ib0', `${(free * (1 - topFrac)).toFixed(1)}px`);
+      el.style.setProperty('--it', `${it.toFixed(1)}px`);
+      el.style.setProperty('--ib', `${ib.toFixed(1)}px`);
+      el.style.setProperty('--ph', `${(H - it - ib).toFixed(1)}px`);
+      el.style.setProperty('--otop', `${(it0 + h0 + 22).toFixed(1)}px`);
       el.style.setProperty('--pw', `${w0.toFixed(1)}px`);
       el.style.setProperty('--r', `${lerp(40, 0, k).toFixed(1)}px`);
       el.style.setProperty('--intro', (1 - smooth(p, .05, .12)).toFixed(3));
