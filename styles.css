@@ -211,13 +211,15 @@ main, .footer { position: relative; z-index: 1; }
 .loop { padding: 16svh 0; }
 
 /* ───────── CHAPTER · pin-swap (base = stacked) ───────── */
-.chapter { position: relative; clip-path: inset(0); }  /* the sticky video may not overhang into the next section */
-.chapter__media { position: sticky; top: 0; height: 100vh; height: 100lvh; margin-bottom: -100vh; margin-bottom: -100lvh; overflow: hidden; }
+.chapter { position: relative; }
+.chapter__media { position: sticky; top: 0; height: 100vh; height: 100lvh; overflow: hidden; }
 .media { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .9s var(--ease); }
 .media.is-active { opacity: 1; }
 .media video { width: 100%; height: 100%; object-fit: cover; }
 .chapter__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(var(--ink-rgb), .15), rgba(var(--ink-rgb), .2) 40%, rgba(var(--ink-rgb), .82)); }
-.chapter__steps { position: relative; padding: 0 var(--gutter); }
+/* The steps (not the video) take the negative margin: the sticky video then stays inside its chapter
+   and never overhangs the next section, without clip-path (which forced a chapter-sized GPU layer on iOS). */
+.chapter__steps { position: relative; z-index: 1; padding: 0 var(--gutter); margin-top: -100vh; margin-top: -100lvh; }
 .step { min-height: 92svh; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 14svh; }
 .step:first-child { padding-top: 40svh; }
 .beats { list-style: none; padding: 0; margin: 0; }
@@ -229,7 +231,7 @@ main, .footer { position: relative; z-index: 1; }
   .chapter { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; max-width: 1280px; margin: 0 auto; padding: 0 var(--gutter); }
   .chapter__media { top: 7svh; height: 86svh; margin: 0; aspect-ratio: 9 / 16; justify-self: end; border-radius: 6px; }
   .chapter__media::after { background: none; }
-  .chapter__steps { padding: 0; }
+  .chapter__steps { padding: 0; margin-top: 0; }
   .step { justify-content: center; padding: 0; }
   .step:first-child { padding-top: 0; }
 }

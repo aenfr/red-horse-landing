@@ -52,21 +52,32 @@
   }), { rootMargin: '0px 0px -12% 0px', threshold: 0.15 });
   $$('.reveal, [data-callback]').forEach((el) => io.observe(el));
 
-  // ── Lazy videos: attach near view, play only while visible, UNLOAD when far ─
-  // iOS Safari kills the tab when too many decoded videos stay in memory, so a video
-  // that leaves the neighbourhood drops its source (the poster frame stays visible).
+  // ── Lazy videos ───────────────────────────────────────────────────────────
+  // Memory rules for iOS / in-app browsers: a video only loads after it has stayed in view ~0.35 s
+  // (a fast flick never loads anything), phones keep at most ONE video loaded, and videos far away unload.
+  const videos = $$('video[data-src]');
+  const unload = (v) => { if (v.getAttribute('src')) { v.pause(); v.removeAttribute('src'); v.load(); } };
+  // load + play the video of the scene that is actually showing, after a short dwell
+  const want = (v) => {
+    clearTimeout(v._t);
+    v._t = setTimeout(() => {
+      v._t = 0;
+      const fig = v.closest('.media');
+      if (fig && !fig.classList.contains('is-active')) return;
+      const r = v.getBoundingClientRect();                 // already scrolled past? (fast flick) → don't load
+      if (r.bottom < -innerHeight * .2 || r.top > innerHeight * 1.2) return;
+      if (MOBILE) videos.forEach((o) => { if (o !== v) unload(o); });
+      if (!v.getAttribute('src')) v.src = v.dataset.src;
+      if (MOTION) v.play().catch(() => {});
+    }, 350);
+  };
   const vio = new IntersectionObserver((entries) => entries.forEach((e) => {
     const v = e.target;
-    if (e.isIntersecting) {
-      if (!v.getAttribute('src')) { v.src = v.dataset.src; }
-      if (MOTION) v.play().catch(() => {});
-    } else { v.pause(); }
-  }), { rootMargin: '40% 0px' });
-  const vfar = new IntersectionObserver((entries) => entries.forEach((e) => {
-    const v = e.target;
-    if (!e.isIntersecting && v.getAttribute('src')) { v.pause(); v.removeAttribute('src'); v.load(); }
-  }), { rootMargin: '120% 0px' });
-  $$('video[data-src]').forEach((v) => { vio.observe(v); vfar.observe(v); });
+    if (e.isIntersecting) want(v); else { clearTimeout(v._t); v.pause(); }
+  }), { rootMargin: '10% 0px' });
+  const vfar = new IntersectionObserver((entries) => entries.forEach((e) => { if (!e.isIntersecting) { clearTimeout(e.target._t); unload(e.target); } }),
+    { rootMargin: '100% 0px' });
+  videos.forEach((v) => { vio.observe(v); vfar.observe(v); });
 
   // ── Word-by-word scroll text ──────────────────────────────────────────────
   const wordEls = $$('[data-words]').map((el) => {
@@ -239,6 +250,10 @@
         if (d < bestD) { bestD = d; active = +st.dataset.step; }
       });
       $$('.media', ch).forEach((m) => m.classList.toggle('is-active', +m.dataset.scene === active));
+      // load the showing scene's video (after dwell) when the scene changes, or when it isn't loaded yet
+      const v = $(`.media[data-scene="${active}"] video`, ch);
+      if (v && (ch._active !== active || (!v.getAttribute('src') && !v._t))) want(v);
+      ch._active = active;
     }
     computeTemp();
     if (!MOTION) $('.heat').style.setProperty('--temp', targetTemp.toFixed(3));

@@ -101,7 +101,8 @@ Flat by default. Depth comes from light, not shadows: (0) WebGL heat field, (1) 
 - No WebGL on phones (≤640 px): use the CSS gradient driven by `--temp` on the canvas element.
 - Animate the **word**, never a full-screen layer. Faded items get `visibility: hidden` and no transform.
 - `will-change` only on single, unique layers (hero media, gallery track).
-- Videos unload (`src` removed) when more than ~1 screen away.
+- Videos load only after ~0.35 s of dwell on their scene (a fast flick loads nothing). Phones keep at most one video loaded, and videos unload (`src` removed) when more than ~1 screen away.
+- Never use `clip-path` / `overflow` clipping on tall sections that contain sticky elements: on iOS it forces a section-sized GPU layer. Put the negative margin on the scrolling content instead.
 - Never write per-frame CSS variables on `:root`; set them on the element that uses them.
 
 ## 8 · Do's and Don'ts
