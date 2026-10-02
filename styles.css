@@ -191,7 +191,7 @@ main, .footer { position: relative; z-index: 1; }
 .loop { padding: 16svh 0; }
 
 /* ───────── CHAPTER · pin-swap (base = stacked) ───────── */
-.chapter { position: relative; }
+.chapter { position: relative; clip-path: inset(0); }  /* the sticky video may not overhang into the next section */
 .chapter__media { position: sticky; top: 0; height: 100vh; height: 100lvh; margin-bottom: -100vh; margin-bottom: -100lvh; overflow: hidden; }
 .media { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .9s var(--ease); }
 .media.is-active { opacity: 1; }
