@@ -18,7 +18,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="assets/img/sea-empty.webp">
+  <link rel="preload" as="image" href="assets/img/sea-empty.webp" media="not all and (min-aspect-ratio: 1/1) and (min-width: 900px)">
+  <link rel="preload" as="image" href="assets/img/sea-empty-wide.webp" media="(min-aspect-ratio: 1/1) and (min-width: 900px)">
   <link rel="stylesheet" href="styles.css">
   <script>
     // Gate the animated layout: without JS or with reduced motion the page is a plain, fully visible story.
@@ -87,8 +88,8 @@
       <div class="hero__stage stage">
         <div class="hero__backdrop" aria-hidden="true"></div>
         <div class="hero__media">
-          <img class="hero__sea" src="assets/img/sea-empty.webp" alt="" width="1080" height="1935" fetchpriority="high">
-          <img class="hero__horse" src="assets/img/sea-horse.webp" alt="Una escultura monumental de un caballo rojo de cerámica, de pie en el mar al atardecer." width="1080" height="1935" decoding="async">
+          <picture><source media="(min-aspect-ratio: 1/1) and (min-width: 900px)" srcset="assets/img/sea-empty-wide.webp"><img class="hero__sea" src="assets/img/sea-empty.webp" alt="" width="1080" height="1935" fetchpriority="high"></picture>
+          <picture><source media="(min-aspect-ratio: 1/1) and (min-width: 900px)" srcset="assets/img/sea-horse-wide.webp"><img class="hero__horse" src="assets/img/sea-horse.webp" alt="Una escultura monumental de un caballo rojo de cerámica, de pie en el mar al atardecer." width="1080" height="1935" decoding="async"></picture>
         </div>
         <p class="hero__tease label">Algo se mueve en el horizonte</p>
         <div class="hero__title">
@@ -308,7 +309,7 @@
       <div class="reveal-scene__stage stage">
         <div class="reveal-scene__backdrop" aria-hidden="true"></div>
         <div class="reveal-scene__media">
-          <img src="assets/img/sea-horse.webp" alt="" width="1080" height="1935" loading="lazy">
+          <picture><source media="(min-aspect-ratio: 1/1) and (min-width: 900px)" srcset="assets/img/sea-horse-wide.webp"><img src="assets/img/sea-horse.webp" alt="" width="1080" height="1935" loading="lazy"></picture>
         </div>
         <div class="reveal-scene__copy">
           <div class="rs rs--1">

@@ -387,3 +387,17 @@ main, .footer { position: relative; z-index: 1; }
   .hero__hint-line { animation: none; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* ───────── WIDE SCREENS: native 16:9 scenes instead of the 9:16 panel ───────── */
+@media (min-aspect-ratio: 1/1) and (min-width: 900px) {
+  .hero__backdrop { background-image: url("assets/img/sea-empty-wide.webp"); background-size: cover; background-position: 50% 0; filter: blur(24px); }
+  .hero__media { max-width: none; top: 15svh; bottom: auto; height: 100svh;
+    -webkit-mask-image: linear-gradient(transparent, var(--ink) 16%); mask-image: linear-gradient(transparent, var(--ink) 16%); }
+  .hero__media img { object-position: 50% 45%; }
+  .hero__title { top: max(9svh, 72px); }
+  .hero__wordmark { width: min(34vw, 440px); }
+  .hero__tease { top: 30svh; }
+  .motion .reveal-scene__media { max-width: none; -webkit-mask-image: none; mask-image: none; }
+  .motion .reveal-scene__media img { object-position: 50% 55%; }
+  .motion .reveal-scene__backdrop { display: none; }
+}
