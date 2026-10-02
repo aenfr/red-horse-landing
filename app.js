@@ -52,15 +52,21 @@
   }), { rootMargin: '0px 0px -12% 0px', threshold: 0.15 });
   $$('.reveal, [data-callback]').forEach((el) => io.observe(el));
 
-  // ── Lazy videos: attach src near view, play only while visible ────────────
+  // ── Lazy videos: attach near view, play only while visible, UNLOAD when far ─
+  // iOS Safari kills the tab when too many decoded videos stay in memory, so a video
+  // that leaves the neighbourhood drops its source (the poster frame stays visible).
   const vio = new IntersectionObserver((entries) => entries.forEach((e) => {
     const v = e.target;
     if (e.isIntersecting) {
-      if (!v.src) { v.src = v.dataset.src; }
+      if (!v.getAttribute('src')) { v.src = v.dataset.src; }
       if (MOTION) v.play().catch(() => {});
     } else { v.pause(); }
   }), { rootMargin: '40% 0px' });
-  $$('video[data-src]').forEach((v) => vio.observe(v));
+  const vfar = new IntersectionObserver((entries) => entries.forEach((e) => {
+    const v = e.target;
+    if (!e.isIntersecting && v.getAttribute('src')) { v.pause(); v.removeAttribute('src'); v.load(); }
+  }), { rootMargin: '120% 0px' });
+  $$('video[data-src]').forEach((v) => { vio.observe(v); vfar.observe(v); });
 
   // ── Word-by-word scroll text ──────────────────────────────────────────────
   const wordEls = $$('[data-words]').map((el) => {
@@ -105,6 +111,7 @@
       if (i === 0 && f < 0) f = 0;           // first one is already there
       const a = smooth(Math.abs(f), fade[0], fade[1]);   // out before the next one comes in: no overlapping text
       li.style.opacity = (1 - a).toFixed(3);
+      li.style.visibility = a > .995 ? 'hidden' : 'visible';   // fully faded layers are skipped by the compositor
       li.style.transform = `translate3d(0, ${(-Math.sign(f) * a * travel * vh).toFixed(1)}px, 0) scale(${(1 - a * .06).toFixed(3)})`;
     });
   }

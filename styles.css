@@ -130,6 +130,8 @@ main, .footer { position: relative; z-index: 1; }
 
 /* ───────── HERO ───────── */
 .hero__stage { position: relative; height: 100vh; height: 100lvh; min-height: 560px; overflow: hidden; display: grid; place-items: center; }
+.hero__backdrop { display: none; }
+@media (min-width: 640px) { .hero__backdrop { display: block; } }
 .hero__backdrop {
   position: absolute; inset: -40px; background: url("assets/img/sea-empty.webp") center / 100% 100%;
   filter: blur(40px) saturate(1.2); transform: scale(1.1);
@@ -343,7 +345,7 @@ main, .footer { position: relative; z-index: 1; }
 .motion .screens__outro { top: var(--otop, 70svh); bottom: auto; opacity: var(--outro, 0); }
 .motion .phone {
   position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; padding: 0;
-  clip-path: inset(var(--it, 15svh) var(--ixr, 20vw) var(--ib, 35svh) var(--ixl, 20vw) round var(--r, 40px)); box-shadow: none; will-change: clip-path;
+  clip-path: inset(var(--it, 15svh) var(--ixr, 20vw) var(--ib, 35svh) var(--ixl, 20vw) round var(--r, 40px)); box-shadow: none;
   opacity: var(--phone, 0);
 }
 .motion .phone__ui { top: calc(var(--it, 15svh) + 14px); left: calc(var(--ixl, 20vw) + 14px); right: calc(var(--ixr, 20vw) + 14px); opacity: calc(1 - var(--ignite, 0) * 3); }
@@ -357,7 +359,7 @@ main, .footer { position: relative; z-index: 1; }
 .motion .around__stage { padding: 0; }
 .motion .around__label { position: absolute; top: 12svh; left: 0; right: 0; }
 .motion .chips { position: absolute; inset: 0; margin: 0; max-width: none; display: block; }
-.motion .chip { position: absolute; left: 50%; top: 50%; white-space: nowrap; will-change: transform, opacity; }
+.motion .chip { position: absolute; left: 50%; top: 50%; white-space: nowrap; }
 .motion .around__final { position: absolute; inset: 0; display: grid; place-items: center; padding: 0 var(--gutter); max-width: none; opacity: var(--final, 0); transform: scale(calc(.86 + var(--final, 0) * .14)); }
 
 .motion .around__stage, .motion .podemos__stage, .motion .sequence__stage {
@@ -368,7 +370,7 @@ main, .footer { position: relative; z-index: 1; }
 .motion .podemos__stage { padding: 0; display: grid; place-items: center; }
 .motion .podemos__label { position: absolute; top: 30svh; left: 0; right: 0; }
 .motion .podemos__words { position: absolute; inset: 0; display: block; }
-.motion .podemos__words li { position: absolute; inset: 0; display: grid; place-items: center; padding: 0 var(--gutter); opacity: 0; will-change: transform, opacity; }
+.motion .podemos__words li { position: absolute; inset: 0; display: grid; place-items: center; padding: 0 var(--gutter); opacity: 0; }
 .motion .podemos__words li, .motion .sequence__words li { max-width: none; width: 100%; text-align: center; justify-items: center; }
 .motion .podemos__words .fill, .motion .sequence__words .fill { max-width: min(100%, 9ch); min-width: min-content; text-align: center; text-wrap: balance; }
 .motion .podemos .statement { font-size: clamp(3rem, 15vw, 11rem); }
@@ -384,14 +386,14 @@ main, .footer { position: relative; z-index: 1; }
 .motion .sequence { height: 380svh; }
 .motion .sequence__stage { padding: 0; }
 .motion .sequence__words { position: absolute; inset: 0; display: block; }
-.motion .sequence__words li { position: absolute; inset: 0; display: grid; place-items: center; padding: 0 var(--gutter); opacity: 0; will-change: transform, opacity; }
+.motion .sequence__words li { position: absolute; inset: 0; display: grid; place-items: center; padding: 0 var(--gutter); opacity: 0; }
 
 /* reveal scene: the horse returns, copy cross-fades */
 .motion .reveal-scene { height: 420svh; }
 .motion .reveal-scene__media { position: absolute; inset: 0; height: auto; margin: 0 auto; max-width: calc(100lvh * .558); opacity: var(--img, 0); transform: scale(calc(1.08 - var(--img, 0) * .08)); }
 .motion .reveal-scene__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(rgba(var(--ink-rgb), .55), rgba(var(--ink-rgb), .1) 45%, rgba(var(--ink-rgb), .75)); }
 .motion .reveal-scene__copy { position: absolute; inset: 0; padding: 0; }
-.motion .rs { position: absolute; left: var(--gutter); right: var(--gutter); top: 14svh; margin: 0; opacity: 0; will-change: transform, opacity; }
+.motion .rs { position: absolute; left: var(--gutter); right: var(--gutter); top: 14svh; margin: 0; opacity: 0; }
 .motion .rs .narrative { max-width: 16ch; }
 .reveal-scene__backdrop { display: none; }
 @media (min-width: 640px) {
