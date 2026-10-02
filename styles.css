@@ -331,7 +331,8 @@ main, .footer { position: relative; z-index: 1; }
 .motion .phone__ui { top: calc(var(--it, 15svh) + 14px); left: calc(var(--ix, 20vw) + 14px); right: calc(var(--ix, 20vw) + 14px); opacity: calc(1 - var(--ignite, 0) * 3); }
 .motion .phone__heat { opacity: var(--ignite, 0); }
 .motion .phone__text { position: absolute; left: calc(var(--ix, 20vw) + 20px); right: calc(var(--ix, 20vw) + 20px); top: calc(var(--it, 15svh) + (100svh - var(--it, 15svh) - var(--ib, 35svh)) * .56); font-size: clamp(1.15rem, 4.9vw, 1.6rem); line-height: 1.2; margin: 0; opacity: calc(1 - var(--ignite, 0) * 4); max-width: none; }
-.motion .phone__ignite { display: block; position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 0 var(--gutter); opacity: var(--title, 0); transform: scale(calc(1.1 - var(--title, 0) * .1)); }
+.motion .phone__ignite { display: block; position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 0 var(--gutter); opacity: var(--title, 0); transform: scale(calc(1.04 - var(--title, 0) * .04)); }
+@media (min-width: 900px) { .phone__ignite { font-size: clamp(4rem, 9vw, 8.5rem); } .motion .phone__ignite { padding: 0 12vw; } }
 
 /* around: scatter → converge → collapse */
 .motion .around { height: 330svh; }
@@ -351,13 +352,13 @@ main, .footer { position: relative; z-index: 1; }
 .motion .podemos__words { position: absolute; inset: 0; display: block; }
 .motion .podemos__words li { position: absolute; inset: 0; display: grid; place-items: center; padding: 0 var(--gutter); opacity: 0; will-change: transform, opacity; }
 .motion .podemos__words li, .motion .sequence__words li { max-width: none; width: 100%; text-align: center; justify-items: center; }
-.motion .podemos__words .fill, .motion .sequence__words .fill { max-width: min(100%, 9ch); text-align: center; text-wrap: balance; }
+.motion .podemos__words .fill, .motion .sequence__words .fill { max-width: min(100%, 9ch); min-width: min-content; text-align: center; text-wrap: balance; }
 .motion .podemos .statement { font-size: clamp(3rem, 15vw, 11rem); }
 .motion .sequence .statement { font-size: clamp(3.4rem, 18vw, 13rem); }
 
 /* gallery: vertical scroll drives horizontal track */
 .motion .gallery { height: 420svh; }
-.motion .gallery__stage { padding: 0; display: grid; align-content: center; }
+.motion .gallery__stage { padding: 0; display: grid; align-content: center; grid-template-columns: 100%; }
 .motion .gallery__track { overflow: visible; scroll-snap-type: none; transform: translate3d(var(--tx, 0px), 0, 0); will-change: transform; width: max-content; }
 .motion .gallery__track img { width: min(72vw, 62svh * .8); }
 
@@ -374,8 +375,12 @@ main, .footer { position: relative; z-index: 1; }
 .motion .reveal-scene__copy { position: absolute; inset: 0; padding: 0; }
 .motion .rs { position: absolute; left: var(--gutter); right: var(--gutter); top: 14svh; margin: 0; opacity: 0; will-change: transform, opacity; }
 .motion .rs .narrative { max-width: 16ch; }
+.reveal-scene__backdrop { display: none; }
+@media (min-width: 640px) {
+  .motion .reveal-scene__backdrop { display: block; position: absolute; inset: -40px; background: url("assets/img/sea-horse.webp") center / 100% 100%; filter: blur(40px) saturate(1.15); opacity: calc(var(--img, 0) * .9); }
+}
 @media (min-width: 640px) { .motion .reveal-scene__media { -webkit-mask-image: linear-gradient(90deg, transparent, var(--ink) 12%, var(--ink) 88%, transparent); mask-image: linear-gradient(90deg, transparent, var(--ink) 12%, var(--ink) 88%, transparent); } }
-@media (min-width: 900px) { .motion .rs { left: 50%; transform: translateX(-50%); width: min(90vw, 760px); text-align: center; } .motion .rs .narrative { margin-inline: auto; } }
+@media (min-width: 900px) { .motion .rs { left: var(--gutter); right: var(--gutter); max-width: 760px; margin-inline: auto; text-align: center; } .motion .rs .narrative { margin-inline: auto; } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

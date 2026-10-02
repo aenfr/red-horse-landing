@@ -95,7 +95,7 @@
   }
 
   // A word that holds the center while its segment is active, entering from below and leaving above.
-  function stepWords(items, p, { start = .06, end = .94, hold = 'last', travel = .16 } = {}) {
+  function stepWords(items, p, { start = .06, end = .94, hold = 'last', travel = .16, fade = [.2, .48] } = {}) {
     const n = items.length;
     const seg = (end - start) / Math.max(1, n - 1);
     items.forEach((li, i) => {
@@ -103,7 +103,7 @@
       let f = (p - c) / seg;
       if (hold === 'last' && i === n - 1 && f > 0) f = 0;
       if (i === 0 && f < 0) f = 0;           // first one is already there
-      const a = smooth(Math.abs(f), .28, .62);
+      const a = smooth(Math.abs(f), fade[0], fade[1]);   // out before the next one comes in: no overlapping text
       li.style.opacity = (1 - a).toFixed(3);
       li.style.transform = `translate3d(0, ${(-Math.sign(f) * a * travel * vh).toFixed(1)}px, 0) scale(${(1 - a * .06).toFixed(3)})`;
     });
