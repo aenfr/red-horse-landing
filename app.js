@@ -118,14 +118,18 @@
       el.style.setProperty('--hint', (1 - smooth(p, 0, .05)).toFixed(3));
     },
     screens(p, el) {
-      // Phone sits high (28 % of free space above, 72 % below) so the outro line has room underneath.
-      const h0 = Math.min(vh * .5, Math.min(vw * .66, 300) * 19 / 9);
-      const w0 = h0 * 9 / 19, free = vh - h0;
+      // Mobile: phone high, outro below. Wide screens: bigger phone on the left, outro on the right.
+      const wide = vw >= 900 && vw > vh;
+      const h0 = wide ? Math.min(vh * .74, 520) : Math.min(vh * .5, Math.min(vw * .66, 300) * 19 / 9);
+      const w0 = h0 * 9 / 19, cx = wide ? vw * .3 : vw / 2;
+      const free = vh - h0, topFrac = wide ? .5 : .28;
       const k = smooth(p, .34, .64);
-      el.style.setProperty('--ix', `${lerp((vw - w0) / 2, 0, k).toFixed(1)}px`);
-      el.style.setProperty('--it', `${lerp(free * .28, 0, k).toFixed(1)}px`);
-      el.style.setProperty('--ib', `${lerp(free * .72, 0, k).toFixed(1)}px`);
-      el.style.setProperty('--ib0', `${(free * .72).toFixed(1)}px`);
+      el.style.setProperty('--ixl', `${lerp(cx - w0 / 2, 0, k).toFixed(1)}px`);
+      el.style.setProperty('--ixr', `${lerp(vw - cx - w0 / 2, 0, k).toFixed(1)}px`);
+      el.style.setProperty('--it', `${lerp(free * topFrac, 0, k).toFixed(1)}px`);
+      el.style.setProperty('--ib', `${lerp(free * (1 - topFrac), 0, k).toFixed(1)}px`);
+      el.style.setProperty('--ib0', `${(free * (1 - topFrac)).toFixed(1)}px`);
+      el.style.setProperty('--pw', `${w0.toFixed(1)}px`);
       el.style.setProperty('--r', `${lerp(40, 0, k).toFixed(1)}px`);
       el.style.setProperty('--intro', (1 - smooth(p, .05, .12)).toFixed(3));
       el.style.setProperty('--phone', smooth(p, .12, .2).toFixed(3));

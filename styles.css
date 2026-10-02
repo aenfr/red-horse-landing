@@ -325,12 +325,12 @@ main, .footer { position: relative; z-index: 1; }
 .motion .screens__outro { top: calc(100svh - var(--ib0, 30svh) + 22px); bottom: auto; opacity: var(--outro, 0); }
 .motion .phone {
   position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; padding: 0;
-  clip-path: inset(var(--it, 15svh) var(--ix, 20vw) var(--ib, 35svh) var(--ix, 20vw) round var(--r, 40px)); box-shadow: none; will-change: clip-path;
+  clip-path: inset(var(--it, 15svh) var(--ixr, 20vw) var(--ib, 35svh) var(--ixl, 20vw) round var(--r, 40px)); box-shadow: none; will-change: clip-path;
   opacity: var(--phone, 0);
 }
-.motion .phone__ui { top: calc(var(--it, 15svh) + 14px); left: calc(var(--ix, 20vw) + 14px); right: calc(var(--ix, 20vw) + 14px); opacity: calc(1 - var(--ignite, 0) * 3); }
+.motion .phone__ui { top: calc(var(--it, 15svh) + 14px); left: calc(var(--ixl, 20vw) + 14px); right: calc(var(--ixr, 20vw) + 14px); opacity: calc(1 - var(--ignite, 0) * 3); }
 .motion .phone__heat { opacity: var(--ignite, 0); }
-.motion .phone__text { position: absolute; left: calc(var(--ix, 20vw) + 20px); right: calc(var(--ix, 20vw) + 20px); top: calc(var(--it, 15svh) + (100svh - var(--it, 15svh) - var(--ib, 35svh)) * .56); font-size: clamp(1.15rem, 4.9vw, 1.6rem); line-height: 1.2; margin: 0; opacity: calc(1 - var(--ignite, 0) * 4); max-width: none; }
+.motion .phone__text { position: absolute; left: calc(var(--ixl, 20vw) + 18px); right: calc(var(--ixr, 20vw) + 18px); top: calc(var(--it, 15svh) + (100svh - var(--it, 15svh) - var(--ib, 35svh)) * .56); font-size: max(14px, calc(var(--pw, 300px) * .1)); line-height: 1.18; margin: 0; opacity: calc(1 - var(--ignite, 0) * 4); max-width: none; }
 .motion .phone__ignite { display: block; position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 0 var(--gutter); opacity: var(--title, 0); transform: scale(calc(1.04 - var(--title, 0) * .04)); }
 @media (min-width: 900px) { .phone__ignite { font-size: clamp(4rem, 9vw, 8.5rem); } .motion .phone__ignite { padding: 0 12vw; } }
 
@@ -401,3 +401,11 @@ main, .footer { position: relative; z-index: 1; }
   .motion .reveal-scene__media img { object-position: 50% 55%; }
   .motion .reveal-scene__backdrop { display: none; }
 }
+
+/* phone scene on wide screens: phone left, outro right */
+@media (min-width: 900px) and (min-aspect-ratio: 1/1) {
+  .motion .screens__outro { top: 50%; left: 50vw; right: 7vw; bottom: auto; transform: translateY(-50%); text-align: left; }
+  .motion .screens__outro.narrative { margin: 0; max-width: 16ch; font-size: clamp(2rem, 3.6vw, 3.6rem); }
+}
+/* venue scene */
+.venue__title { margin-bottom: .2em; }
