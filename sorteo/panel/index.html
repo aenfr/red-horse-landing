@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="es-ES">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel del sorteo · Red Horse</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#020103">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/sorteo/sorteo.css?v=20261024123500">
+  <style>
+    .wrap{max-width:76rem}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .top .brand{margin:4px 0}
+    .login{max-width:26rem;margin:10vh auto 0;text-align:center}
+    .login .title{margin-bottom:24px}
+    .login .btn{width:100%;margin-top:12px}
+    .msg{min-height:1.4em;margin-top:12px;color:#ff6b6e}
+    [hidden]{display:none!important}
+    .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:26px 0}
+    .kpi{padding:18px 20px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
+    .kpi b{display:block;font:400 3.4rem/1.04 var(--display);color:var(--gold);padding-top:.06em}
+    .kpi span{font:700 .74rem/1.2 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+    .kpi.state b{font-size:2rem;color:#fff}
+    .kpi.state.open b{color:#5CF99C}
+    .kpi.warn{border-color:var(--gold)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    h2{margin:36px 0 12px;font:800 1.1rem/1.3 var(--sans);letter-spacing:.04em}
+    table{width:100%;border-collapse:collapse;font-size:.92rem}
+    th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.1);text-align:left;vertical-align:top}
+    th{font:700 .7rem/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+    tr.void td{opacity:.5;text-decoration:line-through}
+    tr.void td.why{text-decoration:none}
+    .scroll{overflow-x:auto}
+    .tag{display:inline-block;padding:1px 8px;border-radius:999px;font:800 .7rem/1.6 var(--sans);letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.12)}
+    .tag.test{background:var(--gold);color:var(--ink)}
+    .tag.yes{background:rgba(92,249,156,.18);color:#5CF99C}
+    .del{all:unset;cursor:pointer;color:rgba(255,255,255,.5);font-size:.8rem;text-decoration:underline}
+    .del:hover{color:#ff6b6e}
+    .search{max-width:22rem;margin-bottom:10px}
+    .note{font-size:.86rem;color:rgba(255,255,255,.55)}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="login" data-login-view>
+      <a class="brand" href="/" style="margin:0 auto 24px"><img src="/assets/img/wordmark.webp" alt="Red Horse" width="1120" height="421"></a>
+      <h1 class="title">Panel</h1>
+      <form data-login>
+        <input class="in" type="password" name="k" placeholder="Contraseña del equipo" autocomplete="current-password" required>
+        <button class="btn" type="submit">Entrar</button>
+        <p class="msg" data-login-msg></p>
+      </form>
+    </section>
+
+    <section data-app hidden>
+      <div class="top">
+        <a class="brand" href="/"><img src="/assets/img/wordmark.webp" alt="Red Horse" width="1120" height="421"></a>
+        <div class="actions">
+          <a class="btn" href="/sorteo/en-vivo/" target="_blank" rel="noopener">Pantalla del sorteo</a>
+          <button class="btn btn--ghost" data-csv>Descargar CSV</button>
+          <button class="btn btn--ghost" data-out>Salir</button>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><b data-count>0</b><span>Inscritos</span></div>
+        <div class="kpi"><b data-com>0</b><span>Aceptan comunicaciones</span></div>
+        <div class="kpi state" data-state-kpi><b data-state>—</b><span data-state-sub>Inscripciones</span></div>
+        <div class="kpi warn" data-test-kpi hidden><b data-test>0</b><span>Registros de prueba</span></div>
+      </div>
+
+      <div class="actions">
+        <span class="note">Inscripciones:</span>
+        <button class="btn btn--ghost" data-mode="auto">Automático (cierra a las 21:00)</button>
+        <button class="btn btn--ghost" data-mode="closed">Cerrar ya</button>
+        <button class="btn btn--ghost" data-mode="open">Abrir</button>
+        <button class="btn btn--ghost" data-purge hidden>Borrar datos de prueba</button>
+      </div>
+      <p class="note">En automático se cierran a las 21:00 o al sortear el primer premio. «Abrir» las deja abiertas aunque pase la hora.</p>
+
+      <h2>Sorteos</h2>
+      <div class="scroll"><table>
+        <thead><tr><th>Premio</th><th>Ganador</th><th>Móvil</th><th>Correo</th><th>Hora</th><th>Bombo</th><th>Estado</th></tr></thead>
+        <tbody data-draws><tr><td colspan="7" class="note">Todavía no hay sorteos.</td></tr></tbody>
+      </table></div>
+
+      <h2>Inscritos <span class="note" data-shown></span></h2>
+      <input class="in search" type="search" placeholder="Buscar nombre, móvil o correo" data-search>
+      <div class="scroll"><table>
+        <thead><tr><th>#</th><th>Hora</th><th>Nombre</th><th>Apellido</th><th>Móvil</th><th>Correo</th><th>Comunic.</th><th></th></tr></thead>
+        <tbody data-regs></tbody>
+      </table></div>
+      <p class="note">Borrar un inscrito es para peticiones de supresión (RGPD). Queda constancia de la acción, sin sus datos.</p>
+    </section>
+  </main>
+
+  <script>
+  (function () {
+    'use strict';
+    var API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:10101' : 'https://red-horse-sorteo.onrender.com';
+    var $ = function (s) { return document.querySelector(s); };
+    var token = null, regs = [], timer = null, lastCount = -1;
+    var PR = { 1: '1.º', 2: '2.º', 3: '3.º' };
+    var hm = new Intl.DateTimeFormat('es-ES', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+    function api(path, opts) {
+      opts = opts || {};
+      return fetch(API + path, {
+        method: opts.method || 'GET', cache: 'no-store',
+        headers: Object.assign({ Authorization: 'Bearer ' + token }, opts.body ? { 'Content-Type': 'application/json' } : {}),
+        body: opts.body ? JSON.stringify(opts.body) : undefined
+      }).then(function (r) {
+        if (r.status === 401) { logout('La contraseña no es correcta.'); throw new Error('401'); }
+        return r;
+      });
+    }
+    function json(path, opts) { return api(path, opts).then(function (r) { return r.json(); }); }
+    function td(text, cls) { var c = document.createElement('td'); c.textContent = text == null ? '' : text; if (cls) c.className = cls; return c; }
+
+    function renderStats(s) {
+      $('[data-count]').textContent = s.count;
+      $('[data-com]').textContent = s.comunicaciones;
+      $('[data-state]').textContent = s.open ? 'Abiertas' : 'Cerradas';
+      $('[data-state-kpi]').classList.toggle('open', s.open);
+      $('[data-state-sub]').textContent = 'Inscripciones · modo ' + ({ auto: 'automático', open: 'abiertas', closed: 'cerradas' })[s.mode];
+      document.querySelectorAll('[data-mode]').forEach(function (b) { b.classList.toggle('btn--on', b.dataset.mode === s.mode); });
+      $('[data-test-kpi]').hidden = !s.test; $('[data-test]').textContent = s.test;
+      $('[data-purge]').hidden = !s.test;
+      var tb = $('[data-draws]'); tb.innerHTML = '';
+      if (!s.draws.length) { var r0 = document.createElement('tr'); r0.appendChild(td('Todavía no hay sorteos.', 'note')).colSpan = 7; tb.appendChild(r0); }
+      s.draws.forEach(function (d) {
+        var tr = document.createElement('tr'); if (d.status === 'void') tr.className = 'void';
+        var w = d.winner || {};
+        tr.appendChild(td(PR[d.prize]));
+        tr.appendChild(td(w.nombre ? w.nombre + ' ' + w.apellido : d.display));
+        tr.appendChild(td(w.movil)); tr.appendChild(td(w.email));
+        tr.appendChild(td(hm.format(new Date(d.drawnAt))));
+        tr.appendChild(td(d.poolSize));
+        tr.appendChild(td(d.status === 'void' ? 'Anulado: ' + (d.voidReason || '') : (d.isTest ? 'Válido (prueba)' : 'Válido'), 'why'));
+        tb.appendChild(tr);
+      });
+      if (s.count !== lastCount) { lastCount = s.count; loadRegs(); }
+    }
+
+    function renderRegs() {
+      var qv = ($('[data-search]').value || '').toLowerCase().trim();
+      var list = qv ? regs.filter(function (r) { return (r.nombre + ' ' + r.apellido + ' ' + r.movil + ' ' + r.email).toLowerCase().indexOf(qv) >= 0; }) : regs;
+      var shown = list.slice(0, 300);
+      $('[data-shown]').textContent = '(' + list.length + (list.length > shown.length ? ', mostrando ' + shown.length : '') + ')';
+      var tb = $('[data-regs]'); tb.innerHTML = '';
+      shown.forEach(function (r) {
+        var tr = document.createElement('tr');
+        tr.appendChild(td(r.id)); tr.appendChild(td(hm.format(new Date(r.created_at))));
+        tr.appendChild(td(r.nombre)); tr.appendChild(td(r.apellido)); tr.appendChild(td(r.movil)); tr.appendChild(td(r.email));
+        var c = td(''); if (r.acepta_comunicaciones) { var t = document.createElement('span'); t.className = 'tag yes'; t.textContent = 'Sí'; c.appendChild(t); }
+        if (r.is_test) { var t2 = document.createElement('span'); t2.className = 'tag test'; t2.textContent = 'Prueba'; c.appendChild(document.createTextNode(' ')); c.appendChild(t2); }
+        tr.appendChild(c);
+        var d = td(''), b = document.createElement('button'); b.className = 'del'; b.textContent = 'Borrar';
+        b.onclick = function () {
+          if (!confirm('¿Borrar a ' + r.nombre + ' ' + r.apellido + ' (' + r.movil + ')? No se puede deshacer.')) return;
+          json('/api/admin/registrations/' + r.id, { method: 'DELETE' }).then(tick);
+        };
+        d.appendChild(b); tr.appendChild(d);
+        tb.appendChild(tr);
+      });
+    }
+
+    function loadRegs() { return json('/api/admin/registrations').then(function (j) { regs = j.registrations || []; renderRegs(); }); }
+    function tick() { return json('/api/admin/stats').then(renderStats).catch(function () {}); }
+
+    document.querySelectorAll('[data-mode]').forEach(function (b) {
+      b.addEventListener('click', function () { json('/api/admin/mode', { method: 'POST', body: { mode: b.dataset.mode } }).then(renderStats); });
+    });
+    $('[data-purge]').addEventListener('click', function () {
+      if (!confirm('Se borran SOLO los registros de prueba (@prueba.invalid) y los sorteos hechos con ellos. Los registros reales no se tocan. ¿Seguimos?')) return;
+      json('/api/admin/purge-tests', { method: 'POST' }).then(function (j) {
+        alert('Borrados: ' + j.deleted.regs + ' registros y ' + j.deleted.draws + ' sorteos de prueba.'); lastCount = -1; tick();
+      });
+    });
+    $('[data-search]').addEventListener('input', renderRegs);
+    $('[data-csv]').addEventListener('click', function () {
+      api('/api/admin/registrations.csv').then(function (r) {
+        var name = ((r.headers.get('Content-Disposition') || '').match(/filename="([^"]+)"/) || [])[1] || 'redhorse-registros.csv';
+        return r.blob().then(function (b) {
+          var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name;
+          document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+        });
+      });
+    });
+
+    function logout(msg) {
+      token = null; clearInterval(timer); try { sessionStorage.removeItem('rh-admin'); } catch (e) {}
+      $('[data-app]').hidden = true; $('[data-login-view]').hidden = false; $('[data-login-msg]').textContent = msg || '';
+    }
+    $('[data-out]').addEventListener('click', function () { logout(''); });
+    function start(t) {
+      token = t;
+      fetch(API + '/api/admin/stats', { headers: { Authorization: 'Bearer ' + t }, cache: 'no-store' }).then(function (r) {
+        return r.json().then(function (j) {
+          if (r.status !== 200) { logout(j.error || 'Contraseña incorrecta.'); return; }
+          try { sessionStorage.setItem('rh-admin', t); } catch (e) {}
+          $('[data-login-view]').hidden = true; $('[data-app]').hidden = false;
+          lastCount = -1; renderStats(j);
+          clearInterval(timer); timer = setInterval(tick, 5000);
+        });
+      }).catch(function () { logout('Sin conexión con el servidor.'); });
+    }
+    $('[data-login]').addEventListener('submit', function (e) { e.preventDefault(); start(e.target.k.value.trim()); });
+    var saved = null; try { saved = sessionStorage.getItem('rh-admin'); } catch (e) {}
+    if (saved) start(saved);
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="es-ES">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sorteo Red Horse · 21:00 · Sala Sunbox</title>
+  <meta name="description" content="Entra en el sorteo de Red Horse: a las 21:00 sacamos tres premios en directo en la Sala Sunbox de Spook Valencia.">
+  <meta name="theme-color" content="#020103">
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="Sorteo Red Horse · 21:00 · Sala Sunbox">
+  <meta property="og:description" content="Una camiseta Red Horse y entradas para la próxima. Apúntate y a las 21:00 sacamos a tres personas.">
+  <meta property="og:image" content="https://redhorse.es/assets/img/og-image.jpg">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://red-horse-sorteo.onrender.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#020103; --ink-rgb:2,1,3; --bone:#fff; --bone-rgb:255,255,255;
+      --red:#FB1216; --red-rgb:251,18,22; --gold:#FFBF21; --abyss:#011A5F; --abyss-rgb:1,26,95;
+      --sans:'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --display:'Anton', Impact, 'Arial Narrow', sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%;background:var(--ink)}
+    body{
+      margin:0; min-height:100svh; color:var(--bone); font:500 1rem/1.45 var(--sans);
+      background:
+        radial-gradient(120% 55% at 50% 108%, rgba(var(--red-rgb),.38), transparent 62%),
+        radial-gradient(90% 40% at 50% -8%, rgba(var(--abyss-rgb),.85), transparent 70%),
+        var(--ink);
+      background-attachment:fixed;
+    }
+    a{color:inherit;text-underline-offset:.2em}
+    a:hover{color:var(--gold)}
+    :focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+    .wrap{max-width:30rem;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 20px max(28px,env(safe-area-inset-bottom))}
+    .brand{display:block;width:132px;margin:4px auto 20px}
+    .brand img{display:block;width:100%;height:auto}
+    .eyebrow{margin:0 0 6px;text-align:center;font:700 .74rem/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:rgba(var(--bone-rgb),.7)}
+    .title{
+      margin:0 auto; text-align:center; font:400 clamp(3.6rem,19vw,5.6rem)/1.04 var(--display);
+      text-transform:uppercase; letter-spacing:.005em; padding-top:.16em;
+      color:var(--red);
+      background:url(/assets/img/thermal-core.webp) 50% 40%/cover;
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .lead{margin:12px auto 0;max-width:22rem;text-align:center;font-size:1.06rem;color:rgba(var(--bone-rgb),.86)}
+    .lead b{color:var(--gold);font-weight:700}
+
+    .prizes{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid rgba(var(--bone-rgb),.16)}
+    .prize{display:grid;grid-template-columns:3.1rem 1fr;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(var(--bone-rgb),.16)}
+    .prize__n{font:800 1.45rem/1.1 var(--sans);color:var(--gold)}
+    .prize__t{font-weight:700;font-size:1rem;line-height:1.3}
+    .prize__t small{display:block;font-weight:500;font-size:.84rem;color:rgba(var(--bone-rgb),.6)}
+    .prizes-note{margin:8px 0 0;font-size:.84rem;color:rgba(var(--bone-rgb),.6)}
+    .shirt{display:block;width:100%;height:auto;margin:14px 0 2px;border-radius:12px;background:#f6f6f4}
+    .shirt-cap{margin:0;text-align:center;font-size:.8rem;color:rgba(var(--bone-rgb),.55)}
+
+    form{margin-top:26px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .field{margin:0 0 14px;min-width:0}
+    label.l{display:block;margin:0 0 6px;font:700 .74rem/1.2 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--bone-rgb),.78)}
+    input[type=text],input[type=tel],input[type=email]{
+      display:block;width:100%;height:54px;padding:0 14px;border-radius:12px;
+      border:1px solid rgba(var(--bone-rgb),.24);background:rgba(var(--bone-rgb),.06);
+      color:var(--bone);font:500 17px/1 var(--sans);-webkit-appearance:none;appearance:none;
+    }
+    input::placeholder{color:rgba(var(--bone-rgb),.34)}
+    input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,191,33,.28)}
+    .field.bad input{border-color:var(--red);box-shadow:0 0 0 3px rgba(var(--red-rgb),.22)}
+    .err{display:none;margin:6px 0 0;font-size:.86rem;line-height:1.3;color:#ff5a5d}
+    .bad .err{display:block}
+    .hint{display:none;margin:6px 0 0;font-size:.86rem;color:var(--gold)}
+    .hint button{all:unset;cursor:pointer;text-decoration:underline;text-underline-offset:.2em;font-weight:700}
+    .check{position:relative;display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;margin:6px 0 12px;font-size:.95rem;line-height:1.4;color:rgba(var(--bone-rgb),.86);cursor:pointer}
+    .check input{position:absolute;opacity:0;width:28px;height:28px;margin:0;cursor:pointer}
+    .box{width:28px;height:28px;border-radius:8px;border:1.5px solid rgba(var(--bone-rgb),.5);background:rgba(var(--bone-rgb),.04);display:grid;place-items:center}
+    .box svg{width:16px;height:16px;opacity:0}
+    .check input:checked + .box{background:var(--red);border-color:var(--red)}
+    .check input:checked + .box svg{opacity:1}
+    .check input:focus-visible + .box{outline:3px solid var(--gold);outline-offset:3px}
+    .check.bad .box{border-color:var(--red)}
+    .check .err{grid-column:2}
+    .opt{color:rgba(var(--bone-rgb),.55)}
+    .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}
+    .btn{
+      display:flex;align-items:center;justify-content:center;width:100%;min-height:58px;margin-top:10px;
+      border:0;border-radius:999px;background:var(--red);color:var(--bone);cursor:pointer;
+      font:800 1rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;
+      transition:transform .15s ease, background-color .2s ease;
+    }
+    .btn:active{transform:scale(.97)}
+    .btn[disabled]{background:rgba(124,132,150,.4);cursor:progress}
+    .form-msg{display:none;margin:12px 0 0;padding:12px 14px;border-radius:12px;background:rgba(var(--red-rgb),.14);border:1px solid rgba(var(--red-rgb),.5);font-size:.95rem}
+    .form-msg.on{display:block}
+    .small{margin:14px 0 0;text-align:center;font-size:.84rem;color:rgba(var(--bone-rgb),.55)}
+
+    .done{display:none;text-align:center;padding-top:6px}
+    .is-done .done{display:block}
+    .is-done .intro,.is-done form,.is-closed form,.is-closed .intro .lead{display:none}
+    .done .lead{max-width:24rem}
+    .done .prizes{text-align:left}
+    .closed-note{display:none;margin:14px auto 0;max-width:22rem;text-align:center;font-size:1.06rem;color:rgba(var(--bone-rgb),.86)}
+    .is-closed .closed-note{display:block}
+    .foot{margin-top:30px;padding-top:16px;border-top:1px solid rgba(var(--bone-rgb),.12);text-align:center;font-size:.84rem;color:rgba(var(--bone-rgb),.55)}
+    .foot a{margin:0 6px}
+    @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="wrap" id="app">
+    <a class="brand" href="/" aria-label="Red Horse, ir a la web"><img src="/assets/img/wordmark.webp" alt="Red Horse" width="1120" height="421"></a>
+
+    <section class="intro" aria-labelledby="t">
+      <p class="eyebrow">24.10 · Spook Valencia · Sala Sunbox</p>
+      <h1 class="title" id="t">El sorteo</h1>
+      <p class="lead">Déjanos tus datos y entras en el bombo. <b>A las 21:00</b> sacamos a tres personas en directo en la Sala Sunbox.</p>
+      <p class="closed-note" data-closed-note>Las inscripciones ya están cerradas. Gracias por jugar: nos vemos en la próxima Red Horse.</p>
+      <ul class="prizes" aria-label="Premios">
+        <li class="prize"><span class="prize__n">1.º</span><span class="prize__t">Camiseta Red Horse + 2 entradas</span></li>
+        <li class="prize"><span class="prize__n">2.º</span><span class="prize__t">3 entradas</span></li>
+        <li class="prize"><span class="prize__n">3.º</span><span class="prize__t">1 entrada</span></li>
+      </ul>
+      <p class="prizes-note">Entradas para la próxima Red Horse.</p>
+    </section>
+
+    <form id="f" novalidate autocomplete="on">
+      <div class="row">
+        <div class="field" data-f="nombre">
+          <label class="l" for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" autocomplete="given-name" autocapitalize="words" maxlength="60" required>
+          <p class="err" role="alert"></p>
+        </div>
+        <div class="field" data-f="apellido">
+          <label class="l" for="apellido">Apellido</label>
+          <input id="apellido" name="apellido" type="text" autocomplete="family-name" autocapitalize="words" maxlength="60" required>
+          <p class="err" role="alert"></p>
+        </div>
+      </div>
+      <div class="field" data-f="movil">
+        <label class="l" for="movil">Móvil</label>
+        <input id="movil" name="movil" type="tel" inputmode="tel" autocomplete="tel" placeholder="612 345 678" maxlength="24" required>
+        <p class="err" role="alert"></p>
+      </div>
+      <div class="field" data-f="email">
+        <label class="l" for="email">Correo</label>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="tu@correo.com" maxlength="254" required>
+        <p class="hint" data-hint></p>
+        <p class="err" role="alert"></p>
+      </div>
+      <div class="hp" aria-hidden="true">
+        <label for="website">No rellenes este campo</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <label class="check" data-f="acepta_bases">
+        <input type="checkbox" name="acepta_bases" required>
+        <span class="box" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>
+        <span>Tengo 18 años o más y acepto las <a href="/sorteo/bases/" target="_blank" rel="noopener">bases del sorteo</a> y la <a href="/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span>
+        <span class="err" role="alert"></span>
+      </label>
+      <label class="check" data-f="acepta_comunicaciones">
+        <input type="checkbox" name="acepta_comunicaciones">
+        <span class="box" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>
+        <span>Quiero que Red Horse me avise de las próximas fiestas por correo o WhatsApp. <span class="opt">(Opcional. Puedes darte de baja cuando quieras.)</span></span>
+      </label>
+
+      <button class="btn" type="submit" data-submit>Entrar en el sorteo</button>
+      <p class="form-msg" data-msg role="alert"></p>
+      <p class="small">Un registro por persona. Solo te llamamos si ganas.</p>
+    </form>
+
+    <section class="done" aria-live="polite" data-done tabindex="-1">
+      <p class="eyebrow" data-done-eyebrow>Todo listo</p>
+      <h2 class="title">Ya estás dentro</h2>
+      <p class="lead" data-done-text>El sorteo es a las <b>21:00</b> en la Sala Sunbox. Si te toca, te llamamos al escenario: ten el móvil a mano.</p>
+      <ul class="prizes" aria-label="Premios">
+        <li class="prize"><span class="prize__n">1.º</span><span class="prize__t">Camiseta Red Horse + 2 entradas</span></li>
+        <li class="prize"><span class="prize__n">2.º</span><span class="prize__t">3 entradas</span></li>
+        <li class="prize"><span class="prize__n">3.º</span><span class="prize__t">1 entrada</span></li>
+      </ul>
+      <p class="prizes-note">Entradas para la próxima Red Horse.</p>
+      <img class="shirt" src="/assets/img/sorteo-camiseta.webp" alt="Camiseta negra de Red Horse: delante, el logo RH pequeño en rojo; detrás, RED HORSE en grande y el caballo rojo." width="900" height="600" loading="lazy" decoding="async">
+      <p class="shirt-cap">La camiseta del 1.<sup>er</sup> premio.</p>
+      <p class="small">Mientras tanto, a bailar. Aquí pasan cosas.</p>
+    </section>
+
+    <footer class="foot">
+      <a href="/sorteo/bases/">Bases</a>·<a href="/privacidad/">Privacidad</a>·<a href="mailto:hola@redhorse.es">hola@redhorse.es</a>
+    </footer>
+  </main>
+
+  <script>
+  (function () {
+    'use strict';
+    var API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:10101' : 'https://red-horse-sorteo.onrender.com';
+    var KEY = 'rh-sorteo-2026-10-24';
+    var app = document.getElementById('app');
+    var form = document.getElementById('f');
+    var btn = form.querySelector('[data-submit]');
+    var msg = form.querySelector('[data-msg]');
+    var hint = form.querySelector('[data-hint]');
+    var t0 = Date.now();
+    var hadNetworkError = false;
+
+    function store(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+    function load(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+
+    function showDone(nombre, dup) {
+      var first = String(nombre || '').trim().split(' ')[0];
+      app.querySelector('[data-done-eyebrow]').textContent = dup ? 'Ya te teníamos' : (first ? 'Todo listo, ' + first : 'Todo listo');
+      if (dup) {
+        app.querySelector('[data-done-text]').innerHTML = 'Ese móvil o ese correo ya está en el bombo: un registro por persona. Nos vemos a las <b>21:00</b> en la Sala Sunbox. Si te toca, te llamamos al escenario.';
+      }
+      app.classList.add('is-done');
+      window.scrollTo(0, 0);
+      app.querySelector('[data-done]').focus({ preventScroll: true });
+    }
+    function showClosed() { app.classList.add('is-closed'); }
+
+    // Si ya se registró desde este móvil, se lo recordamos al volver.
+    var saved = load(KEY);
+    if (saved && saved.done) showDone(saved.nombre, false);
+
+    // Borrador: si el navegador de Instagram recarga la página, los datos siguen ahí.
+    var draft = load(KEY + '-draft') || {};
+    ['nombre', 'apellido', 'movil', 'email'].forEach(function (n) { if (draft[n]) form.elements[n].value = draft[n]; });
+    form.addEventListener('input', function (e) {
+      var f = e.target.closest('.field, .check'); if (f) f.classList.remove('bad');
+      var d = {}; ['nombre', 'apellido', 'movil', 'email'].forEach(function (n) { d[n] = form.elements[n].value; });
+      store(KEY + '-draft', d);
+    });
+
+    // ¿Siguen abiertas? (sin bloquear la página)
+    fetch(API + '/api/status', { cache: 'no-store' }).then(function (r) { return r.json(); })
+      .then(function (s) { if (s && s.open === false && !app.classList.contains('is-done')) showClosed(); })
+      .catch(function () {});
+
+    // Erratas típicas de dominio: "gmial.com" → "gmail.com".
+    var FIX = { 'gmial.com': 'gmail.com', 'gmai.com': 'gmail.com', 'gmail.co': 'gmail.com', 'gmail.es': 'gmail.com', 'gamil.com': 'gmail.com', 'gnail.com': 'gmail.com', 'gmail.con': 'gmail.com', 'gmal.com': 'gmail.com',
+      'hotmial.com': 'hotmail.com', 'hotmal.com': 'hotmail.com', 'hotmail.co': 'hotmail.com', 'hotmail.con': 'hotmail.com', 'hotmai.com': 'hotmail.com',
+      'yaho.com': 'yahoo.com', 'yahoo.co': 'yahoo.com', 'yahoo.con': 'yahoo.com', 'outlok.com': 'outlook.com', 'outlook.co': 'outlook.com', 'outlook.con': 'outlook.com',
+      'icloud.co': 'icloud.com', 'icoud.com': 'icloud.com', 'icloud.con': 'icloud.com' };
+    function checkTypo() {
+      var v = form.elements.email.value.trim().toLowerCase(), at = v.lastIndexOf('@');
+      var dom = at > 0 ? v.slice(at + 1) : '', fix = FIX[dom];
+      if (!fix) { hint.style.display = 'none'; return; }
+      var good = v.slice(0, at + 1) + fix;
+      hint.innerHTML = '';
+      hint.appendChild(document.createTextNode('¿Querías decir '));
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = good;
+      b.onclick = function () { form.elements.email.value = good; hint.style.display = 'none'; };
+      hint.appendChild(b); hint.appendChild(document.createTextNode('?'));
+      hint.style.display = 'block';
+    }
+    form.elements.email.addEventListener('blur', checkTypo);
+
+    function setErr(name, text) {
+      var f = form.querySelector('[data-f="' + name + '"]'); if (!f) return;
+      f.classList.add('bad'); f.querySelector('.err').textContent = text;
+    }
+    function clientCheck(d) {
+      var bad = {};
+      if (!d.nombre.trim()) bad.nombre = 'Falta tu nombre.';
+      if (!d.apellido.trim()) bad.apellido = 'Falta tu apellido.';
+      var tel = d.movil.replace(/[\s\-.()/]/g, '');
+      if (!tel) bad.movil = 'Falta tu móvil.';
+      else if (!/^(\+|00)?\d{9,15}$/.test(tel)) bad.movil = 'Revisa el número: 9 cifras, empieza por 6 o 7.';
+      if (!d.email.trim()) bad.email = 'Falta tu correo.';
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@.]{2,}$/.test(d.email.trim())) bad.email = 'Ese correo no parece válido.';
+      if (!d.acepta_bases) bad.acepta_bases = 'Para participar tienes que aceptar las bases y la privacidad.';
+      return bad;
+    }
+
+    function post(body, attempt) {
+      var ctrl = 'AbortController' in window ? new AbortController() : null;
+      var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 12000);
+      // text/plain = petición simple: sin preflight, un viaje menos con poca cobertura.
+      return fetch(API + '/api/register', { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: JSON.stringify(body), signal: ctrl ? ctrl.signal : undefined })
+        .then(function (r) { clearTimeout(timer); return r.json().then(function (j) { return { status: r.status, body: j }; }); })
+        .catch(function (e) {
+          clearTimeout(timer);
+          hadNetworkError = true;
+          if (attempt < 2) return new Promise(function (res) { setTimeout(res, 1500 * (attempt + 1)); }).then(function () { return post(body, attempt + 1); });
+          throw e;
+        });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      msg.classList.remove('on');
+      form.querySelectorAll('.bad').forEach(function (n) { n.classList.remove('bad'); });
+      var d = {
+        nombre: form.elements.nombre.value, apellido: form.elements.apellido.value,
+        movil: form.elements.movil.value, email: form.elements.email.value,
+        acepta_bases: form.elements.acepta_bases.checked, acepta_comunicaciones: form.elements.acepta_comunicaciones.checked,
+        website: form.elements.website.value, t: Date.now() - t0
+      };
+      var bad = clientCheck(d), first = null;
+      Object.keys(bad).forEach(function (k) { setErr(k, bad[k]); first = first || k; });
+      if (first) { var el = form.elements[first]; if (el && el.focus) el.focus(); return; }
+
+      btn.disabled = true; btn.textContent = 'Enviando…';
+      post(d, 0).then(function (res) {
+        var j = res.body || {};
+        if (j.ok) {
+          // Si un envío anterior llegó pero se perdió la respuesta, no es un duplicado de verdad.
+          var dup = j.status === 'duplicate' && !hadNetworkError;
+          store(KEY, { done: true, nombre: d.nombre }); store(KEY + '-draft', null);
+          showDone(d.nombre, dup);
+          return;
+        }
+        if (res.status === 403) { showClosed(); return; }
+        if (j.fields) Object.keys(j.fields).forEach(function (k) { setErr(k, j.fields[k]); });
+        msg.textContent = j.error || 'Algo ha fallado. Inténtalo otra vez.'; msg.classList.add('on');
+      }).catch(function () {
+        msg.textContent = 'Ahora mismo no hay cobertura. Tus datos siguen aquí: acércate a la entrada o vuelve a pulsar en un momento.';
+        msg.classList.add('on');
+      }).then(function () { btn.disabled = false; btn.textContent = 'Entrar en el sorteo'; });
+    });
+  })();
+  </script>
+</body>
+</html>

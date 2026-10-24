@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="es-ES">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sorteo en directo · Red Horse</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#020103">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://red-horse-sorteo.onrender.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:wght@500;700;800&display=block" rel="stylesheet">
+  <link rel="preload" as="image" href="/assets/img/thermal-core.webp">
+  <style>
+    :root{
+      --ink:#020103; --bone:#fff; --bone-rgb:255,255,255; --red:#FB1216; --red-rgb:251,18,22;
+      --gold:#FFBF21; --gold-rgb:255,191,33; --abyss:#011A5F; --ultra:#230988; --orange:#FC4C13;
+      --sans:'Bricolage Grotesque', system-ui, sans-serif; --display:'Anton', Impact, 'Arial Narrow', sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;height:100%;background:var(--ink);overflow:hidden}
+    body{color:var(--bone);font:500 16px/1.3 var(--sans)}
+    body.hide-cursor{cursor:none}
+    button{font-family:var(--sans)}
+
+    /* Escenario fijo 1920×1080, escalado para cualquier pantalla */
+    .stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform:translate(-50%,-50%) scale(var(--s,1));overflow:hidden;background:var(--ink)}
+    .bg{position:absolute;inset:0;pointer-events:none;transition:opacity .9s ease}
+    .bg--cold{background:radial-gradient(70% 60% at 50% -10%, rgba(1,26,95,.95), transparent 70%), radial-gradient(60% 50% at 50% 115%, rgba(35,9,136,.55), transparent 70%)}
+    .bg--hot{opacity:0;background:radial-gradient(85% 70% at 50% 118%, rgba(255,191,33,.55), transparent 55%), radial-gradient(110% 80% at 50% 110%, rgba(251,18,22,.85), transparent 68%), radial-gradient(60% 45% at 50% -10%, rgba(252,76,19,.35), transparent 70%)}
+    .flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%, #fff 0%, var(--gold) 40%, var(--red) 100%);opacity:0;pointer-events:none}
+    .flash.go{animation:flash .7s ease-out}
+    @keyframes flash{0%{opacity:0}15%{opacity:.92}100%{opacity:0}}
+
+    .view{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .45s ease, visibility 0s linear .45s}
+    [data-state="idle"] .v-idle,[data-state="countdown"] .v-count,[data-state="reveal"] .v-reveal,[data-state="final"] .v-final,[data-state="login"] .v-login{opacity:1;visibility:visible;transition:opacity .45s ease}
+
+    .thermal{color:var(--red);background:url(/assets/img/thermal-core.webp) 50% 45%/cover;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .eyebrow{font:700 26px/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:rgba(var(--bone-rgb),.82)}
+    .wm{display:block;height:auto}
+
+    /* idle */
+    .v-idle .wm{position:absolute;left:140px;top:96px;width:300px}
+    .idle-l{position:absolute;left:140px;top:270px;width:980px}
+    .idle-title{margin:0;font:400 230px/1.04 var(--display);text-transform:uppercase;padding-top:.12em}
+    .count{display:flex;align-items:baseline;gap:22px;margin-top:18px}
+    .count b{font:400 150px/1.04 var(--display);color:var(--gold);padding-top:.06em}
+    .count span{font:800 34px/1.1 var(--sans);letter-spacing:.14em;text-transform:uppercase}
+    .plist{list-style:none;margin:26px 0 0;padding:0}
+    .plist li{display:grid;grid-template-columns:96px 1fr;align-items:baseline;padding:10px 0;border-top:1px solid rgba(var(--bone-rgb),.16)}
+    .plist .n{font:800 40px/1 var(--sans);color:var(--gold)}
+    .plist .t{font:800 30px/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase}
+    .plist li.done{opacity:.4}
+    .idle-r{position:absolute;right:150px;top:150px;width:600px;text-align:center}
+    .qr{display:block;width:600px;height:600px;border-radius:36px;background:#fff;box-shadow:0 0 120px rgba(var(--red-rgb),.45)}
+    .qr-1{margin-top:34px;font:800 40px/1.2 var(--sans);letter-spacing:.12em;color:var(--gold)}
+    .qr-2{margin-top:10px;font:600 34px/1.2 var(--sans)}
+    .shirt{display:block;width:600px;height:400px;object-fit:cover;border-radius:28px;background:#f4f4f2}
+    .closed-badge{display:none;margin-top:30px;font:800 34px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(var(--bone-rgb),.8)}
+    .is-closed .qr,.is-closed .qr-1,.is-closed .qr-2{display:none}
+    .is-closed .closed-badge{display:block}
+    .shirt-wrap{display:none}
+    .is-closed .shirt-wrap{display:block}
+
+    /* cuenta atrás */
+    .v-count{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+    .c-prize{position:absolute;top:96px;left:0;right:0}
+    .c-prize .eyebrow{font-size:30px}
+    .c-prize .what{margin-top:14px;font:800 44px/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase}
+    .num{display:inline-block;font:400 620px/1.04 var(--display);padding-top:.05em;margin-top:60px}
+    .num.tick{animation:tick .9s cubic-bezier(.2,.8,.2,1)}
+    @keyframes tick{0%{transform:scale(1.32);opacity:.15}35%{opacity:1}100%{transform:scale(1);opacity:1}}
+    .num.wait{animation:wait 1s ease-in-out infinite}
+    @keyframes wait{50%{transform:scale(.94);opacity:.6}}
+    .meter{position:absolute;bottom:130px;left:50%;display:flex;gap:14px;transform:translateX(-50%)}
+    .meter i{display:block;width:62px;height:16px;border-radius:4px;background:rgba(var(--bone-rgb),.16);transition:background-color .3s ease}
+    .meter i.on{background:var(--gold)}
+    .meter i.hot{background:var(--red)}
+    .c-note{position:absolute;bottom:70px;left:0;right:0;font:700 24px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:rgba(var(--bone-rgb),.7);opacity:0}
+    .c-note.on{opacity:1}
+
+    /* revelación */
+    .v-reveal{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 110px}
+    .v-reveal .eyebrow{font-size:34px}
+    .r-name{margin:0;font:400 300px/1.04 var(--display);text-transform:uppercase;padding:.2em .04em 0;white-space:nowrap}
+    .r-tel{margin-top:6px;font:800 92px/1.1 var(--sans);letter-spacing:.06em}
+    .r-what{margin-top:34px;font:800 36px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:rgba(var(--bone-rgb),.86)}
+    .r-call{margin-top:26px;display:inline-block;padding:16px 34px;border-radius:999px;background:var(--gold);color:var(--ink);font:800 34px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase}
+    .v-reveal.in .r-name{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+    .v-reveal.in .r-tel{animation:rise .9s .25s cubic-bezier(.2,.8,.2,1) both}
+    .v-reveal.in .r-what,.v-reveal.in .r-call{animation:rise .9s .5s cubic-bezier(.2,.8,.2,1) both}
+    @keyframes rise{0%{opacity:0;transform:translateY(60px) scale(.96)}100%{opacity:1;transform:none}}
+
+    /* final */
+    .v-final{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+    .f-title{margin:0 0 40px;font:400 190px/1.04 var(--display);text-transform:uppercase;padding-top:.16em}
+    .f-list{list-style:none;margin:0;padding:0;width:1500px}
+    .f-list li{display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:30px;padding:22px 0;border-top:1px solid rgba(var(--bone-rgb),.18);text-align:left}
+    .f-list li:last-child{border-bottom:1px solid rgba(var(--bone-rgb),.18)}
+    .f-list .n{font:800 54px/1 var(--sans);color:var(--gold)}
+    .f-list .who{font:400 86px/1.1 var(--display);text-transform:uppercase;padding-top:.1em}
+    .f-list .what{font:800 24px/1.3 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:rgba(var(--bone-rgb),.75);max-width:520px;text-align:right}
+    .f-bye{margin-top:44px;font:800 30px/1.2 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:rgba(var(--bone-rgb),.8)}
+
+    /* login */
+    .v-login{display:flex;align-items:center;justify-content:center}
+    .login{width:720px;text-align:center}
+    .login .wm{width:280px;margin:0 auto 40px}
+    .login h1{margin:0 0 30px;font:400 120px/1.04 var(--display);text-transform:uppercase;padding-top:.06em}
+    .login input{width:100%;height:84px;padding:0 26px;border-radius:20px;border:2px solid rgba(var(--bone-rgb),.3);background:rgba(var(--bone-rgb),.06);color:#fff;font:600 34px/1 var(--sans);text-align:center}
+    .login input:focus{outline:none;border-color:var(--gold)}
+    .login button{margin-top:22px;width:100%;height:84px;border:0;border-radius:999px;background:var(--red);color:#fff;font:800 30px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .login .msg{min-height:40px;margin-top:18px;font:600 26px/1.3 var(--sans);color:#ff6b6e}
+
+    /* controles del equipo: se esconden solos */
+    .ctrl{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:10px;border-radius:999px;background:rgba(2,1,3,.86);border:1px solid rgba(var(--bone-rgb),.18);backdrop-filter:blur(8px);transition:opacity .3s ease;z-index:10;max-width:calc(100vw - 24px);flex-wrap:wrap;justify-content:center}
+    .ctrl.off{opacity:0;pointer-events:none}
+    .ctrl button{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid rgba(var(--bone-rgb),.35);background:transparent;color:#fff;font:800 13px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+    .ctrl button.primary{background:var(--red);border-color:var(--red)}
+    .ctrl button:hover{border-color:#fff}
+    .ctrl button[hidden]{display:none}
+    .ctrl .st{padding:0 10px;font:600 13px/1.3 var(--sans);color:rgba(var(--bone-rgb),.75);white-space:nowrap}
+    .ctrl .st.warn{color:var(--gold)}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,1,3,.8);z-index:20}
+    .modal.on{display:flex}
+    .modal .box{width:min(560px,92vw);padding:28px;border-radius:20px;background:#0d0b10;border:1px solid rgba(var(--bone-rgb),.2)}
+    .modal h2{margin:0 0 10px;font:800 22px/1.2 var(--sans)}
+    .modal p{margin:0 0 16px;color:rgba(var(--bone-rgb),.75)}
+    .modal input{width:100%;height:48px;padding:0 14px;border-radius:12px;border:1px solid rgba(var(--bone-rgb),.3);background:rgba(var(--bone-rgb),.06);color:#fff;font:500 16px/1 var(--sans)}
+    .modal .row{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+    .modal button{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid rgba(var(--bone-rgb),.35);background:transparent;color:#fff;font:800 13px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+    .modal button.primary{background:var(--red);border-color:var(--red)}
+  </style>
+</head>
+<body>
+  <div class="stage" data-stage data-state="login">
+    <div class="bg bg--cold" data-cold></div>
+    <div class="bg bg--hot" data-hot></div>
+
+    <section class="view v-login" aria-label="Acceso del equipo">
+      <form class="login" data-login>
+        <img class="wm" src="/assets/img/wordmark.webp" alt="Red Horse" width="1120" height="421">
+        <h1 class="thermal">Sorteo en directo</h1>
+        <input type="password" name="k" placeholder="Contraseña del equipo" autocomplete="current-password" required>
+        <button type="submit">Entrar</button>
+        <p class="msg" data-login-msg></p>
+      </form>
+    </section>
+
+    <section class="view v-idle" data-idle>
+      <img class="wm" src="/assets/img/wordmark.webp" alt="Red Horse" width="1120" height="421">
+      <div class="idle-l">
+        <p class="eyebrow">Sorteo en directo · 21:00 · Sala Sunbox</p>
+        <h1 class="idle-title thermal">El sorteo</h1>
+        <p class="count"><b data-count>0</b><span>en el bombo</span></p>
+        <ul class="plist" data-plist>
+          <li data-p="1"><span class="n">1.º</span><span class="t">Camiseta Red Horse + 2 entradas</span></li>
+          <li data-p="2"><span class="n">2.º</span><span class="t">3 entradas</span></li>
+          <li data-p="3"><span class="n">3.º</span><span class="t">1 entrada</span></li>
+        </ul>
+      </div>
+      <div class="idle-r">
+        <img class="qr" src="/assets/img/sorteo-qr.svg" alt="Código QR a redhorse.es/sorteo" width="600" height="600">
+        <p class="qr-1">ESCANEA Y ENTRA</p>
+        <p class="qr-2">redhorse.es/sorteo</p>
+        <div class="shirt-wrap"><img class="shirt" src="/assets/img/sorteo-camiseta.webp" alt="La camiseta del primer premio" width="900" height="600"></div>
+        <p class="closed-badge">Inscripciones cerradas</p>
+      </div>
+    </section>
+
+    <section class="view v-count" aria-live="off">
+      <div class="c-prize"><p class="eyebrow" data-c-eyebrow></p><p class="what" data-c-what></p></div>
+      <span class="num thermal" data-num>10</span>
+      <div class="meter" data-meter></div>
+      <p class="c-note" data-c-note>Conectando…</p>
+    </section>
+
+    <section class="view v-reveal" data-reveal>
+      <p class="eyebrow" data-r-eyebrow></p>
+      <h2 class="r-name thermal" data-r-name></h2>
+      <p class="r-tel" data-r-tel></p>
+      <p class="r-what" data-r-what></p>
+      <p class="r-call">Sube al escenario</p>
+    </section>
+
+    <section class="view v-final">
+      <p class="eyebrow">Sorteo Red Horse · 24.10</p>
+      <h2 class="f-title thermal">Enhorabuena</h2>
+      <ul class="f-list" data-flist></ul>
+      <p class="f-bye">Gracias por jugar · Nos vemos en la próxima Red Horse</p>
+    </section>
+
+    <div class="flash" data-flash></div>
+  </div>
+
+  <div class="ctrl off" data-ctrl hidden>
+    <span class="st" data-st>…</span>
+    <button class="primary" data-go>Sortear 3.er premio</button>
+    <button data-redo hidden>Volver a sacar</button>
+    <button data-home hidden>Portada</button>
+    <button data-fs>Pantalla completa</button>
+    <button data-out>Salir</button>
+  </div>
+
+  <div class="modal" data-modal>
+    <form class="box" data-redo-form>
+      <h2 data-redo-title>Volver a sacar el premio</h2>
+      <p>El ganador actual queda anulado (con su motivo, en el historial) y sale otro nombre. Quien ya ha salido no vuelve al bombo.</p>
+      <input name="reason" value="No se ha presentado en 5 minutos" maxlength="200" required>
+      <div class="row"><button type="button" data-cancel>Cancelar</button><button class="primary" type="submit">Volver a sacar</button></div>
+    </form>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+    var API = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:10101' : 'https://red-horse-sorteo.onrender.com';
+    var ORDER = [3, 2, 1];
+    var PRIZE = {
+      3: { eyebrow: '3.er premio', what: '1 entrada para la próxima Red Horse', go: 'Sortear 3.er premio' },
+      2: { eyebrow: '2.º premio', what: '3 entradas para la próxima Red Horse', go: 'Sortear 2.º premio' },
+      1: { eyebrow: '1.er premio', what: 'Camiseta Red Horse + 2 entradas para la próxima Red Horse', go: 'Sortear 1.er premio' }
+    };
+    var $ = function (s) { return document.querySelector(s); };
+    var stage = $('[data-stage]'), ctrl = $('[data-ctrl]'), st = $('[data-st]');
+    var btnGo = $('[data-go]'), btnRedo = $('[data-redo]'), btnHome = $('[data-home]');
+    var token = null, stats = null, current = null, busy = false, pollTimer = null;
+
+    // ── escala del escenario ──
+    function fit() { stage.style.setProperty('--s', Math.min(innerWidth / 1920, innerHeight / 1080)); }
+    addEventListener('resize', fit); fit();
+
+    // ── barra de control: aparece al mover el ratón ──
+    var hideT;
+    function poke() {
+      if (stage.dataset.state === 'login') return;
+      ctrl.classList.remove('off'); document.body.classList.remove('hide-cursor');
+      clearTimeout(hideT);
+      hideT = setTimeout(function () { if (!document.querySelector('.modal.on')) { ctrl.classList.add('off'); document.body.classList.add('hide-cursor'); } }, 2600);
+    }
+    addEventListener('mousemove', poke); addEventListener('touchstart', poke, { passive: true });
+
+    function setState(s) { stage.dataset.state = s; }
+    function heat(h) { $('[data-hot]').style.opacity = h; $('[data-cold]').style.opacity = 1 - h * .85; }
+
+    // ── API ──
+    function api(path, opts) {
+      opts = opts || {};
+      var ctl = new AbortController(), t = setTimeout(function () { ctl.abort(); }, opts.timeout || 8000);
+      return fetch(API + path, {
+        method: opts.method || 'GET', signal: ctl.signal, cache: 'no-store',
+        headers: Object.assign({ Authorization: 'Bearer ' + token }, opts.body ? { 'Content-Type': 'application/json' } : {}),
+        body: opts.body ? JSON.stringify(opts.body) : undefined
+      }).then(function (r) {
+        clearTimeout(t);
+        return r.json().catch(function () { return {}; }).then(function (j) { j._status = r.status; return j; });
+      }, function (e) { clearTimeout(t); throw e; });
+    }
+    function rid() { return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(36).slice(2); }
+
+    function validDraw(p) {
+      if (!stats) return null;
+      var v = stats.draws.filter(function (d) { return d.prize === p && d.status === 'valid'; });
+      return v.length ? v[v.length - 1] : null;
+    }
+    function nextPrize() { for (var i = 0; i < ORDER.length; i++) if (!validDraw(ORDER[i])) return ORDER[i]; return null; }
+
+    function refresh() {
+      return api('/api/admin/stats').then(function (j) {
+        if (j._status === 401) { logout('La contraseña ya no vale.'); return; }
+        if (!j.ok) return;
+        stats = j;
+        $('[data-count]').textContent = j.count;
+        $('[data-idle]').classList.toggle('is-closed', !j.open);
+        [1, 2, 3].forEach(function (p) { var li = document.querySelector('[data-plist] [data-p="' + p + '"]'); li.classList.toggle('done', !!validDraw(p)); });
+        var parts = [j.count + ' en el bombo', j.open ? 'inscripciones abiertas' : 'inscripciones cerradas'];
+        if (j.test) parts.push('OJO: ' + j.test + ' de prueba');
+        st.textContent = parts.join(' · '); st.classList.toggle('warn', !!j.test);
+        syncButtons();
+      }).catch(function () { st.textContent = 'Sin conexión, reintentando…'; st.classList.add('warn'); });
+    }
+
+    function syncButtons() {
+      var s = stage.dataset.state, np = nextPrize();
+      btnRedo.hidden = s !== 'reveal';
+      btnHome.hidden = s === 'idle';
+      if (s === 'reveal') btnGo.textContent = np ? 'Siguiente: ' + PRIZE[np].eyebrow : 'Ver ganadores';
+      else if (s === 'final') btnGo.textContent = 'Volver a la portada';
+      else btnGo.textContent = np ? PRIZE[np].go : 'Ver ganadores';
+      btnGo.disabled = busy;
+    }
+
+    // ── cuenta atrás 10 → 0 + sorteo en el servidor en paralelo ──
+    var meter = $('[data-meter]');
+    for (var i = 0; i < 10; i++) meter.appendChild(document.createElement('i'));
+    function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+    function requestDraw(body) {
+      // Reintenta con el mismo requestId: el servidor nunca hace dos sorteos por un reintento.
+      var tries = 0;
+      return (function attempt() {
+        return api('/api/admin/draw', { method: 'POST', body: body, timeout: 7000 }).then(function (j) {
+          if (j._status === 200 || j._status === 409 || j._status === 401 || j._status === 400) return j;
+          throw new Error('http ' + j._status);
+        }).catch(function () {
+          tries++; $('[data-c-note]').classList.add('on');
+          return sleep(Math.min(4000, 800 * tries)).then(attempt);
+        });
+      })();
+    }
+
+    function run(prize, redrawReason) {
+      if (busy) return; busy = true; syncButtons();
+      current = prize;
+      var body = { prize: prize, requestId: rid() };
+      if (redrawReason) { body.redraw = true; body.reason = redrawReason; }
+      var result = null;
+      var pending = requestDraw(body).then(function (j) { result = j; return j; });
+
+      $('[data-c-eyebrow]').textContent = PRIZE[prize].eyebrow;
+      $('[data-c-what]').textContent = PRIZE[prize].what;
+      $('[data-c-note]').classList.remove('on');
+      var bars = meter.children; for (var b = 0; b < 10; b++) bars[b].className = '';
+      var num = $('[data-num]');
+      num.classList.remove('wait');
+      setState('countdown'); heat(0); syncButtons();
+
+      var n = 10;
+      function show(v) {
+        num.textContent = v; num.classList.remove('tick'); void num.offsetWidth; num.classList.add('tick');
+        heat((10 - v) / 10);
+        for (var b = 0; b < 10; b++) bars[b].className = b < 10 - v ? (b >= 7 ? 'hot' : 'on') : '';
+      }
+      show(n);
+      return (function loop() {
+        return sleep(1000).then(function () {
+          n--; show(n);
+          if (n > 0) return loop();
+          return sleep(700).then(function () {
+            if (!result) { num.classList.add('wait'); $('[data-c-note]').classList.add('on'); }
+            return pending;
+          });
+        });
+      })().then(function (j) {
+        busy = false;
+        if (j._status === 401) { logout('La contraseña ya no vale.'); return; }
+        if (j.ok || (j._status === 409 && j.draw)) return reveal(j.draw).then(refresh);
+        alertMsg(j.error || 'No se ha podido sortear.');
+        setState('idle'); heat(0); syncButtons();
+      });
+    }
+
+    function fitName(el) {
+      var size = 300; el.style.fontSize = size + 'px';
+      while (el.scrollWidth > 1700 && size > 120) { size -= 10; el.style.fontSize = size + 'px'; }
+    }
+    function splitDisplay(d) { var p = String(d || '').split(' · '); return { name: p[0] || '', tel: p[1] || '' }; }
+
+    function reveal(draw) {
+      var f = $('[data-flash]'); f.classList.remove('go'); void f.offsetWidth; f.classList.add('go');
+      return sleep(180).then(function () {
+        var s = splitDisplay(draw.display), r = $('[data-reveal]');
+        $('[data-r-eyebrow]').textContent = PRIZE[draw.prize].eyebrow;
+        $('[data-r-name]').textContent = s.name;
+        $('[data-r-tel]').textContent = s.tel;
+        $('[data-r-what]').textContent = PRIZE[draw.prize].what;
+        r.classList.remove('in'); setState('reveal'); heat(1);
+        fitName($('[data-r-name]'));
+        void r.offsetWidth; r.classList.add('in');
+        current = draw.prize; syncButtons();
+      });
+    }
+
+    function showFinal() {
+      var ul = $('[data-flist]'); ul.innerHTML = '';
+      [1, 2, 3].forEach(function (p) {
+        var d = validDraw(p); if (!d) return;
+        var s = splitDisplay(d.display), li = document.createElement('li');
+        li.innerHTML = '<span class="n"></span><span class="who"></span><span class="what"></span>';
+        li.children[0].textContent = PRIZE[p].eyebrow.replace(' premio', '');
+        li.children[1].textContent = s.name + '  ' + s.tel;
+        li.children[2].textContent = PRIZE[p].what;
+        ul.appendChild(li);
+      });
+      setState('final'); heat(.7); syncButtons();
+    }
+
+    function goHome() { setState('idle'); heat(0); refresh(); }
+
+    btnGo.addEventListener('click', primary);
+    function primary() {
+      if (busy) return;
+      var s = stage.dataset.state, np = nextPrize();
+      if (s === 'final') return goHome();
+      if (!np) return refresh().then(showFinal);
+      run(np);
+    }
+    btnHome.addEventListener('click', function () { if (!busy) goHome(); });
+
+    var modal = $('[data-modal]');
+    btnRedo.addEventListener('click', function () {
+      if (busy || current == null) return;
+      $('[data-redo-title]').textContent = 'Volver a sacar el ' + PRIZE[current].eyebrow;
+      modal.classList.add('on'); poke(); modal.querySelector('input').select();
+    });
+    $('[data-cancel]').addEventListener('click', function () { modal.classList.remove('on'); });
+    $('[data-redo-form]').addEventListener('submit', function (e) {
+      e.preventDefault(); var reason = e.target.reason.value.trim(); if (!reason) return;
+      modal.classList.remove('on'); run(current, reason);
+    });
+
+    $('[data-fs]').addEventListener('click', function () {
+      if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(function () {});
+    });
+    $('[data-out]').addEventListener('click', function () { logout(''); });
+    addEventListener('keydown', function (e) {
+      if (stage.dataset.state === 'login' || modal.classList.contains('on')) return;
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); primary(); }
+      else if (e.key === 'f' || e.key === 'F') $('[data-fs]').click();
+    });
+
+    function alertMsg(t) { st.textContent = t; st.classList.add('warn'); poke(); }
+
+    // ── acceso ──
+    function logout(msg) {
+      token = null; try { sessionStorage.removeItem('rh-admin'); } catch (e) {}
+      clearInterval(pollTimer); ctrl.hidden = true; setState('login');
+      $('[data-login-msg]').textContent = msg || '';
+    }
+    function start(t) {
+      token = t;
+      return api('/api/admin/stats').then(function (j) {
+        if (j._status !== 200) { logout(j._status === 429 ? j.error : 'Contraseña incorrecta.'); return; }
+        try { sessionStorage.setItem('rh-admin', t); } catch (e) {}
+        stats = j; ctrl.hidden = false;
+        if (!nextPrize()) showFinal(); else goHome();
+        poke();
+        clearInterval(pollTimer);
+        pollTimer = setInterval(function () { if (stage.dataset.state === 'idle') refresh(); }, 5000);
+      }).catch(function () { logout('Sin conexión con el servidor. Revisa el wifi y vuelve a intentarlo.'); });
+    }
+    $('[data-login]').addEventListener('submit', function (e) { e.preventDefault(); start(e.target.k.value.trim()); });
+
+    // Precarga de tipografías e imágenes para que nada parpadee en directo.
+    if (document.fonts) { document.fonts.load('400 100px Anton'); document.fonts.load('800 40px "Bricolage Grotesque"'); }
+    ['/assets/img/sorteo-camiseta.webp', '/assets/img/sorteo-qr.svg'].forEach(function (src) { var im = new Image(); im.src = src; });
+
+    var hashKey = (location.hash.match(/k=([^&]+)/) || [])[1];
+    if (hashKey) history.replaceState(null, '', location.pathname);
+    var saved = null; try { saved = sessionStorage.getItem('rh-admin'); } catch (e) {}
+    if (hashKey || saved) start(decodeURIComponent(hashKey || saved));
+  })();
+  </script>
+</body>
+</html>
