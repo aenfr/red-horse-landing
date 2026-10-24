@@ -104,6 +104,14 @@
     .is-done .intro,.is-done form,.is-closed form,.is-closed .intro .lead{display:none}
     .done .lead{max-width:24rem}
     .done .prizes{text-align:left}
+    .optin{margin:22px 0 0;padding:18px 18px 16px;border-radius:16px;border:1px solid rgba(255,191,33,.55);background:rgba(255,191,33,.07);text-align:left}
+    .optin[hidden]{display:none}
+    .optin__t{margin:0;font:800 1.12rem/1.25 var(--sans);color:var(--gold)}
+    .optin__d{margin:6px 0 0;font-size:.95rem;line-height:1.4;color:rgba(var(--bone-rgb),.86)}
+    .optin .btn{margin-top:14px;min-height:52px}
+    .optin__msg{margin:10px 0 0;font-weight:700;font-size:.95rem}
+    .optin.is-on .btn{display:none}
+    .optin.is-on .optin__msg{margin-top:12px;color:var(--gold)}
     .closed-note{display:none;margin:14px auto 0;max-width:22rem;text-align:center;font-size:1.06rem;color:rgba(var(--bone-rgb),.86)}
     .is-closed .closed-note{display:block}
     .foot{margin-top:30px;padding-top:16px;border-top:1px solid rgba(var(--bone-rgb),.12);text-align:center;font-size:.84rem;color:rgba(var(--bone-rgb),.55)}
@@ -166,7 +174,7 @@
       <label class="check" data-f="acepta_comunicaciones">
         <input type="checkbox" name="acepta_comunicaciones">
         <span class="box" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.2 3L13 4.5"/></svg></span>
-        <span>Quiero que Red Horse me avise de las próximas fiestas por correo o WhatsApp. <span class="opt">(Opcional. Puedes darte de baja cuando quieras.)</span></span>
+        <span>Quiero enterarme antes que nadie de la próxima Red Horse y tener acceso a las entradas AL&nbsp;PASO, las más baratas, por correo o WhatsApp. <span class="opt">(Opcional. Puedes darte de baja cuando quieras.)</span></span>
       </label>
 
       <button class="btn" type="submit" data-submit>Entrar en el sorteo</button>
@@ -178,6 +186,12 @@
       <p class="eyebrow" data-done-eyebrow>Todo listo</p>
       <h2 class="title">Ya estás dentro</h2>
       <p class="lead" data-done-text>El sorteo es a las <b>21:00</b> en la Sala Sunbox. Si te toca, te llamamos al escenario: ten el móvil a mano.</p>
+      <div class="optin" data-optin hidden>
+        <p class="optin__t">¿Te avisamos de la próxima?</p>
+        <p class="optin__d">Entérate antes que nadie de la próxima Red Horse y accede a las entradas AL&nbsp;PASO, las más baratas. Por correo o WhatsApp; te das de baja cuando quieras. <a href="/privacidad/" target="_blank" rel="noopener">Privacidad</a>.</p>
+        <button class="btn" type="button" data-optin-btn>Avísame</button>
+        <p class="optin__msg" data-optin-msg role="status"></p>
+      </div>
       <ul class="prizes" aria-label="Premios">
         <li class="prize"><span class="prize__n">1.º</span><span class="prize__t">Camiseta Red Horse + 2 entradas</span></li>
         <li class="prize"><span class="prize__n">2.º</span><span class="prize__t">3 entradas</span></li>
@@ -210,6 +224,28 @@
     function store(k, v) { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
     function load(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
 
+    var optinBox = app.querySelector('[data-optin]'), optinMsg = app.querySelector('[data-optin-msg]');
+    function showOptin(st) {
+      if (!st || !st.optin) return;
+      optinBox.hidden = false;
+      if (st.opted) { optinBox.classList.add('is-on'); optinMsg.textContent = 'Hecho: te avisamos antes que a nadie.'; }
+    }
+    optinBox.querySelector('[data-optin-btn]').addEventListener('click', function () {
+      var st = load(KEY) || {}, b = this;
+      if (!st.optin) return;
+      b.disabled = true; b.textContent = 'Un momento…'; optinMsg.textContent = '';
+      (function send(attempt) {
+        return fetch(API + '/api/optin', { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: JSON.stringify({ token: st.optin }) })
+          .then(function (r) { return r.json(); })
+          .catch(function (e) { if (attempt < 2) return new Promise(function (res) { setTimeout(res, 1500); }).then(function () { return send(attempt + 1); }); throw e; });
+      })(0).then(function (j) {
+        if (!j.ok) throw new Error(j.error);
+        st.opted = true; store(KEY, st); showOptin(st);
+      }).catch(function () {
+        optinMsg.textContent = 'No ha llegado: sin cobertura. Prueba otra vez en un momento.';
+      }).then(function () { b.disabled = false; b.textContent = 'Avísame'; });
+    });
+
     function showDone(nombre, dup) {
       var first = String(nombre || '').trim().split(' ')[0];
       app.querySelector('[data-done-eyebrow]').textContent = dup ? 'Ya te teníamos' : (first ? 'Todo listo, ' + first : 'Todo listo');
@@ -224,7 +260,7 @@
 
     // Si ya se registró desde este móvil, se lo recordamos al volver.
     var saved = load(KEY);
-    if (saved && saved.done) showDone(saved.nombre, false);
+    if (saved && saved.done) { showDone(saved.nombre, false); showOptin(saved); }
 
     // Borrador: si el navegador de Instagram recarga la página, los datos siguen ahí.
     var draft = load(KEY + '-draft') || {};
@@ -310,8 +346,9 @@
         if (j.ok) {
           // Si un envío anterior llegó pero se perdió la respuesta, no es un duplicado de verdad.
           var dup = j.status === 'duplicate' && !hadNetworkError;
-          store(KEY, { done: true, nombre: d.nombre }); store(KEY + '-draft', null);
-          showDone(d.nombre, dup);
+          var st = { done: true, nombre: d.nombre, optin: j.optin || null };
+          store(KEY, st); store(KEY + '-draft', null);
+          showDone(d.nombre, dup); showOptin(st);
           return;
         }
         if (res.status === 403) { showClosed(); return; }
