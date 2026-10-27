@@ -148,3 +148,14 @@ Breakpoints: base (mobile ≤599) · 600 · 900 (2-col chapters) · 1280 (wide).
 Touch targets ≥ 48px. No horizontal overflow (the horizontal gallery lives inside an `overflow:hidden` sticky stage).
 Use `svh` for sticky stages (iOS address bar). Pointer effects only under `(hover:hover)`.
 Videos are `muted playsinline`, lazy-attached and played only in view.
+
+## 10 · Sorteo en directo (added 2026-10-24)
+Pages: `/sorteo` (mobile registration form, all inline, no video/WebGL), `/sorteo/bases`, `/privacidad`,
+`/sorteo/en-vivo` (projector screen: fixed 1920×1080 stage scaled to fit; countdown 10→0 heats the background
+cold → hot, reveal shows only "NOMBRE I. · ···123"), `/sorteo/panel` (team dashboard). API: `sorteo-api/`
+(Render service `red-horse-sorteo`, Frankfurt, SQLite on a disk). QR + posters: `scripts/sorteo_qr.py` → `exports/sorteo/`.
+
+**Accent headroom rule (learned 2026-10-24):** text with the thermal fill (`background-clip:text`) only paints inside
+its box, so accented capitals (Í, Á, Ñ) lose their accents unless the box has room above the cap height.
+Use `padding-top ≥ .16em` (big reveal names `.2em`) on every Anton thermal headline, not `.06–.08em`.
+Ordinals (1.º, 3.er) go in Bricolage: Anton draws «º» as a raised zero.
