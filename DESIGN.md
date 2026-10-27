@@ -1,8 +1,31 @@
-# DESIGN.md — Red Horse · web (landing 24 OCT)
+# DESIGN.md — Red Horse · web
 
 > Produced with the `web-design` skill (spec first, code second). It derives from
 > `_config/visual-style.md` and `_config/brand-identity.md`; those win on any conflict.
-> Interaction tier: **L3** (scroll-driven story), mobile first.
+
+## 0 · Current page: brand home (since 27 OCT 2026, no upcoming party)
+The 24 OCT scroll-story landing is retired (it lives in git history). `index.html` is now a
+**brand home** that runs on our Instagram content, inspired by redhorse.merlin.site but with
+only real facts (Merlin's "services"/FAQ copy was invented and is not used).
+Order: hero (empty sea → horse → wordmark → tagline, 230svh scrub, the only sticky scene) ·
+qué es Red Horse · «Aquí pasaron cosas» (recap reel of the first edition + reels + flyer) ·
+la música (3 genres + Indie Dance explainer reel) · «Quién pinchó» (artist reels; RIK links to
+his IG post) · manifesto + statement cards (native snap rail) · «Lo que dijo la gente» (real
+comments from the recap post, with @handle, verbatim: only people asking for another party
+or saying something great about it) · «Avísame» form · footer.
+- **Reels** live in `assets/ig/<name>{-preview.mp4, .mp4, -poster.webp}`: 6 s muted 480w
+  preview (crf 30) for the card, full 720w reel with sound (crf 27, aac 96k) only on tap, in
+  the `[data-player]` lightbox. Captions overlay footage; artist cards (whose IG artwork has its
+  own text) put the caption **below** the card.
+- **Avísame** posts `{nombre, email, movil?, acepta:true, website:'', t}` as `text/plain` to
+  `https://red-horse-sorteo.onrender.com/api/subscribe` (same DB as the sorteo; CSV from the
+  panel). 201 created / 200 duplicate / 400 `{fields}`. Honeypot `website`, `t` < 1.2 s rejected.
+- **Background** is the CSS heat gradient on every device (no WebGL); `--temp` is set on the
+  canvas only and eases to the section in the middle, then stops.
+- Memory rules from §7 still apply: dwell-gated previews, one loaded video on phones, unload
+  far away, no clip-path on tall sticky sections, no per-frame vars on `:root`.
+
+*(Sections 1–9 below describe the retired 24 OCT landing; tokens, type and do/don'ts still hold.)*
 
 ## 1 · Visual Theme & Atmosphere
 **"La temperatura de la noche."** The manifesto moves from a cold, screen-lit night where

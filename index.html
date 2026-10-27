@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Red Horse · La fiesta experiencial de Valencia · 24 de octubre</title>
-  <meta name="description" content="Red Horse es una fiesta experiencial de Valencia que combina Indie Dance, Indie Tech y Groovy House con cultura visual, estética, performances y experiencias inesperadas. 24 de octubre, del tardeo a la noche, en la sala Sunbox de Spook Valencia.">
+  <title>Red Horse · La fiesta experiencial de Valencia</title>
+  <meta name="description" content="Red Horse es una fiesta experiencial de Valencia que combina Indie Dance, Indie Tech y Groovy House con cultura visual, performances y experiencias inesperadas. Para adultos que no quieren portarse como adultos.">
   <meta name="theme-color" content="#020103">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Red Horse · 24 de octubre · Spook Valencia, sala Sunbox">
-  <meta property="og:description" content="La fiesta para adultos que no quieren portarse como adultos. Ven a ver qué pasa.">
+  <meta property="og:title" content="Red Horse · La fiesta experiencial de Valencia">
+  <meta property="og:description" content="Para adultos que no quieren portarse como adultos. Apúntate y te avisamos de la próxima.">
   <meta property="og:image" content="https://redhorse.es/assets/img/og-image.jpg">
   <meta property="og:url" content="https://redhorse.es/">
   <link rel="canonical" href="https://redhorse.es/">
@@ -23,9 +23,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/img/sea-empty.webp" media="not all and (min-aspect-ratio: 1/1) and (min-width: 900px)">
   <link rel="preload" as="image" href="assets/img/sea-empty-wide.webp" media="(min-aspect-ratio: 1/1) and (min-width: 900px)">
-  <link rel="stylesheet" href="styles.css?v=20261024125500">
+  <link rel="stylesheet" href="styles.css?v=20261027173119">
   <script>
-    // Gate the animated layout: without JS or with reduced motion the page is a plain, fully visible story.
     (function (d) {
       var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
       d.classList.add('js');
@@ -38,32 +37,31 @@
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "#red-horse",
+        "@id": "https://redhorse.es/#red-horse",
         "name": "Red Horse",
+        "url": "https://redhorse.es/",
+        "logo": "https://redhorse.es/icon-512.png",
+        "email": "hola@redhorse.es",
         "description": "Red Horse es una fiesta experiencial de Valencia que combina Indie Dance, Indie Tech y Groovy House con cultura visual, estética, performances y experiencias inesperadas. Una fiesta para adultos que no quieren portarse como adultos.",
         "slogan": "Una fiesta donde pasan cosas.",
         "areaServed": "Valencia",
-        "url": "https://redhorse.es/",
-        "email": "hola@redhorse.es",
-        "sameAs": []
+        "sameAs": ["https://instagram.com/redhorse____"]
       },
       {
         "@type": "MusicEvent",
-        "name": "Red Horse · 24 de octubre",
-        "description": "Tardeo de Indie Dance, Indie Tech y Groovy House: empieza a las 15:00 con luz de día y sigue hasta la 01:00. Del tardeo a la noche. Steff presents.",
+        "name": "Red Horse · 24 de octubre de 2026",
+        "description": "Tardeo de Indie Dance, Indie Tech y Groovy House de 15:00 a 01:00. Steff presents.",
         "startDate": "2026-10-24T15:00:00+02:00",
         "endDate": "2026-10-25T01:00:00+02:00",
         "eventStatus": "https://schema.org/EventScheduled",
         "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-        "image": ["https://redhorse.es/assets/img/flyer.webp", "https://redhorse.es/assets/img/og-image.jpg"],
-        "url": "https://redhorse.es/",
-        "offers": { "@type": "Offer", "url": "https://xceed.me/en/valencia/event/red-horse/245729/channel/granviaclub", "availability": "https://schema.org/InStock" },
+        "image": ["https://redhorse.es/assets/img/flyer.webp"],
         "location": {
           "@type": "Place",
           "name": "Spook Valencia · Sala Sunbox",
           "address": { "@type": "PostalAddress", "addressLocality": "Valencia", "addressCountry": "ES" }
         },
-        "organizer": { "@id": "#red-horse" },
+        "organizer": { "@id": "https://redhorse.es/#red-horse" },
         "performer": [
           { "@type": "Person", "name": "Steff" },
           { "@type": "Person", "name": "Alexein" },
@@ -81,13 +79,15 @@
 
   <header class="nav" data-nav>
     <a class="nav__brand" href="#top" aria-label="Red Horse, inicio"><img src="assets/img/wordmark.webp" alt="" width="1120" height="421"></a>
-    <span class="nav__date">24.10 · Spook</span>
-    <a class="btn btn--primary btn--sm" href="#evento" data-tickets>Entradas</a>
+    <a class="nav__ig" href="https://instagram.com/redhorse____" target="_blank" rel="noopener" aria-label="Instagram de Red Horse">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" class="dot"/></svg>
+    </a>
+    <a class="btn btn--primary btn--sm" href="#avisame">Avísame</a>
   </header>
 
   <main id="top">
-    <!-- ───────────────────────── HERO · pin-scrub reveal ───────────────────────── -->
-    <section class="hero" data-scrub="hero" data-temp="0.7" aria-labelledby="hero-title">
+    <!-- ───────── HERO · the brand reveal ───────── -->
+    <section class="hero" data-scrub="hero" data-temp="0.75" aria-labelledby="hero-title">
       <div class="hero__stage stage">
         <div class="hero__backdrop" aria-hidden="true"></div>
         <div class="hero__media">
@@ -96,11 +96,9 @@
         </div>
         <p class="hero__tease label">Algo se mueve en el horizonte</p>
         <div class="hero__title">
-          <p class="hero__presents label">Steff presents</p>
-          <h1 id="hero-title" class="hero__wordmark">
-            <img src="assets/img/wordmark.webp" alt="Red Horse" width="1120" height="421">
-          </h1>
-          <p class="hero__info label">Tardeo <i>✦</i> 24 de octubre <i>✦</i> 15H – 01H<br>Spook Valencia · Sala Sunbox</p>
+          <p class="hero__kicker label">La fiesta experiencial de Valencia</p>
+          <h1 id="hero-title" class="hero__wordmark"><img src="assets/img/wordmark.webp" alt="Red Horse" width="1120" height="421"></h1>
+          <p class="hero__tagline">Para adultos que no quieren portarse como adultos.</p>
         </div>
         <button class="hero__hint" type="button" aria-label="Desliza para descubrir Red Horse">
           <span class="hint__pill">Desliza</span>
@@ -109,318 +107,167 @@
       </div>
     </section>
 
-    <!-- ───────────────────────── ACT 1 · COLD ───────────────────────── -->
-    <section class="cold" data-temp="0" aria-label="Hay fiestas en las que sales pensando">
+    <!-- ───────── WHAT IS RED HORSE ───────── -->
+    <section class="intro" data-temp="0.55" aria-labelledby="intro-title">
       <div class="wrap">
-        <p class="label reveal">Hay fiestas en las que sales pensando:</p>
-        <p class="quote" data-words>“¿Ya está? ¿Esto era todo?”</p>
-        <ol class="cold__list">
-          <li class="cold__item">Pagaste la entrada.</li>
-          <li class="cold__item">El DJ pinchó.</li>
-          <li class="cold__item">Tomaste algo.</li>
-          <li class="cold__item">Bailaste un rato.</li>
-        </ol>
-        <p class="statement statement--dead reveal">Y aun así… <br>no pasó nada.</p>
-      </div>
-    </section>
-
-    <!-- ───────────────────────── ACT 1b · SCREENS → IGNITION ───────────────────────── -->
-    <section class="screens" data-scrub="screens" data-temp="0.05" data-temp-end="0.9" aria-label="Por eso creamos Red Horse">
-      <div class="screens__stage stage">
-        <p class="screens__intro narrative">Y creemos que tenemos un problema con la forma en que estamos saliendo de fiesta.</p>
-        <div class="phone" aria-hidden="false">
-          <div class="phone__glow"></div>
-          <div class="phone__heat"></div>
-          <div class="phone__ui" aria-hidden="true">
-            <span class="phone__notch"></span>
-            <span class="pill">47 personas vieron tu historia</span>
-            <span class="pill">Nuevo mensaje</span>
-            <span class="pill">Tu resumen semanal está listo</span>
-          </div>
-          <p class="phone__text narrative">Estamos cada vez más conectados a través de una pantalla…</p>
-          <h2 class="phone__ignite statement">Por eso creamos Red Horse.</h2>
+        <p class="label reveal">Qué es Red Horse</p>
+        <h2 id="intro-title" class="narrative reveal">Una fiesta experiencial de Valencia que combina Indie&nbsp;Dance, Indie&nbsp;Tech y Groovy&nbsp;House con cultura visual, performances y experiencias inesperadas.</h2>
+        <p class="statement statement--md reveal"><span class="fill">Una fiesta donde pasan cosas.</span></p>
+        <div class="cta-row reveal">
+          <a class="btn btn--primary" href="#avisame">Avísame de la próxima</a>
+          <a class="btn btn--ghost" href="https://instagram.com/redhorse____" target="_blank" rel="noopener">@redhorse____</a>
         </div>
-        <p class="screens__outro narrative">…y cada vez menos conectados entre nosotros.</p>
       </div>
     </section>
 
-    <!-- ───────────────────────── OPEN LOOP 1 ───────────────────────── -->
-    <section class="loop" data-temp="0.35">
+    <!-- ───────── RECAP 24.10 ───────── -->
+    <section class="recap" data-temp="0.95" aria-labelledby="recap-title">
       <div class="wrap">
-        <p class="narrative" data-words>Pero el problema no es que falten fiestas.</p>
-        <p class="narrative narrative--hot" data-words>Es que muchas veces hemos olvidado para qué salimos de fiesta.</p>
+        <p class="label reveal">24.10.2026 <i>✦</i> Spook Valencia · Sala Sunbox</p>
+        <h2 id="recap-title" class="statement reveal"><span class="fill">Aquí pasaron cosas.</span></h2>
+        <p class="lede reveal">El 24 de octubre celebramos la primera Red Horse: convertimos la Sala Sunbox de Spook Valencia en un tardeo de 15:00 a 01:00 con STEFF, ALEXEIN, TALE OF JUS y RIK. Mucho baile, muchas sorpresas y personajes inesperados. Gracias por venir y por no portaros como adultos.</p>
       </div>
-    </section>
-
-    <!-- ───────────────────────── 01 · LA MÚSICA · pin-swap ───────────────────────── -->
-    <section class="chapter" data-temp="0.6" data-chapter aria-labelledby="ch-musica">
-      <div class="chapter__media" data-media>
-        <figure class="media is-active" data-scene="0">
-          <video muted playsinline loop preload="none" poster="assets/video/ear-poster.jpg" data-src="assets/video/ear.mp4"></video>
-        </figure>
-        <figure class="media" data-scene="1">
-          <video muted playsinline loop preload="none" poster="assets/video/mane-poster.jpg" data-src="assets/video/mane.mp4"></video>
-        </figure>
-      </div>
-      <div class="chapter__steps">
-        <div class="step" data-step="0">
-          <p class="label">01 · La música</p>
-          <h2 id="ch-musica" class="narrative">Para nosotros, la música sigue siendo lo más importante.</h2>
-        </div>
-        <div class="step" data-step="0">
-          <p class="narrative">Un buen DJ no debería estar simplemente poniendo las canciones que le parecen increíbles.</p>
-          <p class="narrative narrative--hot">Tiene que escuchar la pista.</p>
-        </div>
-        <div class="step" data-step="1">
-          <ul class="beats">
-            <li>Sentir cuándo subir.</li>
-            <li>Cuándo esperar.</li>
-            <li>Cuándo llevarte arriba.</li>
-          </ul>
-        </div>
-        <div class="step" data-step="1">
-          <p class="narrative">Porque cuando el DJ y el público realmente conectan… dejas de estar escuchando música.</p>
-          <p class="narrative narrative--hot">Estás viviendo algo juntos.</p>
-          <p class="tag"><span class="fill">Indie Dance</span> <i>✦</i> <span class="fill">Indie Tech</span> <i>✦</i> <span class="fill">Groovy House</span></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ───────────────────────── 02 · LO QUE PASA ALREDEDOR · converge ───────────────────────── -->
-    <section class="loop" data-temp="0.55">
-      <div class="wrap">
-        <p class="narrative" data-words>Pero incluso una música increíble puede quedarse corta.</p>
-        <p class="narrative" data-words>Porque una gran noche no depende solamente de lo que sale por los altavoces.</p>
-      </div>
-    </section>
-
-    <section class="around" data-scrub="around" data-temp="0.7" aria-labelledby="ch-alrededor">
-      <div class="around__stage stage">
-        <p class="label around__label">02 · Lo que pasa alrededor</p>
-        <h2 id="ch-alrededor" class="visually-hidden">Lo que pasa alrededor</h2>
-        <ul class="chips">
-          <li class="chip">Una persona que acabas de conocer.</li>
-          <li class="chip">Una conversación absurda.</li>
-          <li class="chip">Una performance que no esperabas.</li>
-          <li class="chip">Una foto que acaba siendo un recuerdo.</li>
-          <li class="chip">Un juego.</li>
-          <li class="chip">Un disfraz.</li>
-          <li class="chip">Una mirada.</li>
-        </ul>
-        <p class="around__final statement"><span class="fill">Un momento que nadie planeó.</span></p>
-      </div>
-    </section>
-
-    <section class="loop" data-temp="0.75">
-      <div class="wrap">
-        <p class="narrative" data-words>No queremos que seas simplemente alguien que mira cómo ocurre una fiesta.</p>
-        <p class="narrative narrative--hot" data-words>Queremos que seas parte de ella.</p>
-      </div>
-    </section>
-
-    <!-- ───────────────────────── 03 · EL PROPÓSITO ───────────────────────── -->
-    <section class="purpose" data-temp="0.8" aria-labelledby="ch-proposito">
-      <div class="wrap">
-        <p class="label reveal">03 · El propósito</p>
-        <h2 id="ch-proposito" class="narrative" data-words>No queríamos hacer otra fiesta.</h2>
-        <p class="narrative narrative--hot" data-words>Queríamos crear el lugar al que nosotros mismos querríamos ir.</p>
-        <ul class="donde">
-          <li class="reveal">Un lugar donde <em>la música importe.</em></li>
-          <li class="reveal"><span>Donde</span> podamos descubrir artistas que nos vuelen la cabeza.</li>
-          <li class="reveal"><span>Donde</span> podamos crear.</li>
-          <li class="reveal"><span>Donde</span> podamos experimentar.</li>
-          <li class="reveal"><span>Donde</span> podamos encontrar gente con la que compartir todo eso.</li>
-        </ul>
-        <p class="narrative reveal">Y donde, por unas horas, no tengamos que comportarnos como se supone que deberíamos comportarnos.</p>
-      </div>
-    </section>
-
-    <section class="podemos" data-scrub="podemos" data-temp="0.85" aria-label="Podemos">
-      <div class="podemos__stage stage">
-        <p class="label podemos__label">Podemos</p>
-        <ul class="podemos__words">
-          <li class="statement"><span class="fill">Bailar.</span></li>
-          <li class="statement"><span class="fill">Jugar.</span></li>
-          <li class="statement"><span class="fill">Tontear.</span></li>
-          <li class="statement"><span class="fill fill--acid">Hablar con desconocidos.</span></li>
-          <li class="statement"><span class="fill">Estar ahí.</span></li>
-          <li class="statement podemos__last"><span class="fill">Juntos.</span></li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="gallery" data-scrub="gallery" data-temp="0.9" aria-label="Para adultos que no quieren portarse como adultos">
-      <div class="gallery__stage stage">
-        <div class="gallery__track">
-          <img src="assets/img/st-1-para.webp" alt="PARA" width="900" height="1079" loading="lazy">
-          <img src="assets/img/st-2-adultos.webp" alt="ADULTOS" width="900" height="1125" loading="lazy">
-          <img src="assets/img/st-3-quenoquieren.webp" alt="QUE NO QUIEREN" width="900" height="1259" loading="lazy">
-          <img src="assets/img/st-4-portarse.webp" alt="PORTARSE" width="900" height="1125" loading="lazy">
-          <img src="assets/img/st-5-comoadultos.webp" alt="COMO ADULTOS" width="900" height="1125" loading="lazy">
-        </div>
-        <p class="gallery__caption label">Para adultos que no quieren portarse como adultos</p>
-      </div>
-    </section>
-
-    <!-- ───────────────────────── 04 · LA CONEXIÓN ───────────────────────── -->
-    <section class="loop" data-temp="0.85">
-      <div class="wrap">
-        <p class="narrative" data-words>Porque creemos que hay algo que estamos perdiendo…</p>
-        <p class="narrative narrative--hot" data-words>y ninguna red social puede reemplazarlo.</p>
-      </div>
-    </section>
-
-    <section class="chapter chapter--single" data-temp="0.95" data-chapter aria-labelledby="ch-conexion">
-      <div class="chapter__media" data-media>
-        <figure class="media is-active" data-scene="0">
-          <video muted playsinline loop preload="none" poster="assets/video/leg-poster.jpg" data-src="assets/video/leg.mp4"></video>
-        </figure>
-      </div>
-      <div class="chapter__steps">
-        <div class="step" data-step="0">
-          <p class="label">04 · La conexión</p>
-          <h2 id="ch-conexion" class="narrative">La sensación de estar rodeado de cientos de personas…</h2>
-        </div>
-        <div class="step" data-step="0">
-          <p class="narrative narrative--hot">…y sentir que durante unas horas todos estamos viviendo exactamente lo mismo.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="sequence" data-scrub="sequence" data-temp="1" aria-label="Una canción, una energía, un momento, una noche">
-      <div class="sequence__stage stage">
-        <ul class="sequence__words">
-          <li class="statement"><span class="fill">Una canción.</span></li>
-          <li class="statement"><span class="fill fill--acid">Una energía.</span></li>
-          <li class="statement"><span class="fill">Un momento.</span></li>
-          <li class="statement"><span class="fill">Una noche.</span></li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="loop" data-temp="1">
-      <div class="wrap">
-        <ul class="maybe">
-          <li class="reveal"><span>Quizás</span> esa persona que conociste ahí termine siendo un amigo.</li>
-          <li class="reveal"><span>Quizás</span> descubras un artista que después vayas a ver en directo.</li>
-          <li class="reveal"><span>Quizás</span> conozcas a alguien que termine formando parte de tu vida.</li>
-          <li class="reveal"><span>Quizás</span> simplemente salgas de ahí pensando:</li>
-        </ul>
-        <p class="quote quote--hot" data-words>“Joder. Necesitaba esto.”</p>
-      </div>
-    </section>
-
-    <!-- ───────────────────────── REVEAL ───────────────────────── -->
-    <section class="reveal-scene" data-scrub="reveal" data-temp="1" aria-labelledby="reveal-title">
-      <div class="reveal-scene__stage stage">
-        <div class="reveal-scene__backdrop" aria-hidden="true"></div>
-        <div class="reveal-scene__media">
-          <picture><source media="(min-aspect-ratio: 1/1) and (min-width: 900px)" srcset="assets/img/sea-horse-wide.webp"><img src="assets/img/sea-horse.webp" alt="" width="1080" height="1935" loading="lazy"></picture>
-        </div>
-        <div class="reveal-scene__copy">
-          <div class="rs rs--1">
-            <p class="narrative">Red Horse no trata realmente de hacer fiestas.</p>
-            <p class="narrative narrative--hot">Trata de crear algo que quieras volver a vivir.</p>
-          </div>
-          <div class="rs rs--2">
-            <h2 id="reveal-title" class="narrative">Red Horse existe para crear noches que merezcan ser vividas.</h2>
-          </div>
-          <div class="rs rs--3">
-            <p class="narrative">Noches donde la música conecta.</p>
-            <p class="narrative">Donde la creatividad toma forma.</p>
-            <p class="statement statement--sm"><span class="fill">Donde pasan cosas.</span></p>
-          </div>
-          <div class="rs rs--4">
-            <p class="narrative">Porque hay cosas que solo pasan…</p>
-            <p class="statement statement--sm"><span class="fill">cuando estamos juntos.</span></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ───────────────────────── VENUE · low-angle clip ───────────────────────── -->
-    <section class="chapter chapter--venue" data-temp="0.95" data-chapter aria-labelledby="ch-venue">
-      <div class="chapter__media" data-media>
-        <figure class="media is-active" data-scene="0">
-          <video muted playsinline loop preload="none" poster="assets/video/lowangle-poster.jpg" data-src="assets/video/lowangle.mp4"></video>
-        </figure>
-      </div>
-      <div class="chapter__steps">
-        <div class="step" data-step="0">
-          <p class="label">Nos vemos en</p>
-          <h2 id="ch-venue" class="statement statement--sm venue__title"><span class="fill">Spook Valencia</span></h2>
-        </div>
-        <div class="step" data-step="0">
-          <p class="label">Sala Sunbox</p>
-          <p class="narrative">Sábado 24 de octubre. Tardeo de 15H a 01H.</p>
-          <p class="narrative narrative--hot">Del tardeo a la noche.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ───────────────────────── EVENT ───────────────────────── -->
-    <section class="event" id="evento" data-temp="0.9" aria-labelledby="event-title">
-      <div class="wrap event__grid">
-        <div class="event__info">
-          <p class="label reveal">Steff presents</p>
-          <h2 id="event-title" class="statement event__date reveal"><span class="fill">24 de octubre</span></h2>
-          <p class="event__meta label reveal">Sábado <i>✦</i> Tardeo <i>✦</i> 15H – 01H</p>
-          <p class="event__note reveal">Es un <strong>tardeo</strong>: empezamos a las 15:00, todavía con luz de día, y seguimos hasta la 01:00. Del tardeo a la noche.</p>
-
-          <div class="event__venue reveal">
-            <p class="event__club">Spook Valencia</p>
-            <p class="label">Sala Sunbox</p>
-            <a class="link" href="https://www.google.com/maps/search/?api=1&amp;query=Spook%20Valencia" target="_blank" rel="noopener">Cómo llegar</a>
-          </div>
-
-          <div class="lineup reveal">
-            <p class="label">Line up <i>✦</i> Indie Dance · Indie Tech · Groovy House</p>
-            <ul>
-              <li><span class="fill">Steff</span></li>
-              <li><span class="fill">Alexein</span></li>
-              <li><span class="fill">Tale Of Jus</span></li>
-              <li><span class="fill">Rik</span></li>
-            </ul>
-          </div>
-
-          <div class="event__cta reveal" id="entradas">
-            <a class="btn btn--primary btn--lg" href="#" data-tickets data-magnet>Entradas</a>
-            <button class="btn btn--ghost" type="button" data-ics>Añadir al calendario</button>
-          </div>
-          <p class="event__partner label reveal">Con Equality Project</p>
-        </div>
-
-        <figure class="flyer reveal" data-tilt>
-          <img src="assets/img/flyer.webp" alt="Cartel de Red Horse: Steff presents. Sábado 24 de octubre, 15H – 01H. Line up: Steff, Alexein, Tale Of Jus, Rik. Sala Sunbox, Spook Valencia. Del tardeo a la noche." width="1080" height="1935" loading="lazy">
-          <span class="flyer__glare" aria-hidden="true"></span>
+      <div class="reels" data-reels>
+        <button class="reel reveal" type="button" data-reel="assets/ig/recap.mp4" aria-label="Ver reel: así fue nuestra primera Red Horse">
+          <video muted playsinline loop preload="none" poster="assets/ig/recap-poster.webp" data-src="assets/ig/recap-preview.mp4"></video>
+          <span class="reel__cap"><b>Así fue nuestra primera Red Horse</b><span>Recap · Reel</span></span>
+        </button>
+        <button class="reel reveal" type="button" data-reel="assets/ig/fiesta-1.mp4" aria-label="Ver reel: la pista">
+          <video muted playsinline loop preload="none" poster="assets/ig/fiesta-1-poster.webp" data-src="assets/ig/fiesta-1-preview.mp4"></video>
+          <span class="reel__cap"><b>La pista</b><span>Reel · Instagram</span></span>
+        </button>
+        <button class="reel reveal" type="button" data-reel="assets/ig/caballo-spook.mp4" aria-label="Ver reel: el caballo bailando en Spook">
+          <video muted playsinline loop preload="none" poster="assets/ig/caballo-spook-poster.webp" data-src="assets/ig/caballo-spook-preview.mp4"></video>
+          <span class="reel__cap"><b>El caballo llegó a Spook</b><span>Reel · Instagram</span></span>
+        </button>
+        <figure class="reel reel--still reveal">
+          <img src="assets/img/flyer.webp" alt="Cartel de Red Horse del 24 de octubre de 2026: Steff presents. Line up: Steff, Alexein, Tale Of Jus, Rik. Sala Sunbox, Spook Valencia." width="1080" height="1935" loading="lazy">
+          <span class="reel__cap"><b>El cartel</b><span>24.10.2026</span></span>
         </figure>
       </div>
     </section>
 
-    <!-- ───────────────────────── FINAL ───────────────────────── -->
-    <section class="final" data-temp="1" aria-label="Ven a ver qué pasa">
-      <div class="wrap final__inner">
-        <img class="final__wordmark reveal" src="assets/img/wordmark.webp" alt="Red Horse" width="1120" height="421" loading="lazy">
-        <p class="label reveal">La fiesta para adultos que no quieren portarse como adultos.</p>
-        <p class="statement final__cta reveal"><span class="fill">Ven a ver qué pasa.</span></p>
-        <a class="btn btn--primary btn--lg reveal" href="#evento" data-tickets data-magnet>Entradas</a>
-        <p class="final__callback" data-callback>
-          <s>¿Ya está? ¿Esto era todo?</s>
-          <span>No. Esto acaba de empezar.</span>
-        </p>
+    <!-- ───────── MUSIC ───────── -->
+    <section class="music" data-temp="0.8" aria-labelledby="music-title">
+      <div class="wrap music__grid">
+        <div>
+          <p class="label reveal">La música</p>
+          <h2 id="music-title" class="genres reveal">
+            <span class="fill">Indie Dance</span>
+            <span class="fill">Indie Tech</span>
+            <span class="fill">Groovy House</span>
+          </h2>
+          <p class="lede reveal">Un buen DJ no pone solo las canciones que le gustan: escucha la pista, sabe cuándo subir, cuándo esperar y cuándo llevarte arriba. Cuando eso pasa, dejas de escuchar música y empiezas a vivir algo juntos.</p>
+        </div>
+        <button class="reel reel--feature reveal" type="button" data-reel="assets/ig/indie-dance.mp4" aria-label="Ver reel: qué es Indie Dance e Indie Tech">
+          <video muted playsinline loop preload="none" poster="assets/ig/indie-dance-poster.webp" data-src="assets/ig/indie-dance-preview.mp4"></video>
+          <span class="reel__cap"><b>¿Qué es Indie Dance e Indie Tech?</b><span>Te lo contamos · Reel</span></span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ───────── ARTISTS ───────── -->
+    <section class="artists" data-temp="0.9" aria-labelledby="artists-title">
+      <div class="wrap">
+        <p class="label reveal">En la cabina</p>
+        <h2 id="artists-title" class="statement statement--md reveal"><span class="fill">Quién pinchó.</span></h2>
+      </div>
+      <div class="reels reels--artists" data-reels>
+        <button class="reel reveal" type="button" data-reel="assets/ig/steff.mp4" aria-label="Ver reel: conoce a Steff">
+          <video muted playsinline loop preload="none" poster="assets/ig/steff-poster.webp" data-src="assets/ig/steff-preview.mp4"></video>
+          <span class="reel__cap"><b>STEFF</b><span>De Venezuela a la escena electrónica</span></span>
+        </button>
+        <button class="reel reveal" type="button" data-reel="assets/ig/alexein.mp4" aria-label="Ver reel: conoce a Alexein">
+          <video muted playsinline loop preload="none" poster="assets/ig/alexein-poster.webp" data-src="assets/ig/alexein-preview.mp4"></video>
+          <span class="reel__cap"><b>ALEXEIN</b><span>Una conexión con la música desde siempre</span></span>
+        </button>
+        <button class="reel reveal" type="button" data-reel="assets/ig/tale-of-jus.mp4" aria-label="Ver reel: Tale of Jus explica su nombre">
+          <video muted playsinline loop preload="none" poster="assets/ig/tale-of-jus-poster.webp" data-src="assets/ig/tale-of-jus-preview.mp4"></video>
+          <span class="reel__cap"><b>TALE OF JUS</b><span>De dónde viene su nombre</span></span>
+        </button>
+        <a class="reel reel--post reveal" href="https://www.instagram.com/redhorse____/p/DeZoer5jBFP/" target="_blank" rel="noopener" aria-label="Ver en Instagram: conoce a Rik">
+          <img src="assets/ig/rik.webp" alt="Conoce a RIK: raíces en la cultura clubbing valenciana; groove, elegancia y pista de baile." width="720" height="900" loading="lazy">
+          <span class="reel__cap"><b>RIK</b><span>House, groove y toques de Indie Dance</span></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ───────── MANIFESTO ───────── -->
+    <section class="manifesto" data-temp="1" aria-labelledby="manifesto-title">
+      <div class="wrap">
+        <p class="label reveal">Por qué existimos</p>
+        <h2 id="manifesto-title" class="narrative reveal">Estamos cada vez más conectados a través de una pantalla… y cada vez menos conectados entre nosotros.</h2>
+        <p class="narrative narrative--hot reveal">Por eso creamos Red Horse: noches donde la música conecta, donde la creatividad toma forma y donde no tienes que portarte como se supone.</p>
+      </div>
+      <div class="cards" aria-label="Para adultos que no quieren portarse como adultos">
+        <img class="reveal" src="assets/img/st-1-para.webp" alt="PARA" width="900" height="1079" loading="lazy">
+        <img class="reveal" src="assets/img/st-2-adultos.webp" alt="ADULTOS" width="900" height="1125" loading="lazy">
+        <img class="reveal" src="assets/img/st-3-quenoquieren.webp" alt="QUE NO QUIEREN" width="900" height="1259" loading="lazy">
+        <img class="reveal" src="assets/img/st-4-portarse.webp" alt="PORTARSE" width="900" height="1125" loading="lazy">
+        <img class="reveal" src="assets/img/st-5-comoadultos.webp" alt="COMO ADULTOS" width="900" height="1125" loading="lazy">
+      </div>
+    </section>
+
+    <!-- ───────── WHAT PEOPLE SAID (real Instagram comments) ───────── -->
+    <section class="said" data-temp="0.9" aria-labelledby="said-title">
+      <div class="wrap">
+        <p class="label reveal">Lo que dijo la gente</p>
+        <h2 id="said-title" class="narrative reveal">Comentarios en el recap de nuestra primera edición.</h2>
+        <ul class="quotes">
+          <li class="quote-card quote-card--lg reveal"><p>«Estuvo brutal, lo di todo en la pista. MUSICÓN todo el rato.»</p><span>@pula_lady</span></li>
+          <li class="quote-card reveal"><p>«Fiesta de la Decada 🫶🏻»</p><span>@an2one_m</span></li>
+          <li class="quote-card reveal"><p>«Queremos otra yaaaa»</p><span>@a.l.e.x.e.i.n</span></li>
+          <li class="quote-card reveal"><p>«Deseando twoo round!!!🔥🔥»</p><span>@sorayaibaca__</span></li>
+          <li class="quote-card reveal"><p>«Una pasada de evento 🔥❤️»</p><span>@tale_of_jus</span></li>
+          <li class="quote-card reveal"><p>«Que nocheeee 🔥🔥🔥»</p><span>@andre.a.carolina</span></li>
+          <li class="quote-card reveal"><p>«QUIERO QUE SE REPITA ❤️»</p><span>@anfer.v0</span></li>
+          <li class="quote-card reveal"><p>«Espectacular 🔥🔥🔥»</p><span>@moys_dc</span></li>
+          <li class="quote-card reveal"><p>«Otra❤️❤️❤️🔥»</p><span>@moboxdj</span></li>
+        </ul>
+        <p class="said__more reveal"><a class="btn btn--ghost" href="https://www.instagram.com/redhorse____/reel/De92vIEMOHq/" target="_blank" rel="noopener">Ver el recap en Instagram</a></p>
+      </div>
+    </section>
+
+    <!-- ───────── AVÍSAME (lead capture) ───────── -->
+    <section class="signup" id="avisame" data-temp="0.85" aria-labelledby="signup-title">
+      <div class="wrap signup__grid">
+        <div>
+          <p class="label reveal">La próxima Red Horse</p>
+          <h2 id="signup-title" class="statement statement--md reveal"><span class="fill">Avísame.</span></h2>
+          <p class="lede reveal">Todavía no hay fecha. Apúntate y te avisamos antes que a nadie, con acceso anticipado a las entradas.</p>
+        </div>
+        <form class="form reveal" data-form novalidate>
+          <label class="field"><span>Nombre</span><input name="nombre" autocomplete="given-name" required maxlength="60"><small data-err="nombre"></small></label>
+          <label class="field"><span>Correo</span><input name="email" type="email" inputmode="email" autocomplete="email" required maxlength="254"><small data-err="email"></small></label>
+          <label class="field"><span>Móvil <em>(opcional, para WhatsApp)</em></span><input name="movil" type="tel" inputmode="tel" autocomplete="tel" maxlength="20"><small data-err="movil"></small></label>
+          <label class="hp" aria-hidden="true">Web <input name="website" tabindex="-1" autocomplete="off"></label>
+          <label class="check"><input type="checkbox" name="acepta"><span>Quiero que me aviséis de las próximas Red Horse y de las preventas por correo o WhatsApp. He leído la <a class="link" href="/privacidad/">política de privacidad</a>.</span></label>
+          <small class="check-err" data-err="acepta"></small>
+          <button class="btn btn--primary btn--lg" type="submit" data-submit>Avísame</button>
+          <p class="form__msg" data-msg role="status" aria-live="polite"></p>
+        </form>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="wrap footer__inner">
-      <p>Red Horse <i>✦</i> Fiesta experiencial · Valencia</p>
-      <p class="footer__small">Spook Valencia · Sala Sunbox · 24.10.2026</p>
-      <p><a class="link" href="mailto:hola@redhorse.es">hola@redhorse.es</a></p>
-      <p class="footer__small"><a class="link" href="/sorteo/">Sorteo 21:00</a> · <a class="link" href="/privacidad/">Privacidad</a></p>
+      <img class="footer__wordmark" src="assets/img/wordmark.webp" alt="Red Horse" width="1120" height="421" loading="lazy">
+      <p>La fiesta experiencial de Valencia <i>✦</i> Indie Dance · Indie Tech · Groovy House</p>
+      <p class="footer__links">
+        <a class="link" href="https://instagram.com/redhorse____" target="_blank" rel="noopener">Instagram</a>
+        <a class="link" href="mailto:hola@redhorse.es">hola@redhorse.es</a>
+        <a class="link" href="/privacidad/">Privacidad</a>
+      </p>
     </div>
   </footer>
 
-  <script src="app.js?v=20261024125500" defer></script>
+  <!-- full reel player (loaded only on tap) -->
+  <div class="player" data-player hidden>
+    <button class="player__close" type="button" data-close aria-label="Cerrar vídeo">✕</button>
+    <video class="player__video" playsinline controls preload="none"></video>
+  </div>
+
+  <script src="app.js?v=20261027173119" defer></script>
 </body>
 </html>

@@ -62,6 +62,7 @@
         <div class="actions">
           <a class="btn" href="/sorteo/en-vivo/" target="_blank" rel="noopener">Pantalla del sorteo</a>
           <button class="btn btn--ghost" data-csv>Descargar CSV</button>
+          <button class="btn btn--ghost" data-csv-subs>CSV lista «Avísame»</button>
           <button class="btn btn--ghost" data-out>Salir</button>
         </div>
       </div>
@@ -69,6 +70,7 @@
       <div class="kpis">
         <div class="kpi"><b data-count>0</b><span>Inscritos</span></div>
         <div class="kpi"><b data-com>0</b><span>Aceptan comunicaciones</span></div>
+        <div class="kpi"><b data-subs>0</b><span>Lista «Avísame» (web)</span></div>
         <div class="kpi state" data-state-kpi><b data-state>—</b><span data-state-sub>Inscripciones</span></div>
         <div class="kpi warn" data-test-kpi hidden><b data-test>0</b><span>Registros de prueba</span></div>
       </div>
@@ -124,6 +126,7 @@
     function renderStats(s) {
       $('[data-count]').textContent = s.count;
       $('[data-com]').textContent = s.comunicaciones;
+      $('[data-subs]').textContent = s.subscribers || 0;
       $('[data-state]').textContent = s.open ? 'Abiertas' : 'Cerradas';
       $('[data-state-kpi]').classList.toggle('open', s.open);
       $('[data-state-sub]').textContent = 'Inscripciones · modo ' + ({ auto: 'automático', open: 'abiertas', closed: 'cerradas' })[s.mode];
@@ -178,19 +181,21 @@
     $('[data-purge]').addEventListener('click', function () {
       if (!confirm('Se borran SOLO los registros de prueba (@prueba.invalid) y los sorteos hechos con ellos. Los registros reales no se tocan. ¿Seguimos?')) return;
       json('/api/admin/purge-tests', { method: 'POST' }).then(function (j) {
-        alert('Borrados: ' + j.deleted.regs + ' registros y ' + j.deleted.draws + ' sorteos de prueba.'); lastCount = -1; tick();
+        alert('Borrados: ' + j.deleted.regs + ' registros, ' + j.deleted.draws + ' sorteos y ' + (j.deleted.subs || 0) + ' altas «Avísame» de prueba.'); lastCount = -1; tick();
       });
     });
     $('[data-search]').addEventListener('input', renderRegs);
-    $('[data-csv]').addEventListener('click', function () {
-      api('/api/admin/registrations.csv').then(function (r) {
-        var name = ((r.headers.get('Content-Disposition') || '').match(/filename="([^"]+)"/) || [])[1] || 'redhorse-registros.csv';
+    function downloadCsv(path, fallback) {
+      api(path).then(function (r) {
+        var name = ((r.headers.get('Content-Disposition') || '').match(/filename="([^"]+)"/) || [])[1] || fallback;
         return r.blob().then(function (b) {
           var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name;
           document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
         });
       });
-    });
+    }
+    $('[data-csv]').addEventListener('click', function () { downloadCsv('/api/admin/registrations.csv', 'redhorse-registros.csv'); });
+    $('[data-csv-subs]').addEventListener('click', function () { downloadCsv('/api/admin/subscribers.csv', 'redhorse-avisame.csv'); });
 
     function logout(msg) {
       token = null; clearInterval(timer); try { sessionStorage.removeItem('rh-admin'); } catch (e) {}
