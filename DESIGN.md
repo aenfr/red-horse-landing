@@ -9,6 +9,7 @@ The 24 OCT scroll-story landing is retired (it lives in git history). `index.htm
 only real facts (Merlin's "services"/FAQ copy was invented and is not used).
 Order: hero (empty sea → horse → wordmark → tagline, 230svh scrub, the only sticky scene) ·
 qué es Red Horse · «Aquí pasaron cosas» (recap reel of the first edition + reels + flyer) ·
+«Revelado» (event photos, see below) ·
 la música (3 genres + Indie Dance explainer reel) · «Quién pinchó» (artist reels; RIK links to
 his IG post) · manifesto + statement cards (native snap rail) · «Lo que dijo la gente» (real
 comments from the recap post, with @handle, verbatim: only people asking for another party
@@ -17,6 +18,11 @@ or saying something great about it) · «Avísame» form · footer.
   preview (crf 30) for the card, full 720w reel with sound (crf 27, aac 96k) only on tap, in
   the `[data-player]` lightbox. Captions overlay footage; artist cards (whose IG artwork has its
   own text) put the caption **below** the card.
+- **Revelado** (photos): `assets/photos/rh-NN-{640,1024}.webp`, 2:3. Motion = second sticky scene
+  (420svh): each print drops onto a pile with its own fixed angle and a white flash overlay (`--flash`
+  on the print, never full-screen) when it lands; counter NN / 17. Prints load (640w only) just before
+  they drop; only the top 5 of the pile stay `visible`. Tap → `[data-viewer]` (1024w, one image at a
+  time, swipe / arrows / keys). Base (no JS or reduced motion) = native snap rail.
 - **Avísame** posts `{nombre, email, movil?, acepta:true, website:'', t}` as `text/plain` to
   `https://red-horse-sorteo.onrender.com/api/subscribe` (same DB as the sorteo; CSV from the
   panel). 201 created / 200 duplicate / 400 `{fields}`. Honeypot `website`, `t` < 1.2 s rejected.

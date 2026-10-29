@@ -91,6 +91,95 @@
     hint.style.pointerEvents = p > .06 ? 'none' : 'auto';
   }
 
+  // ── Photos · "Revelado": scroll drops each print onto a pile, with a camera flash on landing ──
+  // Memory: prints load just before they drop (640w only), only the top 5 of the pile stay visible,
+  // and each frame touches only the prints whose state actually changed.
+  const photos = $('.photos');
+  const shots = $$('.pile .shot');
+  const countEl = $('[data-count]');
+  const N = shots.length;
+  const shotState = shots.map((s, i) => ({
+    img: $('img', s),
+    rot: ((i * 37) % 17 - 8) * .8,            // fixed, "random-looking" resting angle per print
+    dx: ((i * 53) % 13 - 6) * 2.4,
+    css: '', vis: null, flash: '',
+  }));
+  if (MOTION) shotState.forEach(({ img }) => {      // hold the files back until each print is about to drop
+    img.dataset.src = img.getAttribute('src');
+    img.removeAttribute('srcset'); img.removeAttribute('src');
+  });
+  const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+  let lastCount = '';
+  function photosFrame() {
+    const r = photos.getBoundingClientRect();
+    if (r.bottom < -vh || r.top > vh * 2) return;
+    const p = clamp(-r.top / Math.max(1, r.height - vh));
+    const k = clamp((p - .03) / .85) * (N + .5);   // 0..N prints landed (+.5 so the last flash fades out)
+    shotState.forEach((s, i) => {
+      if (i <= k + 3 && !s.img.getAttribute('src')) s.img.src = s.img.dataset.src;
+      const t = clamp(k - i), depth = Math.floor(k) - i;
+      const vis = t > 0 && depth <= 4;
+      if (vis !== s.vis) { shots[i].style.visibility = vis ? 'visible' : 'hidden'; shots[i].style.zIndex = i + 1; s.vis = vis; }
+      if (!vis) return;
+      const e = easeOut(t);
+      const y = (1 - e) * vh * .9, rot = s.rot * e - (1 - e) * s.rot * 2.5, sc = 1 + (1 - e) * .12;
+      const css = `translate(-50%, -50%) translate3d(${s.dx.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${rot.toFixed(2)}deg) scale(${sc.toFixed(3)})`;
+      if (css !== s.css) { shots[i].style.transform = css; s.css = css; }
+      const u = k - i - 1;                           // time since landing
+      const flash = u >= 0 && u < .45 ? ((1 - u / .45) * .85).toFixed(2) : '0';
+      if (flash !== s.flash) { shots[i].style.setProperty('--flash', flash); s.flash = flash; }
+    });
+    const c = String(Math.min(N, Math.max(1, Math.ceil(k - .3)))).padStart(2, '0');
+    if (c !== lastCount) { countEl.textContent = c; lastCount = c; }
+  }
+
+  // ── Photo viewer: one full-size image at a time; swipe, arrows, keys ──────
+  const viewer = $('[data-viewer]');
+  const vImg = $('[data-viewer-img]', viewer);
+  const vCount = $('[data-viewer-count]', viewer);
+  let vIndex = 0, viewerOpen = false, vFocus = null;
+  const full = (i) => `assets/photos/rh-${String(i + 1).padStart(2, '0')}-1024.webp`;
+  function showPhoto(i) {
+    vIndex = (i + N) % N;
+    vImg.classList.add('is-loading');
+    vImg.onload = () => vImg.classList.remove('is-loading');
+    vImg.src = full(vIndex);
+    vImg.alt = shotState[vIndex].img.alt;
+    vCount.textContent = `${vIndex + 1} / ${N}`;
+  }
+  function openViewer(i) {
+    vFocus = document.activeElement; viewerOpen = true;
+    viewer.hidden = false;
+    viewer.setAttribute('role', 'dialog'); viewer.setAttribute('aria-modal', 'true'); viewer.setAttribute('aria-label', 'Fotos de Red Horse');
+    root.classList.add('is-playing');
+    showPhoto(i);
+    $('[data-viewer-close]', viewer).focus();
+  }
+  function closeViewer() {
+    if (!viewerOpen) return;
+    viewerOpen = false; viewer.hidden = true; vImg.removeAttribute('src');
+    root.classList.remove('is-playing');
+    if (vFocus) vFocus.focus({ preventScroll: true });
+  }
+  $$('[data-shot]').forEach((b) => b.addEventListener('click', () => openViewer(+b.dataset.shot)));
+  $('[data-viewer-close]', viewer).addEventListener('click', closeViewer);
+  $('[data-viewer-prev]', viewer).addEventListener('click', () => showPhoto(vIndex - 1));
+  $('[data-viewer-next]', viewer).addEventListener('click', () => showPhoto(vIndex + 1));
+  viewer.addEventListener('click', (e) => { if (e.target === viewer || e.target.classList.contains('viewer__fig')) closeViewer(); });
+  addEventListener('keydown', (e) => {
+    if (!viewerOpen) return;
+    if (e.key === 'Escape') closeViewer();
+    else if (e.key === 'ArrowRight') showPhoto(vIndex + 1);
+    else if (e.key === 'ArrowLeft') showPhoto(vIndex - 1);
+  });
+  let sx = null;
+  viewer.addEventListener('pointerdown', (e) => { sx = e.clientX; });
+  viewer.addEventListener('pointerup', (e) => {
+    if (sx == null) return;
+    const dx = e.clientX - sx; sx = null;
+    if (Math.abs(dx) > 50) showPhoto(vIndex + (dx < 0 ? 1 : -1));
+  });
+
   // ── Temperature (background warmth follows the section in the middle) ─────
   const heat = $('.heat');
   const tempEls = $$('[data-temp]');
@@ -123,7 +212,7 @@
     const docH = root.scrollHeight - vh;
     bar.style.transform = `scaleX(${clamp(scrollY / Math.max(1, docH)).toFixed(4)})`;
     nav.classList.toggle('is-solid', scrollY > hero.offsetHeight - vh * .9);
-    if (MOTION) heroFrame();
+    if (MOTION) { heroFrame(); photosFrame(); }
     computeTemp();
   }
   const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
